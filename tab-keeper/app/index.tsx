@@ -1,6 +1,5 @@
-import { getBillProducts, getBills } from "@/src/services/bill.service";
-import { getProduct } from "@/src/services/product.service";
 import { getProfileByCode } from "@/src/services/user.model";
+import { useBillViewModel } from "@/src/viewmodels/bill.viewmodel";
 import { useEffect } from "react";
 import { Text, View } from "react-native";
 
