@@ -1,26 +1,11 @@
-import { getProfileByCode } from "@/src/services/user.model";
-import { useBillViewModel } from "@/src/viewmodels/bill.viewmodel";
-import { useEffect } from "react";
-import { Text, View } from "react-native";
+import AccessView from "@/src/view/AccessView"
+import { useBillViewModel } from "@/src/viewmodels/bill.viewmodel"
+import { useProfileViewModel } from "@/src/viewmodels/profile.viewmodel"
 
 export default function Index() {
-  useEffect(() => {
-    async function test() {
-      console.log(await getProfileByCode('b8d7'));
-    }
-
-    test();
-  }, []);
+  const model = useProfileViewModel()
 
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Text>Edit app/index.tsx to edit this screen.</Text>
-    </View>
-  );
+    <AccessView {...model}/>
+  )
 }
