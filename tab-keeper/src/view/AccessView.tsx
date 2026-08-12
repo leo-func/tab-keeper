@@ -20,7 +20,7 @@ export default function AccessView({
                 style= {styles.input}>
             </TextInput>
             
-            <TouchableOpacity style={styles.button} onPress={() => getProfile(code)}><Text style={{fontSize: 18, fontWeight: 500}}>CONFIRMAR</Text> </TouchableOpacity>
+            <TouchableOpacity style={styles.button} onPress={() => getProfile(code.trim())}><Text style={{fontSize: 18, fontWeight: 500}}>CONFIRMAR</Text> </TouchableOpacity>
         </View>
     )
 }

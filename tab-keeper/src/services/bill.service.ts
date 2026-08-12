@@ -9,11 +9,13 @@ export async function getBills(profileId: string): Promise<Bill[]> {
     
     if (error) { throw error; }
 
-    return data.map((bill: Bill) => ({
-        id: bill.id,
-        createdAt: bill.created_at,
-        closedAt: bill.closed_at,
-        total: bill.total
+    return data.map((item: Bill) => ({
+        id: item.id,
+        name: item.name,
+        created_at: item.created_at,
+        closed_at: item.closed_at,
+        updated_at: item.updated_at,
+        total: item.total
     }));
 }
 
@@ -27,6 +29,6 @@ export async function getBillProducts(billId: string): Promise<BillProduct[]>  {
     return data.map((item: BillProduct) => ({
         name: item.name,
         amount: item.amount,
-        totalPrice: item.total_price
+        total_price: item.total_price
     }));
 }
