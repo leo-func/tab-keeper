@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Profile } from "../model/profile.model";
 import { getProfileByCode } from "../services/profile.service";
 import { router } from "expo-router";
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import { getCode, saveProfileSession } from "../services/storage.service";
 
 export function useProfileViewModel() {

@@ -29,7 +29,6 @@ export function BillDetailsView({
   return (
     <SafeAreaView
       style={styles.safeArea}
-      edges={["top"]}
     >
 
       <View style={styles.container}>

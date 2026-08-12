@@ -28,7 +28,7 @@ export function BillView({
   goToDetails,
 }: ReturnType<typeof useBillViewModel>) {
   return (
-    <SafeAreaView style={styles.safeArea} edges={["top"]}>
+    <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
 
         <Header title="CONTAS" />
