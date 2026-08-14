@@ -1,44 +1,63 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { BillProduct } from "../model/billProduct.model";
 import { getBillProducts } from "../services/bill.service";
 
 export function useProductViewModel(billId: string) {
-    const [billProducts, setBillProducts] = useState<BillProduct[] | null> (null)
-    const [loading, setLoading] = useState(false)
-    const [error, setError] = useState<Error | null> (null)
+    const [billProducts, setBillProducts] = useState<BillProduct[] | null>(null);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<Error | null>(null);
 
-    
+    const [hasMore, setHasMore] = useState(true);
+    const loadingRef = useRef(false);
+    const pageRef = useRef(1);
+
     useEffect(() => {
-        async function loadBillProducts() {
-            HandleBillProducts(billId)
-        }
+        HandleBillProducts(billId, pageRef.current);
+    }, [billId]);
 
-        loadBillProducts()
-    }, [])
+    async function HandleBillProducts(billId: string, pageToLoad: number) {
+        loadingRef.current = true;
 
-    async function HandleBillProducts(billId: string) {
         try {
-            setLoading(true)
-            setError(null)
+            setLoading(true);
+            setError(null);
 
-            const data = await getBillProducts(billId)
+            const data = await getBillProducts(billId, pageToLoad);
 
-            setBillProducts(data)
+            setBillProducts(prev => [
+            ...(prev ?? []),
+            ...data
+            ]);
 
-            console.log(data)
+            if (data.length < 10) {
+                setHasMore(false)
+                return
+            }
+
+            pageRef.current = pageToLoad + 1;
+            
+
         } catch (exception) {
-            setError(exception as Error)
+            setError(exception as Error);
         } finally {
-            setLoading(false)
+            loadingRef.current = false;
+            setLoading(false);
         }
     }
+
     
 
+    function loadNextPage() {
+        if (!billId || loadingRef.current || !hasMore) return;
+
+        HandleBillProducts(billId, pageRef.current);
+    }
 
     return {
         billProducts,
         loading,
         error,
         HandleBillProducts,
-    }
+        loadNextPage,
+    };
 }

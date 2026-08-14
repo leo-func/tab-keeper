@@ -21,16 +21,16 @@ import { useProductViewModel } from "../viewmodels/products.viewmodel";
 export function BillDetailsView({
   billProducts,
   loading,
+  loadNextPage,
   error,
   onBack,
   name,
-}: ReturnType<typeof useProductViewModel> & {name: string, onBack: () => void;}) {
-
+}: ReturnType<typeof useProductViewModel> & {
+  name: string;
+  onBack: () => void;
+}) {
   return (
-    <SafeAreaView
-      style={styles.safeArea}
-    >
-
+    <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
 
         {/* HEADER */}
@@ -40,18 +40,15 @@ export function BillDetailsView({
           onBackPress={onBack}
         />
 
-        {/* LOADING */}
-        {loading ? (
-
+        {/* LOADING INICIAL */}
+        {loading && billProducts?.length === 0 ? (
           <View style={styles.loadingContainer}>
             <ActivityIndicator
               size="large"
               color={COLORS.gold}
             />
           </View>
-
         ) : (
-
           <FlatList
             data={billProducts}
 
@@ -60,6 +57,9 @@ export function BillDetailsView({
             }
 
             showsVerticalScrollIndicator={false}
+
+            onEndReached={loadNextPage}
+            onEndReachedThreshold={0.5}
 
             contentContainerStyle={styles.listContent}
 
@@ -75,6 +75,18 @@ export function BillDetailsView({
               </Text>
             }
 
+            
+            ListFooterComponent={
+              loading ? (
+                <View style={styles.footerLoading}>
+                  <ActivityIndicator
+                    size="small"
+                    color={COLORS.gold}
+                  />
+                </View>
+              ) : null
+            }
+
             ListEmptyComponent={
               <View style={styles.emptyContainer}>
                 <Text style={styles.emptyText}>
@@ -83,11 +95,9 @@ export function BillDetailsView({
               </View>
             }
           />
-
         )}
 
       </View>
-
     </SafeAreaView>
   );
 }
@@ -117,8 +127,18 @@ const styles = StyleSheet.create({
     paddingBottom: hp("3%"),
   },
 
+  // LOADING INICIAL
+
   loadingContainer: {
     flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  // LOADING DA PAGINAÇÃO
+
+  footerLoading: {
+    paddingVertical: hp("2%"),
     alignItems: "center",
     justifyContent: "center",
   },

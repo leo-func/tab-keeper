@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Bill } from "../model/bill.model";
 import { getBills } from "../services/bill.service";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -7,33 +7,55 @@ import { getProfileId } from "../services/storage.service";
 
 export function useBillViewModel(billId?: string) {
     const [bills, setBills] = useState<Bill[] | null> (null)
+    const [profileId, setProfileId] = useState<string | null>(null)
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<Error | null> (null)
+
+    const [hasMore, setHasMore] = useState(true)
+    const loadingRef = useRef(false)
+    const pageRef = useRef(1)
 
     useEffect(() => {
         async function loadBills () {
             const profileId = await getProfileId()
 
-            console.log(profileId)
             if (!profileId) {
                 return
             }
 
-            HandleBills(profileId)
+            HandleBills(profileId, pageRef.current)
+            setProfileId(profileId)
         }
 
         loadBills()
     }, [])
 
 
-    async function HandleBills(profileId: string) {
+    async function HandleBills(profileId: string, pageToLoad: number) {
+        loadingRef.current = true
+
         try {
+
             setLoading(true)
+
             setError(null)
 
-            const data = await getBills(profileId)
+            const data = await getBills(profileId, pageToLoad)
 
-            setBills(data)
+
+            setBills(prev => [
+                ...(prev ?? []),
+                ...data
+            ])
+
+
+            if (data.length < 10) {
+                setHasMore(false);
+                return;
+            }
+            
+            pageRef.current = pageToLoad + 1
+            
             
         } catch (exception) {
             setError(exception as Error)
@@ -42,6 +64,11 @@ export function useBillViewModel(billId?: string) {
         }
     }
 
+    function loadNextPage() {
+        if (!profileId || loadingRef || !hasMore) return;
+
+        HandleBills(profileId, pageRef.current);
+    }
 
     function goToDetails(name: string, billId: string) {
         router.push('/bills/details')
@@ -52,6 +79,7 @@ export function useBillViewModel(billId?: string) {
         loading,
         error,
         HandleBills,
+        loadNextPage,
         goToDetails
     }
 }

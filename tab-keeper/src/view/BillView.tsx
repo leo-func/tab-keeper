@@ -26,6 +26,7 @@ export function BillView({
   loading,
   error,
   goToDetails,
+  loadNextPage,
 }: ReturnType<typeof useBillViewModel>) {
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -47,7 +48,8 @@ export function BillView({
           />
         </View>
 
-        {loading ? (
+
+        {loading && bills?.length === 0 ? (
           <View style={styles.loadingContainer}>
             <ActivityIndicator
               size="large"
@@ -58,6 +60,10 @@ export function BillView({
           <FlatList
             data={bills}
             keyExtractor={(item) => item.id}
+
+            onEndReached={loadNextPage}
+            onEndReachedThreshold={0.1}
+
             showsVerticalScrollIndicator={false}
             contentContainerStyle={styles.listContent}
 
@@ -67,6 +73,17 @@ export function BillView({
                 onPress={() => goToDetails(item.name, item.id)}
               />
             )}
+
+            ListFooterComponent={
+              loading ? (
+                <View style={styles.footerLoading}>
+                  <ActivityIndicator
+                    size="small"
+                    color={COLORS.gold}
+                  />
+                </View>
+              ) : null
+            }
 
             ListEmptyComponent={
               <View style={styles.emptyContainer}>
@@ -122,11 +139,19 @@ const styles = StyleSheet.create({
     fontSize: wp("3.8%"),
   },
 
-  // LOADING
+  // LOADING INICIAL
 
   loadingContainer: {
     flex: 1,
 
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  // LOADING DA PAGINAÇÃO
+
+  footerLoading: {
+    paddingVertical: hp("2%"),
     alignItems: "center",
     justifyContent: "center",
   },
