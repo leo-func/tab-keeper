@@ -28,7 +28,7 @@ export function useProfileViewModel() {
             setLoading(true)
             setError(null)
 
-            const data = await getProfileByCode(code)
+            const data = await getProfileByCode(code.toLowerCase())
             
             if (!data) {
                 setError('Código inválido')
@@ -47,6 +47,14 @@ export function useProfileViewModel() {
         }
     }
 
+    function HandleCodeChange(value: string, index: number) {
+        const newCode = code.split("")
+
+        newCode[index] = value
+
+        setCode(newCode.join(""));
+    }
+
     function goToBills() {
         router.replace('/bills')
     }
@@ -59,6 +67,7 @@ export function useProfileViewModel() {
         setCode,
         getProfile,
         goToBills,
+        HandleCodeChange,
     }
 
 

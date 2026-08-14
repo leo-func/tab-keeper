@@ -14,3 +14,7 @@ export async function getProfileId() : Promise<string | null> {
 export async function getCode() : Promise<string | null> {
     return await AsyncStorage.getItem("code")
 }
+
+export async function removeProfileSession() {
+    await AsyncStorage.multiRemove(["profileId", "code"])
+}

@@ -1,10 +1,37 @@
-import AccessView from "@/src/view/AccessView"
-import { useProfileViewModel } from "@/src/viewmodels/profile.viewmodel"
+import { useEffect } from "react";
+import { ActivityIndicator, View } from "react-native";
+import { router } from "expo-router";
+import { getProfileId, removeProfileSession } from "@/src/services/storage.service";
+import { COLORS } from "@/src/constants/Color";
 
 export default function Index() {
-  const model = useProfileViewModel()
+    useEffect(() => {
+        async function checkSession() {
+            const profileId = await getProfileId();
 
-  return (
-    <AccessView {...model}/>
-  )
+            if (profileId) {
+                router.replace("/bills");
+            } else {
+                router.replace("/login")
+            }
+        }
+
+        checkSession();
+    }, []);
+
+    return (
+        <View
+            style={{
+                flex: 1,
+                backgroundColor: COLORS.background,
+                alignItems: "center",
+                justifyContent: "center",
+            }}
+        >
+            <ActivityIndicator
+                size="large"
+                color={COLORS.gold}
+            />
+        </View>
+    );
 }
