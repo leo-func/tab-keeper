@@ -7,7 +7,6 @@ import { getProfileId } from "../services/storage.service";
 
 export function useBillViewModel(billId?: string) {
     const [bills, setBills] = useState<Bill[] | null> (null)
-    const [profileId, setProfileId] = useState<string | null>(null)
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<Error | null> (null)
 
@@ -17,21 +16,14 @@ export function useBillViewModel(billId?: string) {
 
     useEffect(() => {
         async function loadBills () {
-            const profileId = await getProfileId()
-
-            if (!profileId) {
-                return
-            }
-
-            HandleBills(profileId, pageRef.current)
-            setProfileId(profileId)
+            HandleBills(pageRef.current)
         }
 
         loadBills()
     }, [])
 
 
-    async function HandleBills(profileId: string, pageToLoad: number) {
+    async function HandleBills(pageToLoad: number) {
         loadingRef.current = true
 
         try {
@@ -40,7 +32,7 @@ export function useBillViewModel(billId?: string) {
 
             setError(null)
 
-            const data = await getBills(profileId, pageToLoad)
+            const data = await getBills(pageToLoad)
 
 
             setBills(prev => [
@@ -65,9 +57,9 @@ export function useBillViewModel(billId?: string) {
     }
 
     function loadNextPage() {
-        if (!profileId || loadingRef || !hasMore) return;
+        if ( loadingRef || !hasMore) return;
 
-        HandleBills(profileId, pageRef.current);
+        HandleBills(pageRef.current);
     }
 
     function goToDetails(name: string, billId: string) {

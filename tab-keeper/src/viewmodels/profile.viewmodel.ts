@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { Profile } from "../model/profile.model";
-import { getProfileByCode } from "../services/profile.service";
+import { createAnonymousSession, connectProfileByCode } from "../services/profile.service";
 import { router } from "expo-router";
 import { getCode, saveProfileSession } from "../services/storage.service";
+import { supabase } from "../utils/createClient";
 
 export function useProfileViewModel() {
     const [profile, setProfile] = useState<Profile | null>(null)
@@ -27,21 +28,26 @@ export function useProfileViewModel() {
         try {
             setLoading(true)
             setError(null)
-
-            const data = await getProfileByCode(code.toLowerCase())
             
-            if (!data) {
+            const { data: sessionData } = await supabase.auth.getSession();
+
+            if (!sessionData.session) {
+                await createAnonymousSession();
+            }
+
+            const profile = await connectProfileByCode(code.toLowerCase())
+            
+            if (!profile) {
                 setError('Código inválido')
                 return
             }
+            setProfile(profile)
 
-            setProfile(data)
-
-            saveProfileSession(data.id, code)
+            saveProfileSession(code)
             
             goToBills()
-        } catch (exception) {
-            setError(exception as string)
+        } catch (exception: any) {
+            setError(exception.message)
         } finally {
             setLoading(false)
         }

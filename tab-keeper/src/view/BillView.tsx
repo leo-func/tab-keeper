@@ -30,6 +30,7 @@ export function BillView({
 }: ReturnType<typeof useBillViewModel>) {
   return (
     <SafeAreaView style={styles.safeArea}>
+
       <View style={styles.container}>
 
         <Header title="CONTAS" />
