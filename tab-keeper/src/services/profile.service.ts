@@ -32,3 +32,14 @@ export async function createAnonymousSession() {
 
     return data.session;
 }
+
+export async function logout() {
+    const { data, error } = await supabase.rpc("disconnect_profile");
+
+    console.log("DATA:", data);
+    console.log("ERROR:", error);
+
+    if (error) {
+        throw error
+    }
+}

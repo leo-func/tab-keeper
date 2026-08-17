@@ -20,6 +20,9 @@ import { COLORS } from "../constants/Color";
 import { BillCard } from "../components/BillCard";
 import { Header } from "../components/Header";
 import { useBillViewModel } from "../viewmodels/bill.viewmodel";
+import { FloatingMenu } from "../components/FloatingMenu";
+import { useFloatingMenu } from "../hooks/useFloatingMenu";
+
 
 export function BillView({
   bills,
@@ -28,8 +31,12 @@ export function BillView({
   goToDetails,
   loadNextPage,
 }: ReturnType<typeof useBillViewModel>) {
+
+  const { HandleLogout } = useFloatingMenu()
+  
   return (
     <SafeAreaView style={styles.safeArea}>
+
 
       <View style={styles.container}>
 
@@ -97,6 +104,9 @@ export function BillView({
         )}
 
       </View>
+
+      <FloatingMenu onLogout={HandleLogout}></FloatingMenu>
+      
     </SafeAreaView>
   );
 }

@@ -11,9 +11,9 @@ export default function BillDetailsScreen() {
 
   return (
     <BillDetailsView 
-    {...viewModel}
-    onBack={router.back}
-    name={name}
+      {...viewModel}
+      onBack={router.back}
+      name={name}
     />
   );
 }

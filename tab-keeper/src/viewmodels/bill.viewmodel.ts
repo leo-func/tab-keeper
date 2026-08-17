@@ -65,6 +65,7 @@ export function useBillViewModel(billId?: string) {
     function goToDetails(name: string, billId: string) {
         router.push('/bills/details')
     }
+ 
 
     return {
         bills,

@@ -17,5 +17,4 @@ export async function getCode() : Promise<string | null> {
 
 export async function removeProfileSession() {
     await AsyncStorage.multiRemove(["profileId", "code"])
-    await supabase.auth.signOut()
 }

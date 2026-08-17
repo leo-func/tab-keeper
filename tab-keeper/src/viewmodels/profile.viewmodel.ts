@@ -52,6 +52,7 @@ export function useProfileViewModel() {
             setLoading(false)
         }
     }
+    
 
     function HandleCodeChange(value: string, index: number) {
         const newCode = code.split("")
