@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "tab-keeper",
+    "name": "Tab Keeper",
     "slug": "tab-keeper",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -19,7 +19,8 @@
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.tabkeeper.app"
     },
     "web": {
       "output": "static",
@@ -44,6 +45,12 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "24d010bf-b108-4c95-a7cd-243c158073c4"
+      }
     }
   }
 }
