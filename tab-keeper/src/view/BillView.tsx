@@ -23,23 +23,20 @@ import { useBillViewModel } from "../viewmodels/bill.viewmodel";
 import { FloatingMenu } from "../components/FloatingMenu";
 import { useFloatingMenu } from "../hooks/useFloatingMenu";
 
-
 export function BillView({
   bills,
   loading,
   error,
   goToDetails,
   loadNextPage,
+  search,
+  HandleSearch
 }: ReturnType<typeof useBillViewModel>) {
+  const { HandleLogout } = useFloatingMenu();
 
-  const { HandleLogout } = useFloatingMenu()
-  
   return (
     <SafeAreaView style={styles.safeArea}>
-
-
       <View style={styles.container}>
-
         <Header title="CONTAS" />
 
         <View style={styles.searchContainer}>
@@ -52,36 +49,36 @@ export function BillView({
           <TextInput
             style={styles.searchInput}
             placeholder="Buscar conta"
+            value={search}
+            onChangeText={HandleSearch}
             placeholderTextColor={COLORS.textSecondary}
           />
         </View>
 
-
         {loading && bills?.length === 0 ? (
           <View style={styles.loadingContainer}>
-            <ActivityIndicator
-              size="large"
-              color={COLORS.gold}
-            />
+            <ActivityIndicator size="large" color={COLORS.gold} />
+          </View>
+        ) : error ? (
+          <View style={styles.emptyContainer}>
+            <Text style={styles.errorText}>{error.message}</Text>
           </View>
         ) : (
           <FlatList
             data={bills}
             keyExtractor={(item) => item.id}
-
             onEndReached={loadNextPage}
             onEndReachedThreshold={0.1}
-
             showsVerticalScrollIndicator={false}
             contentContainerStyle={styles.listContent}
-
             renderItem={({ item }) => (
               <BillCard
                 bill={item}
-                onPress={() => goToDetails(item.name, item.id)}
+                onPress={() =>
+                  goToDetails(item.name, item.id, String(item.total))
+                }
               />
             )}
-
             ListFooterComponent={
               loading ? (
                 <View style={styles.footerLoading}>
@@ -92,7 +89,6 @@ export function BillView({
                 </View>
               ) : null
             }
-
             ListEmptyComponent={
               <View style={styles.emptyContainer}>
                 <Text style={styles.emptyText}>
@@ -102,17 +98,14 @@ export function BillView({
             }
           />
         )}
-
       </View>
 
-      <FloatingMenu onLogout={HandleLogout}></FloatingMenu>
-      
+      <FloatingMenu onLogout={HandleLogout} />
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-
   safeArea: {
     flex: 1,
     backgroundColor: COLORS.background,
@@ -127,26 +120,18 @@ const styles = StyleSheet.create({
 
   searchContainer: {
     height: hp("5.5%"),
-
     backgroundColor: COLORS.surfaceLight,
-
     borderRadius: wp("1.5%"),
-
     flexDirection: "row",
     alignItems: "center",
-
     paddingHorizontal: wp("3.5%"),
-
     marginBottom: hp("1%"),
   },
 
   searchInput: {
     flex: 1,
-
     marginLeft: wp("2.5%"),
-
     color: COLORS.textPrimary,
-
     fontSize: wp("3.8%"),
   },
 
@@ -154,7 +139,6 @@ const styles = StyleSheet.create({
 
   loadingContainer: {
     flex: 1,
-
     alignItems: "center",
     justifyContent: "center",
   },
@@ -178,7 +162,6 @@ const styles = StyleSheet.create({
   emptyContainer: {
     alignItems: "center",
     justifyContent: "center",
-
     paddingTop: hp("10%"),
   },
 
@@ -187,4 +170,11 @@ const styles = StyleSheet.create({
     fontSize: wp("3.8%"),
   },
 
+  // ERROR
+
+  errorText: {
+    color: COLORS.gold,
+    fontSize: wp("3.8%"),
+    textAlign: "center",
+  },
 });

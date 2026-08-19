@@ -6,8 +6,8 @@ import {
 } from "react-native";
 
 import {
-  UserCircle,
   ChevronRight,
+  ReceiptText,
 } from "lucide-react-native";
 
 import {
@@ -38,22 +38,18 @@ export function BillCard({
       style={styles.billContainer}
       onPress={() => onPress(bill.id)}
     >
-
       {/* PRIMEIRA LINHA */}
       <View style={styles.mainRow}>
-
         <View style={styles.accountInfo}>
-
           <View style={styles.iconContainer}>
-            <UserCircle
-              size={wp("7%")}
+            <ReceiptText
+              size={wp("6%")}
               color={COLORS.gold}
               strokeWidth={1.8}
             />
           </View>
 
           <View style={styles.nameContainer}>
-
             <Text
               style={styles.billName}
               numberOfLines={1}
@@ -63,7 +59,6 @@ export function BillCard({
 
             {/* STATUS */}
             <View style={styles.statusContainer}>
-
               <View
                 style={[
                   styles.statusDot,
@@ -79,16 +74,12 @@ export function BillCard({
               >
                 {isClosed ? "Fechada" : "Aberta"}
               </Text>
-
             </View>
-
           </View>
-
         </View>
 
         {/* TOTAL */}
         <View style={styles.totalContainer}>
-
           <Text style={styles.total}>
             R$ {formatPrice(bill.total)}
           </Text>
@@ -98,42 +89,38 @@ export function BillCard({
             color={COLORS.textSecondary}
             strokeWidth={2}
           />
-
         </View>
-
       </View>
 
       {/* INFORMAÇÕES */}
       <View style={styles.detailsContainer}>
+        {isClosed ? (
+          <View style={styles.dateContainer}>
+            <Text style={styles.dateLabel}>Fechada em</Text>
+            <Text style={styles.dateValue}>
+              {formatDate(bill.closed_at!)}
+            </Text>
+          </View>
+        ) : (
+          <>
+            <View style={styles.dateContainer}>
+              <Text style={styles.dateLabel}>Criada em</Text>
+              <Text style={styles.dateValue}>
+                {formatDate(bill.created_at)}
+              </Text>
+            </View>
 
-        <View style={styles.dateContainer}>
+            <View style={styles.verticalDivider} />
 
-          <Text style={styles.dateLabel}>
-            Criada em
-          </Text>
-
-          <Text style={styles.dateValue}>
-            {formatDate(bill.created_at)}
-          </Text>
-
-        </View>
-
-        <View style={styles.verticalDivider} />
-
-        <View style={styles.dateContainer}>
-
-          <Text style={styles.dateLabel}>
-            Última atualização
-          </Text>
-
-          <Text style={styles.dateValue}>
-            {formatDate(bill.updated_at)}
-          </Text>
-
-        </View>
-
+            <View style={styles.dateContainer}>
+              <Text style={styles.dateLabel}>Última atualização</Text>
+              <Text style={styles.dateValue}>
+                {formatDate(bill.updated_at)}
+              </Text>
+            </View>
+          </>
+        )}
       </View>
-
     </TouchableOpacity>
   );
 }

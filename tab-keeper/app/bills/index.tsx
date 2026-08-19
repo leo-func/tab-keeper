@@ -8,12 +8,13 @@ export default function BillsScreen() {
 
   const viewModel = useBillViewModel();
 
-  const goToDetails = (name: string, billId: string) => {
+  const goToDetails = (name: string, billId: string, total: string) => {
     router.push({
       pathname: '/bills/details',
       params: {
         billId,
         name,
+        total
       },
     });
   };

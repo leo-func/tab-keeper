@@ -61,14 +61,15 @@ const styles = StyleSheet.create({
     background: {
         flex: 1,
         backgroundColor: COLORS.background,
+        gap: 10,
         alignItems: "center",
         justifyContent: "center",
     },
 
     title: {
         color: COLORS.textPrimary,
-        fontSize: wp("4.5%"),
-        fontWeight: "600",
+        fontSize: wp("4%"),
+        fontWeight: "400",
         marginBottom: hp("2%"),
     },
 
@@ -105,7 +106,7 @@ const styles = StyleSheet.create({
         backgroundColor: COLORS.gold,
         width: wp("80%"),
         padding: hp("2%"),
-        borderRadius: wp("1%"),
+        borderRadius: wp("2%"),
     },
 
     buttonText: {

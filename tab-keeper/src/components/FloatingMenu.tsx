@@ -40,7 +40,7 @@ export function FloatingMenu({
         Animated.spring(selectionPosition, {
             toValue: value,
             useNativeDriver: true,
-            friction: 7,
+            friction: 9,
             tension: 80,
         }).start();
     }
@@ -101,7 +101,7 @@ export function FloatingMenu({
                     pointerEvents="none"
                     style={{
                         position: "absolute",
-                        bottom: 7,
+                        bottom: 8,
                         left: 8,
                         width: wp("10%"),
                         height: wp("10%"),

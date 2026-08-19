@@ -17,30 +17,29 @@ import { COLORS } from "../constants/Color";
 import { Header } from "../components/Header";
 import { BillProductCard } from "../components/BillProductCard";
 import { useProductViewModel } from "../viewmodels/products.viewmodel";
+import { formatPrice } from "../utils/formatPrice";
 
 export function BillDetailsView({
   billProducts,
   loading,
   loadNextPage,
-  error,
   onBack,
   name,
+  total,
 }: ReturnType<typeof useProductViewModel> & {
   name: string;
   onBack: () => void;
+  total: number;
 }) {
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
-
-        {/* HEADER */}
         <Header
           title={name}
           showBackButton
           onBackPress={onBack}
         />
 
-        {/* LOADING INICIAL */}
         {loading && billProducts?.length === 0 ? (
           <View style={styles.loadingContainer}>
             <ActivityIndicator
@@ -49,54 +48,56 @@ export function BillDetailsView({
             />
           </View>
         ) : (
-          <FlatList
-            data={billProducts}
+          <>
+            <Text style={styles.sectionTitle}>
+              PRODUTOS DA CONTA
+            </Text>
 
-            keyExtractor={(item, index) =>
-              `${item.name}-${index}`
-            }
-
-            showsVerticalScrollIndicator={false}
-
-            onEndReached={loadNextPage}
-            onEndReachedThreshold={0.5}
-
-            contentContainerStyle={styles.listContent}
-
-            renderItem={({ item }) => (
-              <BillProductCard
-                product={item}
+            <View style={styles.productsContainer}>
+              <FlatList
+                data={billProducts}
+                keyExtractor={(item, index) => `${item.name}-${index}`}
+                showsVerticalScrollIndicator={false}
+                onEndReached={loadNextPage}
+                onEndReachedThreshold={0.5}
+                contentContainerStyle={styles.listContent}
+                ItemSeparatorComponent={() => (
+                  <View style={styles.separator} />
+                )}
+                renderItem={({ item }) => (
+                  <BillProductCard product={item} />
+                )}
+                ListFooterComponent={
+                  loading ? (
+                    <View style={styles.footerLoading}>
+                      <ActivityIndicator
+                        size="small"
+                        color={COLORS.gold}
+                      />
+                    </View>
+                  ) : null
+                }
+                ListEmptyComponent={
+                  <View style={styles.emptyContainer}>
+                    <Text style={styles.emptyText}>
+                      Nenhum produto encontrado
+                    </Text>
+                  </View>
+                }
               />
-            )}
+            </View>
 
-            ListHeaderComponent={
-              <Text style={styles.sectionTitle}>
-                PRODUTOS DA CONTA
+            <View style={styles.totalContainer}>
+              <Text style={styles.totalLabel}>
+                Total da conta
               </Text>
-            }
 
-            
-            ListFooterComponent={
-              loading ? (
-                <View style={styles.footerLoading}>
-                  <ActivityIndicator
-                    size="small"
-                    color={COLORS.gold}
-                  />
-                </View>
-              ) : null
-            }
-
-            ListEmptyComponent={
-              <View style={styles.emptyContainer}>
-                <Text style={styles.emptyText}>
-                  Nenhum produto encontrado
-                </Text>
-              </View>
-            }
-          />
+              <Text style={styles.totalValue}>
+                R$ {formatPrice(total)}
+              </Text>
+            </View>
+          </>
         )}
-
       </View>
     </SafeAreaView>
   );
@@ -118,24 +119,60 @@ const styles = StyleSheet.create({
     color: COLORS.gold,
     fontSize: wp("4%"),
     fontWeight: "700",
-
     marginTop: hp("1%"),
     marginBottom: hp("1.5%"),
   },
 
-  listContent: {
-    paddingBottom: hp("3%"),
+  productsContainer: {
+    flex: 1,
+    backgroundColor: COLORS.surfaceLight,
+    borderRadius: wp("1%"),
+    overflow: "hidden",
+    borderWidth: 1,
+    borderColor: COLORS.border,
   },
 
-  // LOADING INICIAL
+  listContent: {
+    paddingVertical: hp("0.5%"),
+  },
+
+  separator: {
+    height: 1,
+    backgroundColor: COLORS.border,
+    marginHorizontal: wp("4%"),
+  },
+
+  totalContainer: {
+    backgroundColor: COLORS.surface,
+    borderRadius: wp("1%"),
+    borderWidth: 1,
+    borderColor: COLORS.border,
+    paddingVertical: hp("2%"),
+    paddingHorizontal: wp("4%"),
+    marginTop: hp("1.8%"),
+    marginBottom: hp("2%"),
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+
+  totalLabel: {
+    color: COLORS.gold,
+    fontSize: wp("4%"),
+    fontWeight: "700",
+  },
+
+  totalValue: {
+    color: COLORS.gold,
+    fontSize: wp("4.3%"),
+    fontWeight: "700",
+  },
 
   loadingContainer: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
   },
-
-  // LOADING DA PAGINAÇÃO
 
   footerLoading: {
     paddingVertical: hp("2%"),
@@ -146,7 +183,7 @@ const styles = StyleSheet.create({
   emptyContainer: {
     alignItems: "center",
     justifyContent: "center",
-    paddingTop: hp("10%"),
+    paddingVertical: hp("6%"),
   },
 
   emptyText: {
