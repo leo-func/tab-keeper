@@ -5,9 +5,10 @@ import {
     FlatList,
     StyleSheet,
     ActivityIndicator,
+    TouchableOpacity,
 } from "react-native";
 
-import { Search, User } from "lucide-react-native";
+import { Search, User, UserPlus } from "lucide-react-native";
 
 import {
     widthPercentageToDP as wp,
@@ -31,6 +32,7 @@ export default function ProfileView({
     loadNextPage,
 }: ReturnType<typeof useProfileViewModel>) {
     const { HandleLogout } = useFloatingMenu();
+    const router = useRouter();
 
     return (
         <SafeAreaView style={styles.safeArea}>
@@ -52,6 +54,19 @@ export default function ProfileView({
                         placeholderTextColor={COLORS.textSecondary}
                     />
                 </View>
+
+                <TouchableOpacity
+                    style={styles.addButton}
+                    activeOpacity={0.7}
+                    onPress={() => router.push("/profiles/create")}
+                >
+                    <UserPlus
+                        size={wp("5%")}
+                        color={COLORS.background}
+                        strokeWidth={2}
+                    />
+                    <Text style={styles.addButtonText}>Adicionar Perfil</Text>
+                </TouchableOpacity>
 
                 {loading && !profiles?.length ? (
                     <View style={styles.centerContainer}>
@@ -93,12 +108,12 @@ export default function ProfileView({
                                 </View>
 
                                 <Text style={styles.emptyText}>
-                                    Nenhum profile encontrado
+                                    Nenhum perfil encontrado
                                 </Text>
 
                                 <Text style={styles.emptySubtext}>
-                                    Adicione um novo profile usando{"\n"}
-                                    o menu inferior.
+                                    Adicione um novo perfil usando{"\n"}
+                                    o botão acima.
                                 </Text>
                             </View>
                         }
@@ -106,7 +121,6 @@ export default function ProfileView({
                 )}
             </View>
 
-            <FloatingMenu onLogout={HandleLogout} />
         </SafeAreaView>
     );
 }
@@ -139,6 +153,23 @@ const styles = StyleSheet.create({
         marginLeft: wp("2.5%"),
         color: COLORS.textPrimary,
         fontSize: wp("3.8%"),
+    },
+
+    addButton: {
+        backgroundColor: COLORS.gold,
+        borderRadius: wp("1.5%"),
+        paddingVertical: hp("1.5%"),
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+        marginBottom: hp("1.5%"),
+        gap: wp("2%"),
+    },
+
+    addButtonText: {
+        color: COLORS.background,
+        fontSize: wp("3.8%"),
+        fontWeight: "600",
     },
 
     // LIST

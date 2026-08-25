@@ -1,15 +1,32 @@
-import { COLORS } from "@/src/constants/Color";
-import { Stack } from "expo-router";
-import * as SystemUi from "expo-system-ui"
+import { Stack, usePathname } from "expo-router";
+import * as SystemUi from "expo-system-ui";
 
-SystemUi.setBackgroundColorAsync(COLORS.background)
+import { FloatingMenu } from "@/src/components/FloatingMenu";
+import { COLORS } from "@/src/constants/Color";
+import { useFloatingMenu } from "@/src/hooks/useFloatingMenu";
+
+SystemUi.setBackgroundColorAsync(COLORS.background);
 
 export default function RootLayout() {
-  return <Stack screenOptions={{
-    headerShown: false,
-    contentStyle: {
-      backgroundColor: COLORS.background
-    },
-  }
-}/>;
+  const pathname = usePathname();
+  const {HandleLogout} = useFloatingMenu();
+
+  return (
+    <>
+      <Stack
+        screenOptions={{
+          headerShown: false,
+          contentStyle: {
+            backgroundColor: COLORS.background,
+          },
+        }}
+      />
+
+      {pathname !== "/" && (
+        <FloatingMenu
+          onLogout={HandleLogout}
+        />
+      )}
+    </>
+  );
 }

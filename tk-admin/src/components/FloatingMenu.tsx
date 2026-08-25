@@ -8,7 +8,7 @@ import {
 import { useCallback, useRef } from "react";
 
 import { COLORS } from "../constants/Color";
-import { Home, LogOut, UserPlus, PackagePlus } from "lucide-react-native";
+import { Home, LogOut, UserPlus, PackagePlus, Package, User } from "lucide-react-native";
 
 import {
     widthPercentageToDP as wp,
@@ -29,7 +29,6 @@ export function FloatingMenu({
     const {
         selected,
         HandleHomePress,
-        HandleAddPress,
         HandleAddProduct,
         HandleLogoutPress,
         HandleCancelLogout,
@@ -61,19 +60,20 @@ export function FloatingMenu({
         AnimateSelection(0);
     }
 
-    function HandleAddPressMenu() {
-        HandleAddPress();
+    function HandleAddProductPressMenu() {
+        HandleAddProduct();
         AnimateSelection(1);
     }
 
-    function HandleAddProductPressMenu() {
-        HandleAddPress();
-        AnimateSelection(2);
+    function getSelectionPosition(menuItem: "home" | "product" | "logout"): number {
+        if (menuItem === "home") return 0;
+        if (menuItem === "product") return 1;
+        return 2;
     }
 
     function HandleLogoutPressMenu() {
         HandleLogoutPress();
-        AnimateSelection(3);
+        AnimateSelection(2);
 
         Alert.alert(
             "Sair da conta",
@@ -84,7 +84,7 @@ export function FloatingMenu({
                     style: "cancel",
                     onPress: () => {
                         HandleCancelLogout();
-                        AnimateSelection(0);
+                        AnimateSelection(getSelectionPosition(selected));
                     },
                 },
                 {
@@ -97,7 +97,7 @@ export function FloatingMenu({
     }
 
     const itemWidth = wp("10%");
-    const gap = wp("6%");
+    const gap = wp("5%");
 
     return (
         <View
@@ -135,12 +135,11 @@ export function FloatingMenu({
                             {
                                 translateX:
                                     selectionPosition.interpolate({
-                                        inputRange: [0, 1, 2, 3],
+                                        inputRange: [0, 1, 2],
                                         outputRange: [
                                             0,
-                                            itemWidth + gap,
-                                            (itemWidth + gap) * 2,
-                                            (itemWidth + gap) * 2.3,
+                                            itemWidth + gap / 3,
+                                            (itemWidth + gap) * 1.5,
                                         ],
                                     }),
                             },
@@ -148,31 +147,15 @@ export function FloatingMenu({
                     }}
                 />
 
-                {/* HOME */}
+                {/* PROFILES */}
                 <TouchableOpacity
                     onPress={HandleHomePressMenu}
                     style={{ zIndex: 1 }}
                 >
-                    <Home
+                    <User
                         size={wp("6.5%")}
                         color={
                             selected === "home"
-                                ? COLORS.border
-                                : COLORS.gold
-                        }
-                        strokeWidth={1.8}
-                    />
-                </TouchableOpacity>
-
-                {/* ADD */}
-                <TouchableOpacity
-                    onPress={HandleAddPressMenu}
-                    style={{ zIndex: 1 }}
-                >
-                    <UserPlus
-                        size={wp("6.5%")}
-                        color={
-                            selected === "add"
                                 ? COLORS.border
                                 : COLORS.gold
                         }
@@ -184,10 +167,10 @@ export function FloatingMenu({
                     onPress={HandleAddProductPressMenu}
                     style={{ zIndex: 1 }}
                 >
-                    <PackagePlus
+                    <Package
                         size={wp("6.5%")}
                         color={
-                            selected === "add"
+                            selected === "product"
                                 ? COLORS.border
                                 : COLORS.gold
                         }

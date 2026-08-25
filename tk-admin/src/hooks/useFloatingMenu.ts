@@ -14,11 +14,12 @@ export function useFloatingMenu() {
 
     function HandleAddPress() {
         setSelected("add");
-        router.push("/profiles/create");
+        router.replace("/profiles/create");
     }
 
     function HandleAddProduct () {
         setSelected("product")
+        router.replace("/products")
     }
 
     function HandleLogoutPress() {
@@ -26,7 +27,7 @@ export function useFloatingMenu() {
     }
 
     function HandleCancelLogout() {
-        setSelected("home");
+        setSelected(selected);
     }
 
     async function HandleLogout() {
