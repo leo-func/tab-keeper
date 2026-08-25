@@ -1,15 +1,10 @@
-import { Text, View } from "react-native";
+import LoginView from "@/src/view/LoginView";
+import { useLoginViewModel } from "@/src/viewmodels/login.viewmodel";
 
 export default function Index() {
+  const model = useLoginViewModel()
+
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Text>Edit app/index.tsx to edit this screen.</Text>
-    </View>
-  );
+    <LoginView {...model}/>
+  )
 }

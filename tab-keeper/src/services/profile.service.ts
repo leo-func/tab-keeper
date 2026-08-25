@@ -26,9 +26,6 @@ export async function createAnonymousSession() {
         throw error;
     }
 
-    console.log("USER:", data.user);
-    console.log("SESSION:", data.session);
-    console.log("ERROR:", error);
 
     return data.session;
 }
