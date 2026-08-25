@@ -22,7 +22,7 @@ export default function RootLayout() {
         }}
       />
 
-      {pathname !== "/" && (
+      {pathname !== "/" && pathname !== "/login" && (
         <FloatingMenu
           onLogout={HandleLogout}
         />

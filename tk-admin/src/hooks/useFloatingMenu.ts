@@ -1,6 +1,7 @@
 import { router, useFocusEffect } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
 import { singOut } from "../services/login.service";
+import { removeCredentials } from "../services/storage.service";
 
 type MenuItem = "home" | "add" | "product" | "logout";
 
@@ -32,6 +33,7 @@ export function useFloatingMenu() {
 
     async function HandleLogout() {
         await singOut();
+        await removeCredentials();
         router.replace("/");
     }
 

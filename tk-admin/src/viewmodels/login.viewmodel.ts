@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useRouter } from "expo-router";
 import { singIn } from "../services/login.service";
+import { saveCredentials } from "../services/storage.service";
 
 export function useLoginViewModel() {
     const router = useRouter();
@@ -21,6 +22,8 @@ export function useLoginViewModel() {
                 setError("E-mail ou senha incorreto")
                 return
             }
+
+            await saveCredentials(email, password)
 
             router.replace("/profiles")
 
