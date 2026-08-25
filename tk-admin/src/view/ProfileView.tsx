@@ -20,7 +20,9 @@ import { useRouter } from "expo-router";
 import { COLORS } from "../constants/Color";
 import { ProfileCard } from "../components/ProfileCard";
 import { Header } from "../components/Header";
+import { FloatingMenu } from "../components/FloatingMenu";
 import { useProfileViewModel } from "../viewmodels/profile.viewmodel";
+import { useFloatingMenu } from "../hooks/useFloatingMenu";
 
 export default function ProfileView({
     profiles,
@@ -28,17 +30,13 @@ export default function ProfileView({
     error,
     loadNextPage,
 }: ReturnType<typeof useProfileViewModel>) {
-    const router = useRouter();
+    const { HandleLogout } = useFloatingMenu();
 
     return (
         <SafeAreaView style={styles.safeArea}>
             <View style={styles.container}>
                 <Header
                     title="PERFIS"
-                    showBackButton
-                    onBackPress={() => router.back()}
-                    actionIcon="plus"
-                    onActionPress={() => router.push("/profiles/create")}
                 />
 
                 <View style={styles.searchContainer}>
@@ -99,14 +97,16 @@ export default function ProfileView({
                                 </Text>
 
                                 <Text style={styles.emptySubtext}>
-                                    Adicione um novo profile usando o botão {"+"}{"\n"}
-                                    no canto superior direito.
+                                    Adicione um novo profile usando{"\n"}
+                                    o menu inferior.
                                 </Text>
                             </View>
                         }
                     />
                 )}
             </View>
+
+            <FloatingMenu onLogout={HandleLogout} />
         </SafeAreaView>
     );
 }
