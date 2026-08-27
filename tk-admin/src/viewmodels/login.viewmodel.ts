@@ -3,8 +3,7 @@ import { useRouter } from "expo-router";
 import { singIn } from "../services/login.service";
 import { saveCredentials } from "../services/storage.service";
 
-export function useLoginViewModel() {
-    const router = useRouter();
+export function useLoginViewModel({onLoginSuccess}: {onLoginSuccess: () => void}) {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [loading, setLoading] = useState(false)
@@ -25,7 +24,7 @@ export function useLoginViewModel() {
 
             await saveCredentials(email, password)
 
-            router.replace("/profiles")
+            onLoginSuccess()
 
         } catch (exception: any) {
             setError(exception)

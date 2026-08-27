@@ -21,16 +21,16 @@ import { useRouter } from "expo-router";
 import { COLORS } from "../constants/Color";
 import { ProductCard } from "../components/ProductCard";
 import { Header } from "../components/Header";
-import { FloatingMenu } from "../components/FloatingMenu";
 import { useProductViewModel } from "../viewmodels/product.viewmodel";
-import { useFloatingMenu } from "../hooks/useFloatingMenu";
 
 export default function ProductView({
     products,
     loading,
     error,
     loadNextPage,
-}: ReturnType<typeof useProductViewModel>) {
+    goToEdit,
+    goToCreate
+}: ReturnType<typeof useProductViewModel> & {goToEdit: (productId: string, name: string) => void, goToCreate: () => void}) {
     const router = useRouter();
 
     return (
@@ -57,7 +57,7 @@ export default function ProductView({
                 <TouchableOpacity
                     style={styles.addButton}
                     activeOpacity={0.7}
-                    onPress={() => router.push("/products/create")}
+                    onPress={goToCreate}
                 >
                     <PackagePlus
                         size={wp("5%")}
@@ -84,7 +84,10 @@ export default function ProductView({
                         showsVerticalScrollIndicator={false}
                         contentContainerStyle={styles.listContent}
                         renderItem={({ item }) => (
-                            <ProductCard product={item} />
+                            <ProductCard
+                                product={item}
+                                onPress={() => goToEdit(item.id, item.name)}
+                            />
                         )}
                         ListFooterComponent={
                             loading ? (

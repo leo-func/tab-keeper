@@ -51,12 +51,11 @@ export function useProductViewModel() {
 
         HandleProducts(pageRef.current)
     }
-
     return {
         products,
         error,
         loading,
         HandleProducts,
-        loadNextPage
+        loadNextPage,
     }
 }

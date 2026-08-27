@@ -62,10 +62,6 @@ export function useProfileViewModel() {
         HandleProfiles(pageRef.current)
     }
 
-    function goToEdit(profileId: string) {
-        router.push(`/profiles/edit/${profileId}`)
-    }
-
     function HandleSearch(value: string) {
         setSearch(value)
     }
@@ -77,7 +73,6 @@ export function useProfileViewModel() {
         loadNextPage,
         search,
         HandleSearch,
-        goToEdit,
 
         name,
         setName,

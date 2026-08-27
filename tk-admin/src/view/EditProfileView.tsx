@@ -26,7 +26,7 @@ import { COLORS } from "../constants/Color";
 import { Header } from "../components/Header";
 import { useEditProfile } from "../hooks/useEditProfile";
 
-export default function EditProfileView({profileId}: {profileId: string;}) {
+export default function EditProfileView({profileId, onBack}: {profileId: string; onBack: () => void}) {
     const {
         name,
         setName,
@@ -35,8 +35,6 @@ export default function EditProfileView({profileId}: {profileId: string;}) {
         HandleUpdate,
         HandleDelete,
     } = useEditProfile(profileId);
-    
-    const router = useRouter();
 
     function handleDeletePress() {
         Alert.alert(
@@ -52,7 +50,7 @@ export default function EditProfileView({profileId}: {profileId: string;}) {
                     style: "destructive",
                     onPress: async () => {
                         await HandleDelete();
-                        router.back();
+                        onBack;
                     },
                 },
             ]
@@ -65,7 +63,7 @@ export default function EditProfileView({profileId}: {profileId: string;}) {
                 <Header
                     title="EDITAR PERFIL"
                     showBackButton
-                    onBackPress={() => router.back()}
+                    onBackPress={onBack}
                 />
 
                 {/* NOME */}

@@ -5,11 +5,13 @@ import {
     TouchableOpacity,
     StyleSheet,
     ActivityIndicator,
+    Alert,
 } from "react-native";
 
 import {
     Package,
-    PackagePlus,
+    Save,
+    Trash2,
 } from "lucide-react-native";
 
 import {
@@ -22,10 +24,13 @@ import { useRouter } from "expo-router";
 
 import { COLORS } from "../constants/Color";
 import { Header } from "../components/Header";
-import { ConfirmModal } from "../components/ConfirmModal";
-import { useNewProduct } from "../hooks/useNewProduct";
+import { useEditProduct } from "../hooks/useEditProduct";
 
-export default function CreateProductView() {
+export default function 
+
+
+EditProductView({productId, initialName, onBack}: {productId: string; initialName?: string; onBack: () => void}) {
+
     const {
         name,
         setName,
@@ -33,20 +38,39 @@ export default function CreateProductView() {
         handlePriceChange,
         loading,
         error,
-        HandleNewProduct,
-        createdProduct,
-        onDismissCreated,
-    } = useNewProduct();
+        HandleUpdate,
+        HandleDelete,
+    } = useEditProduct(productId, initialName);
 
-    const router = useRouter();
+
+    function handleDeletePress() {
+        Alert.alert(
+            "Excluir produto",
+            "Tem certeza que deseja excluir este produto?",
+            [
+                {
+                    text: "Cancelar",
+                    style: "cancel",
+                },
+                {
+                    text: "Excluir",
+                    style: "destructive",
+                    onPress: async () => {
+                        await HandleDelete();
+                        onBack;
+                    },
+                },
+            ]
+        );
+    }
 
     return (
         <SafeAreaView style={styles.safeArea}>
             <View style={styles.container}>
                 <Header
-                    title="NOVO PRODUTO"
+                    title="EDITAR PRODUTO"
                     showBackButton
-                    onBackPress={() => router.back()}
+                    onBackPress={onBack}
                 />
 
                 {/* NOME */}
@@ -96,39 +120,46 @@ export default function CreateProductView() {
 
                 <View style={styles.spacer} />
 
-                {/* BOTÃO CRIAR */}
+                {/* BOTÃO SALVAR */}
                 <TouchableOpacity
                     activeOpacity={0.7}
-                    style={[styles.createButton, loading && styles.createButtonDisabled]}
+                    style={[styles.saveButton, loading && styles.buttonDisabled]}
                     disabled={loading}
-                    onPress={HandleNewProduct}
+                    onPress={HandleUpdate}
                 >
                     {loading ? (
                         <ActivityIndicator size="small" color={COLORS.background} />
                     ) : (
-                        <PackagePlus
+                        <Save
                             size={wp("5%")}
                             color={COLORS.background}
                             strokeWidth={2}
                         />
                     )}
 
-                    <Text style={styles.createButtonText}>
-                        {loading ? "CRIANDO..." : "CRIAR PRODUTO"}
+                    <Text style={styles.saveButtonText}>
+                        {loading ? "SALVANDO..." : "SALVAR"}
+                    </Text>
+                </TouchableOpacity>
+
+                {/* BOTÃO EXCLUIR */}
+                <TouchableOpacity
+                    activeOpacity={0.7}
+                    style={[styles.deleteButton, loading && styles.buttonDisabled]}
+                    disabled={loading}
+                    onPress={handleDeletePress}
+                >
+                    <Trash2
+                        size={wp("5%")}
+                        color={COLORS.danger}
+                        strokeWidth={2}
+                    />
+
+                    <Text style={styles.deleteButtonText}>
+                        EXCLUIR PRODUTO
                     </Text>
                 </TouchableOpacity>
             </View>
-
-            {/* MODAL CONFIRMAÇÃO CRIAÇÃO */}
-            <ConfirmModal
-                visible={!!createdProduct}
-                title="Produto criado!"
-                info={[
-                    { label: "Nome", value: createdProduct?.name ?? "" },
-                    { label: "Preço", value: `R$ ${createdProduct?.price.toFixed(2).replace(".", ",")}`},
-                ]}
-                onClose={onDismissCreated}
-            />
         </SafeAreaView>
     );
 }
@@ -187,23 +218,42 @@ const styles = StyleSheet.create({
         flex: 1,
     },
 
-    createButton: {
+    saveButton: {
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "center",
         backgroundColor: COLORS.gold,
         height: hp("7%"),
         borderRadius: wp("2%"),
+        marginBottom: hp("1.5%"),
+        gap: wp("2.5%"),
+    },
+
+    deleteButton: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: COLORS.surface,
+        borderWidth: 1,
+        borderColor: COLORS.danger,
+        height: hp("7%"),
+        borderRadius: wp("2%"),
         marginBottom: hp("2%"),
         gap: wp("2.5%"),
     },
 
-    createButtonDisabled: {
+    buttonDisabled: {
         opacity: 0.6,
     },
 
-    createButtonText: {
+    saveButtonText: {
         color: COLORS.background,
+        fontSize: wp("4%"),
+        fontWeight: "600",
+    },
+
+    deleteButtonText: {
+        color: COLORS.danger,
         fontSize: wp("4%"),
         fontWeight: "600",
     },

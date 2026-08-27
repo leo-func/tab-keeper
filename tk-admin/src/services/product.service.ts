@@ -28,3 +28,21 @@ export async function InsertNewProduct(price: number, name: string) {
         price: data[0].price
     }
 }
+
+export async function UpdateProduct(productId: string, name: string, price: number) {
+    const { error } = await supabase.rpc("update_product", {
+        pr_id: productId,
+        new_name: name,
+        new_price: price
+    })
+
+    if (error) throw error
+}
+
+export async function DeleteProduct(productId: string) {
+    const { error } = await supabase.rpc("delete_product", {
+        pr_id: productId,
+    })
+
+    if (error) throw error
+}

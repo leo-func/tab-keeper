@@ -34,8 +34,8 @@ export default function CreateProfileView({
     handleCreate,
     createdProfile,
     onDismissCreated,
-}: ReturnType<typeof useProfileViewModel>) {
-    const router = useRouter();
+    onBack
+}: ReturnType<typeof useProfileViewModel> & {onBack: () => void}) {
 
     return (
         <SafeAreaView style={styles.safeArea}>
@@ -43,7 +43,7 @@ export default function CreateProfileView({
                 <Header
                     title="NOVO USUÁRIO"
                     showBackButton
-                    onBackPress={() => router.back()}
+                    onBackPress={onBack}
                 />
 
                 {/* NOME */}

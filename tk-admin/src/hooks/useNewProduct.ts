@@ -8,7 +8,7 @@ export function useNewProduct() {
     const [name, setName] = useState("")
     const [price, setPrice] = useState("")
     const [loading, setLoading] = useState(false)
-    const [error, setError] = useState<Error | string>("")
+    const [error, setError] = useState<Error | null>(null)
     const [createdProduct, setCreatedProduct] = useState<ProductResponse | null>(null)
 
     function handlePriceChange(value: string) {
@@ -23,12 +23,12 @@ export function useNewProduct() {
             if (!name || !priceNumber) return
 
             setLoading(true)
-            setError("")
+            setError(null)
 
             const data = await InsertNewProduct(priceNumber, name)
 
             if (!data) {
-                setError("Erro ao criar produto")
+                setError(data)
                 return
             }
 

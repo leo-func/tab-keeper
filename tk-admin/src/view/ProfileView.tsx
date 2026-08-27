@@ -30,9 +30,9 @@ export default function ProfileView({
     loading,
     error,
     loadNextPage,
-    goToEdit
-}: ReturnType<typeof useProfileViewModel>) {
-    const router = useRouter();
+    goToEdit,
+    goToCreate
+}: ReturnType<typeof useProfileViewModel> & {goToEdit: (profileId: string) => void, goToCreate: () => void}) {
 
     return (
         <SafeAreaView style={styles.safeArea}>
@@ -58,7 +58,7 @@ export default function ProfileView({
                 <TouchableOpacity
                     style={styles.addButton}
                     activeOpacity={0.7}
-                    onPress={() => router.push("/profiles/create")}
+                    onPress={goToCreate}
                 >
                     <UserPlus
                         size={wp("5%")}

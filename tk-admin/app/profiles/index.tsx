@@ -14,10 +14,13 @@ export default function ProfilesScreen() {
     })
   }
 
+  const goToCreate = () => router.push("/profiles/create")
+
   return (
     <ProfileView 
     {...model}
     goToEdit={goToEdit}
+    goToCreate={goToCreate}
     />
   )
 }
