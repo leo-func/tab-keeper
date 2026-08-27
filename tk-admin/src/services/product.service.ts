@@ -14,3 +14,17 @@ export async function GetProducts(page: number): Promise<Product[]> {
         price: item.price
     }))
 }
+
+export async function InsertNewProduct(price: number, name: string) {
+    const { data, error } = await supabase.rpc("insert_new_product", {
+        pr_price: price,
+        pr_name: name
+    }) 
+
+    if (error) throw error
+
+    return {
+        name: data[0].name,
+        price: data[0].price
+    }
+}

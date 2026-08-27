@@ -31,7 +31,6 @@ export default function ProductView({
     error,
     loadNextPage,
 }: ReturnType<typeof useProductViewModel>) {
-    const { HandleLogout } = useFloatingMenu();
     const router = useRouter();
 
     return (

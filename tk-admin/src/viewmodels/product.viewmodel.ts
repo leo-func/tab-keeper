@@ -8,7 +8,7 @@ export function useProductViewModel() {
     const [loading, setLoading] = useState(false)
 
 
-    const [hasMore, setHasMore] = useState(false)
+    const [hasMore, setHasMore] = useState(true)
     const pageRef = useRef(1)
     const loadingRef = useRef(false)
 
