@@ -30,8 +30,8 @@ export default function ProfileView({
     loading,
     error,
     loadNextPage,
+    goToEdit
 }: ReturnType<typeof useProfileViewModel>) {
-    const { HandleLogout } = useFloatingMenu();
     const router = useRouter();
 
     return (
@@ -85,7 +85,10 @@ export default function ProfileView({
                         showsVerticalScrollIndicator={false}
                         contentContainerStyle={styles.listContent}
                         renderItem={({ item }) => (
-                            <ProfileCard profile={item} />
+                            <ProfileCard
+                                profile={item}
+                                onPress={() => goToEdit(item.id)}
+                            />
                         )}
                         ListFooterComponent={
                             loading ? (

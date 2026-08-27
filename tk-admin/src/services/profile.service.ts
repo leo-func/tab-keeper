@@ -32,3 +32,20 @@ export async function InsertNewProfile(name: string, role: string): Promise<Prof
         created_at: data[0].created_at
     }
 }
+
+export async function UpdateProfile(profileId: string, newName: string) {
+    const {error} = await supabase.rpc("update_profile", {
+        p_id: profileId,
+        new_name: newName
+    })
+
+    if (error) throw error
+}
+
+export async function DeleteProfile(profileId: string) {
+    const {error} = await supabase.rpc("delete_profile", {
+        p_id: profileId,
+    })
+
+    if (error) throw error
+}

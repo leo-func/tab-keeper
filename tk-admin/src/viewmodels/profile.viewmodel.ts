@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { Profile } from "../model/Profile";
 import { GetProfiles } from "../services/profile.service";
 import { useNewProfile } from "../hooks/useNewProfile";
+import { useEditProfile } from "../hooks/useEditProfile";
+import { router } from "expo-router";
 
 export function useProfileViewModel() {
     const [profiles, setProfiles] = useState<Profile[] | null>(null)
@@ -60,6 +62,10 @@ export function useProfileViewModel() {
         HandleProfiles(pageRef.current)
     }
 
+    function goToEdit(profileId: string) {
+        router.push(`/profiles/edit/${profileId}`)
+    }
+
     function HandleSearch(value: string) {
         setSearch(value)
     }
@@ -71,6 +77,7 @@ export function useProfileViewModel() {
         loadNextPage,
         search,
         HandleSearch,
+        goToEdit,
 
         name,
         setName,
