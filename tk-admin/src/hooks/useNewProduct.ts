@@ -1,34 +1,24 @@
 import { useState } from "react";
 import { Product } from "../model/Product";
 import { InsertNewProduct } from "../services/product.service";
+import { formatCurrency, parseCurrency } from "../utils/currency";
+import { ProductResponse } from "../model/ProductResponse";
 
 export function useNewProduct() {
     const [name, setName] = useState("")
     const [price, setPrice] = useState("")
     const [loading, setLoading] = useState(false)
-    const [error, setError] = useState("")
-    const [createdProduct, setCreatedProduct] = useState<Product | null>(null)
-
-    function formatCurrency(value: string): string {
-        const numbers = value.replace(/\D/g, "")
-        const amount = (parseInt(numbers) / 100).toFixed(2)
-        const formatted = amount.replace(".", ",")
-        return formatted
-    }
+    const [error, setError] = useState<Error | string>("")
+    const [createdProduct, setCreatedProduct] = useState<ProductResponse | null>(null)
 
     function handlePriceChange(value: string) {
         const formatted = formatCurrency(value)
         setPrice(formatted)
     }
 
-    function getPriceAsNumber(): number {
-        const numericString = price.replace(",", ".")
-        return parseFloat(numericString) || 0
-    }
-
     async function HandleNewProduct() {
         try {
-            const priceNumber = getPriceAsNumber()
+            const priceNumber = parseCurrency(price)
 
             if (!name || !priceNumber) return
 
@@ -45,8 +35,8 @@ export function useNewProduct() {
             setCreatedProduct(data)
             setName("")
             setPrice("")
-        } catch (exception: any) {
-            setError(exception?.message ?? "Erro ao criar produto")
+        } catch (exception) {
+            setError(exception as Error)
         } finally {
             setLoading(false)
         }
