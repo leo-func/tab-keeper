@@ -87,7 +87,8 @@ export default function ProfileView({
                         renderItem={({ item }) => (
                             <ProfileCard
                                 profile={item}
-                                onPress={() => goToEdit(item.id)}
+                                onEdit={() => goToEdit(item.id)}
+                                onBills={() => {}}
                             />
                         )}
                         ListFooterComponent={

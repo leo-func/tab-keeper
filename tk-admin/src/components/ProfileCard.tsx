@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import { User, ChevronRight } from "lucide-react-native";
+import { User, Pencil, FileText } from "lucide-react-native";
 import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
@@ -9,19 +9,17 @@ import { Profile } from "../model/Profile";
 
 interface ProfileCardProps {
     profile: Profile;
-    onPress?: (id: string) => void;
+    onEdit?: (id: string) => void;
+    onBills?: (id: string) => void;
 }
 
 export function ProfileCard({
     profile,
-    onPress,
+    onEdit,
+    onBills,
 }: ProfileCardProps) {
     return (
-        <TouchableOpacity
-            activeOpacity={0.7}
-            style={styles.card}
-            onPress={() => onPress?.(profile.id)}
-        >
+        <View style={styles.card}>
             <View style={styles.iconContainer}>
                 <User
                     size={wp("6%")}
@@ -46,12 +44,34 @@ export function ProfileCard({
                 </Text>
             </View>
 
-            <ChevronRight
-                size={wp("5.5%")}
-                color={COLORS.textSecondary}
-                strokeWidth={2}
-            />
-        </TouchableOpacity>
+            <View style={styles.actionsContainer}>
+                <TouchableOpacity
+                    style={styles.actionButton}
+                    activeOpacity={0.7}
+                    onPress={() => onEdit?.(profile.id)}
+                >
+                    <Pencil
+                        size={wp("4.5%")}
+                        color={COLORS.gold}
+                        strokeWidth={1.8}
+                    />
+                    <Text style={styles.actionText}>Editar</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                    style={styles.actionButton}
+                    activeOpacity={0.7}
+                    onPress={() => onBills?.(profile.id)}
+                >
+                    <FileText
+                        size={wp("4.5%")}
+                        color={COLORS.gold}
+                        strokeWidth={1.8}
+                    />
+                    <Text style={styles.actionText}>Contas</Text>
+                </TouchableOpacity>
+            </View>
+        </View>
     );
 }
 
@@ -97,5 +117,28 @@ const styles = StyleSheet.create({
     codeValue: {
         color: COLORS.gold,
         fontWeight: "500",
+    },
+
+    actionsContainer: {
+        flexDirection: "row",
+        gap: wp("2%"),
+    },
+
+    actionButton: {
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: COLORS.surfaceLight,
+        borderWidth: 1,
+        borderColor: COLORS.border,
+        borderRadius: wp("1.5%"),
+        paddingHorizontal: wp("2.5%"),
+        paddingVertical: hp("1%"),
+        minWidth: wp("14%"),
+    },
+
+    actionText: {
+        color: COLORS.textSecondary,
+        fontSize: wp("2.5%"),
+        marginTop: hp("0.3%"),
     },
 });
