@@ -402,27 +402,9 @@ export default function BillDetailView({
                         </>
                     )}
 
-                    {/* TOTAL FOOTER */}
-                    <View style={styles.totalFooter}>
-                        <View style={styles.totalIconContainer}>
-                            <ReceiptText
-                                size={wp("5%")}
-                                color={COLORS.gold}
-                                strokeWidth={1.8}
-                            />
-                        </View>
-                        <View style={styles.totalInfo}>
-                            <Text style={styles.totalLabel}>Total da conta</Text>
-                            <Text style={styles.totalSubLabel}>{billTotalCount} produtos</Text>
-                        </View>
-                        <Text style={styles.totalValue}>
-                            R$ {billTotal.toFixed(2).replace(".", ",")}
-                        </Text>
-                    </View>
-
                     {/* ACCESS FOOTER */}
                     <View style={styles.accessFooter}>
-                        <Lock
+                        <LockKeyhole
                             size={wp("3.5%")}
                             color={COLORS.textMuted}
                             strokeWidth={1.8}
@@ -432,6 +414,24 @@ export default function BillDetailView({
                         </Text>
                     </View>
                 </ScrollView>
+            </View>
+
+            {/* TOTAL FOOTER - ALWAYS VISIBLE */}
+            <View style={styles.totalFooter}>
+                <View style={styles.totalIconContainer}>
+                    <ReceiptText
+                        size={wp("5%")}
+                        color={COLORS.gold}
+                        strokeWidth={1.8}
+                    />
+                </View>
+                <View style={styles.totalInfo}>
+                    <Text style={styles.totalLabel}>Total da conta</Text>
+                    <Text style={styles.totalSubLabel}>{billTotalCount} produtos</Text>
+                </View>
+                <Text style={styles.totalValue}>
+                    R$ {billTotal.toFixed(2).replace(".", ",")}
+                </Text>
             </View>
 
             {/* MODAL CONFIRMAÇÃO ADIÇÃO PRODUTO */}
@@ -458,10 +458,11 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         paddingHorizontal: wp("5%"),
+        position: "relative",
     },
 
     scrollContent: {
-        paddingBottom: hp("18%"),
+        paddingBottom: hp("4%"),
     },
 
     // BILL INFO CARD
@@ -806,7 +807,7 @@ const styles = StyleSheet.create({
 
     totalFooter: {
         position: "absolute",
-        bottom: hp("1%"),
+        bottom: hp("1.5%"),
         left: wp("5%"),
         right: wp("5%"),
         flexDirection: "row",
