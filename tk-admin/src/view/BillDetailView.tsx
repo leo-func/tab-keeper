@@ -12,10 +12,9 @@ import {
 
 import {
     ReceiptText,
-    CircleCheck,
     PackagePlus,
     Trash2,
-    Lock,
+    LockKeyhole,
     Search,
     ChevronDown,
     Plus,
@@ -151,15 +150,6 @@ export default function BillDetailView({
                             <View style={styles.statItem}>
                                 <Text style={styles.statValue}>{billTotalCount}</Text>
                                 <Text style={styles.statLabel}>Produtos</Text>
-                            </View>
-
-                            <View style={styles.statDivider} />
-
-                            <View style={styles.statItem}>
-                                <Text style={styles.statValue}>
-                                    R$ {billTotal.toFixed(2).replace(".", ",")}
-                                </Text>
-                                <Text style={styles.statLabel}>Total da conta</Text>
                             </View>
 
                             <View style={styles.statDivider} />
@@ -330,7 +320,7 @@ export default function BillDetailView({
                                         activeOpacity={0.7}
                                         onPress={handleCloseBill}
                                     >
-                                        <CircleCheck
+                                        <LockKeyhole
                                             size={wp("6%")}
                                             color={COLORS.textPrimary}
                                             strokeWidth={1.8}
@@ -378,35 +368,36 @@ export default function BillDetailView({
                                     <Text style={styles.errorText}>{billProductsError.message}</Text>
                                 </View>
                             ) : (
-                                <FlatList
-                                    data={billProducts}
-                                    keyExtractor={(item) => item.id}
-                                    onEndReached={loadNextPage}
-                                    onEndReachedThreshold={0.1}
-                                    showsVerticalScrollIndicator={false}
-                                    scrollEnabled={false}
-                                    contentContainerStyle={styles.listContent}
-                                    renderItem={({ item }) => (
-                                        <BillProductCard billProduct={item} />
-                                    )}
-                                    ListFooterComponent={
-                                        billProductsLoading ? (
-                                            <View style={styles.footerLoading}>
-                                                <ActivityIndicator
-                                                    size="small"
-                                                    color={COLORS.gold}
-                                                />
+                                <View style={styles.listContainer}>
+                                    <FlatList
+                                        data={billProducts}
+                                        keyExtractor={(item) => item.id}
+                                        onEndReached={loadNextPage}
+                                        onEndReachedThreshold={0.1}
+                                        showsVerticalScrollIndicator={false}
+                                        contentContainerStyle={styles.listContent}
+                                        renderItem={({ item }) => (
+                                            <BillProductCard billProduct={item} />
+                                        )}
+                                        ListFooterComponent={
+                                            billProductsLoading ? (
+                                                <View style={styles.footerLoading}>
+                                                    <ActivityIndicator
+                                                        size="small"
+                                                        color={COLORS.gold}
+                                                    />
+                                                </View>
+                                            ) : null
+                                        }
+                                        ListEmptyComponent={
+                                            <View style={styles.emptyContainer}>
+                                                <Text style={styles.emptyText}>
+                                                    Nenhum produto nesta conta
+                                                </Text>
                                             </View>
-                                        ) : null
-                                    }
-                                    ListEmptyComponent={
-                                        <View style={styles.emptyContainer}>
-                                            <Text style={styles.emptyText}>
-                                                Nenhum produto nesta conta
-                                            </Text>
-                                        </View>
-                                    }
-                                />
+                                        }
+                                    />
+                                </View>
                             )}
                         </>
                     )}
@@ -470,7 +461,7 @@ const styles = StyleSheet.create({
     },
 
     scrollContent: {
-        paddingBottom: hp("3%"),
+        paddingBottom: hp("18%"),
     },
 
     // BILL INFO CARD
@@ -775,6 +766,10 @@ const styles = StyleSheet.create({
 
     // LIST
 
+    listContainer: {
+        height: hp("40%"),
+    },
+
     listContent: {
         gap: hp("1%"),
     },
@@ -810,6 +805,10 @@ const styles = StyleSheet.create({
     // TOTAL FOOTER
 
     totalFooter: {
+        position: "absolute",
+        bottom: hp("1%"),
+        left: wp("5%"),
+        right: wp("5%"),
         flexDirection: "row",
         alignItems: "center",
         backgroundColor: COLORS.surface,
@@ -817,7 +816,6 @@ const styles = StyleSheet.create({
         borderColor: COLORS.gold,
         borderRadius: wp("2%"),
         padding: wp("4%"),
-        marginTop: hp("2%"),
     },
 
     totalIconContainer: {
