@@ -475,7 +475,7 @@ const styles = StyleSheet.create({
     },
 
     productsList: {
-        flex: 1,
+        height: hp("35%"),
     },
 
     // BILL INFO CARD
