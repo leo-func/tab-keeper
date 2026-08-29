@@ -315,118 +315,117 @@ export default function BillDetailView({
                         }
                     />
                 ) : (
-                    <FlatList
-                        data={billProducts ?? []}
-                        keyExtractor={(item) => item.id}
-                        onEndReached={loadNextPage}
-                        onEndReachedThreshold={0.1}
-                        showsVerticalScrollIndicator={false}
-                        contentContainerStyle={styles.listPadding}
-                        ListHeaderComponent={
-                            <View>
-                                {/* BILL INFO CARD */}
-                                <View style={styles.billInfoCard}>
-                                    <View style={styles.billHeader}>
-                                        <View style={styles.billIconContainer}>
-                                            <ReceiptText
-                                                size={wp("8%")}
-                                                color={COLORS.gold}
-                                                strokeWidth={1.8}
-                                            />
-                                        </View>
-                                        <Text style={styles.billName}>{billName}</Text>
-                                    </View>
-
-                                    <View style={styles.billStats}>
-                                        <View style={styles.statItem}>
-                                            <Text style={styles.statValue}>{billTotalCount}</Text>
-                                            <Text style={styles.statLabel}>Produtos</Text>
-                                        </View>
-
-                                        <View style={styles.statDivider} />
-
-                                        <View style={styles.statItem}>
-                                            <View style={[styles.statusBadge, isClosed && styles.statusClosed]}>
-                                                <Text style={[styles.statusText, isClosed && styles.statusTextClosed]}>
-                                                    {isClosed ? "Fechada" : "Aberta"}
-                                                </Text>
-                                            </View>
-                                            <Text style={styles.statLabel}>Status</Text>
-                                        </View>
-                                    </View>
-                                </View>
-
-                                {/* ACTION BUTTONS */}
-                                <View style={styles.actionsContainer}>
-                                    {!isClosed && (
-                                        <TouchableOpacity
-                                            style={styles.actionButton}
-                                            activeOpacity={0.7}
-                                            onPress={handleCloseBill}
-                                        >
-                                            <LockKeyhole
-                                                size={wp("6%")}
-                                                color={COLORS.textPrimary}
-                                                strokeWidth={1.8}
-                                            />
-                                            <Text style={styles.actionText}>Fechar Conta</Text>
-                                        </TouchableOpacity>
-                                    )}
-
-                                    <TouchableOpacity
-                                        style={styles.actionButton}
-                                        activeOpacity={0.7}
-                                        onPress={handleOpenAddProduct}
-                                    >
-                                        <PackagePlus
-                                            size={wp("6%")}
-                                            color={COLORS.gold}
-                                            strokeWidth={1.8}
-                                        />
-                                        <Text style={styles.actionText}>Adicionar Produto</Text>
-                                    </TouchableOpacity>
-
-                                    <TouchableOpacity
-                                        style={styles.actionButton}
-                                        activeOpacity={0.7}
-                                        onPress={handleDeleteBill}
-                                    >
-                                        <Trash2
-                                            size={wp("6%")}
-                                            color={COLORS.danger}
-                                            strokeWidth={1.8}
-                                        />
-                                        <Text style={[styles.actionText, styles.deleteText]}>Excluir Conta</Text>
-                                    </TouchableOpacity>
-                                </View>
-
-                                {/* PRODUCTS SECTION */}
-                                <Text style={styles.sectionTitle}>Produtos da conta</Text>
-                            </View>
-                        }
-                        renderItem={({ item }) => (
-                            <BillProductCard billProduct={item} />
-                        )}
-                        ListFooterComponent={
-                            billProductsLoading ? (
-                                <View style={styles.footerLoading}>
-                                    <ActivityIndicator
-                                        size="small"
+                    <View style={styles.contentContainer}>
+                        {/* BILL INFO CARD */}
+                        <View style={styles.billInfoCard}>
+                            <View style={styles.billHeader}>
+                                <View style={styles.billIconContainer}>
+                                    <ReceiptText
+                                        size={wp("8%")}
                                         color={COLORS.gold}
+                                        strokeWidth={1.8}
                                     />
                                 </View>
-                            ) : null
-                        }
-                        ListEmptyComponent={
-                            !billProductsLoading ? (
-                                <View style={styles.emptyContainer}>
-                                    <Text style={styles.emptyText}>
-                                        Nenhum produto nesta conta
-                                    </Text>
+                                <Text style={styles.billName}>{billName}</Text>
+                            </View>
+
+                            <View style={styles.billStats}>
+                                <View style={styles.statItem}>
+                                    <Text style={styles.statValue}>{billTotalCount}</Text>
+                                    <Text style={styles.statLabel}>Produtos</Text>
                                 </View>
-                            ) : null
-                        }
-                    />
+
+                                <View style={styles.statDivider} />
+
+                                <View style={styles.statItem}>
+                                    <View style={[styles.statusBadge, isClosed && styles.statusClosed]}>
+                                        <Text style={[styles.statusText, isClosed && styles.statusTextClosed]}>
+                                            {isClosed ? "Fechada" : "Aberta"}
+                                        </Text>
+                                    </View>
+                                    <Text style={styles.statLabel}>Status</Text>
+                                </View>
+                            </View>
+                        </View>
+
+                        {/* ACTION BUTTONS */}
+                        <View style={styles.actionsContainer}>
+                            {!isClosed && (
+                                <TouchableOpacity
+                                    style={styles.actionButton}
+                                    activeOpacity={0.7}
+                                    onPress={handleCloseBill}
+                                >
+                                    <LockKeyhole
+                                        size={wp("6%")}
+                                        color={COLORS.textPrimary}
+                                        strokeWidth={1.8}
+                                    />
+                                    <Text style={styles.actionText}>Fechar Conta</Text>
+                                </TouchableOpacity>
+                            )}
+
+                            <TouchableOpacity
+                                style={styles.actionButton}
+                                activeOpacity={0.7}
+                                onPress={handleOpenAddProduct}
+                            >
+                                <PackagePlus
+                                    size={wp("6%")}
+                                    color={COLORS.gold}
+                                    strokeWidth={1.8}
+                                />
+                                <Text style={styles.actionText}>Adicionar Produto</Text>
+                            </TouchableOpacity>
+
+                            <TouchableOpacity
+                                style={styles.actionButton}
+                                activeOpacity={0.7}
+                                onPress={handleDeleteBill}
+                            >
+                                <Trash2
+                                    size={wp("6%")}
+                                    color={COLORS.danger}
+                                    strokeWidth={1.8}
+                                />
+                                <Text style={[styles.actionText, styles.deleteText]}>Excluir Conta</Text>
+                            </TouchableOpacity>
+                        </View>
+
+                        {/* PRODUCTS SECTION */}
+                        <Text style={styles.sectionTitle}>Produtos da conta</Text>
+
+                        <FlatList
+                            data={billProducts ?? []}
+                            keyExtractor={(item) => item.id}
+                            onEndReached={loadNextPage}
+                            onEndReachedThreshold={0.1}
+                            showsVerticalScrollIndicator={false}
+                            style={styles.productsList}
+                            renderItem={({ item }) => (
+                                <BillProductCard billProduct={item} />
+                            )}
+                            ListFooterComponent={
+                                billProductsLoading ? (
+                                    <View style={styles.footerLoading}>
+                                        <ActivityIndicator
+                                            size="small"
+                                            color={COLORS.gold}
+                                        />
+                                    </View>
+                                ) : null
+                            }
+                            ListEmptyComponent={
+                                !billProductsLoading ? (
+                                    <View style={styles.emptyContainer}>
+                                        <Text style={styles.emptyText}>
+                                            Nenhum produto nesta conta
+                                        </Text>
+                                    </View>
+                                ) : null
+                            }
+                        />
+                    </View>
                 )}
             </View>
 
@@ -469,6 +468,14 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingHorizontal: wp("5%"),
         position: "relative",
+    },
+
+    contentContainer: {
+        flex: 1,
+    },
+
+    productsList: {
+        flex: 1,
     },
 
     // BILL INFO CARD
@@ -772,10 +779,6 @@ const styles = StyleSheet.create({
     },
 
     // LIST
-
-    listPadding: {
-        paddingBottom: hp("12%"),
-    },
 
     footerLoading: {
         paddingVertical: hp("2%"),
