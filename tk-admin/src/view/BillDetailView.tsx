@@ -124,9 +124,9 @@ export default function BillDetailView({
         <SafeAreaView style={styles.safeArea}>
             <View style={styles.container}>
                 <Header
-                    title={showAddProduct ? "Adicionar Produto" : "DETALHES DA CONTA"}
+                    title="DETALHES DA CONTA"
                     showBackButton
-                    onBackPress={showAddProduct ? handleCancelAddProduct : onBack}
+                    onBackPress={onBack}
                 />
 
                 <ScrollView
