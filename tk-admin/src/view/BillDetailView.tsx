@@ -402,17 +402,6 @@ export default function BillDetailView({
                         </>
                     )}
 
-                    {/* ACCESS FOOTER */}
-                    <View style={styles.accessFooter}>
-                        <LockKeyhole
-                            size={wp("3.5%")}
-                            color={COLORS.textMuted}
-                            strokeWidth={1.8}
-                        />
-                        <Text style={styles.accessText}>
-                            Somente você tem acesso a esta conta e seus produtos.
-                        </Text>
-                    </View>
                 </ScrollView>
             </View>
 
@@ -665,7 +654,7 @@ const styles = StyleSheet.create({
     },
 
     comboBoxList: {
-        maxHeight: hp("25%"),
+        maxHeight: hp("5%"),
     },
 
     comboBoxItem: {
@@ -768,7 +757,7 @@ const styles = StyleSheet.create({
     // LIST
 
     listContainer: {
-        height: hp("40%"),
+        height: hp("35%"),
     },
 
     listContent: {
@@ -807,7 +796,7 @@ const styles = StyleSheet.create({
 
     totalFooter: {
         position: "absolute",
-        bottom: hp("1.5%"),
+        bottom: hp("5%"),
         left: wp("5%"),
         right: wp("5%"),
         flexDirection: "row",
