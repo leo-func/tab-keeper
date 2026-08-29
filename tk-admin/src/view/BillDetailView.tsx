@@ -6,7 +6,6 @@ import {
     ActivityIndicator,
     TouchableOpacity,
     Alert,
-    ScrollView,
     TextInput,
 } from "react-native";
 
@@ -129,280 +128,305 @@ export default function BillDetailView({
                     onBackPress={onBack}
                 />
 
-                <ScrollView
-                    showsVerticalScrollIndicator={false}
-                    contentContainerStyle={styles.scrollContent}
-                >
-                    {/* BILL INFO CARD */}
-                    <View style={styles.billInfoCard}>
-                        <View style={styles.billHeader}>
-                            <View style={styles.billIconContainer}>
-                                <ReceiptText
-                                    size={wp("8%")}
-                                    color={COLORS.gold}
-                                    strokeWidth={1.8}
-                                />
-                            </View>
-                            <Text style={styles.billName}>{billName}</Text>
-                        </View>
-
-                        <View style={styles.billStats}>
-                            <View style={styles.statItem}>
-                                <Text style={styles.statValue}>{billTotalCount}</Text>
-                                <Text style={styles.statLabel}>Produtos</Text>
-                            </View>
-
-                            <View style={styles.statDivider} />
-
-                            <View style={styles.statItem}>
-                                <View style={[styles.statusBadge, isClosed && styles.statusClosed]}>
-                                    <Text style={[styles.statusText, isClosed && styles.statusTextClosed]}>
-                                        {isClosed ? "Fechada" : "Aberta"}
-                                    </Text>
-                                </View>
-                                <Text style={styles.statLabel}>Status</Text>
-                            </View>
-                        </View>
-                    </View>
-
-                    {showAddProduct ? (
-                        /* ADD PRODUCT SECTION */
-                        <View style={styles.addProductSection}>
-                            <Text style={styles.sectionTitle}>Selecionar produto</Text>
-
-                            <Text style={styles.label}>Produto</Text>
-
-                            {/* COMBO BOX */}
-                            <View style={styles.comboBoxContainer}>
-                                <TouchableOpacity
-                                    style={styles.comboBox}
-                                    activeOpacity={0.7}
-                                    onPress={() => setIsComboBoxOpen(!isComboBoxOpen)}
-                                >
-                                    <Search
-                                        size={wp("4.5%")}
-                                        color={COLORS.textMuted}
-                                        strokeWidth={1.8}
-                                    />
-                                    <TextInput
-                                        style={styles.comboBoxInput}
-                                        placeholder="Buscar ou selecionar produto"
-                                        placeholderTextColor={COLORS.textMuted}
-                                        value={searchText}
-                                        onChangeText={(text) => {
-                                            setSearchText(text)
-                                            setIsComboBoxOpen(true)
-                                        }}
-                                        onFocus={() => setIsComboBoxOpen(true)}
-                                    />
-                                    <ChevronDown
-                                        size={wp("4.5%")}
-                                        color={COLORS.textMuted}
-                                        strokeWidth={1.8}
-                                        style={[styles.comboBoxIcon, isComboBoxOpen && styles.comboBoxIconOpen]}
-                                    />
-                                </TouchableOpacity>
-
-                                {isComboBoxOpen && (
-                                    <View style={styles.comboBoxDropdown}>
-                                        {productsLoading ? (
-                                            <View style={styles.comboBoxLoading}>
-                                                <ActivityIndicator size="small" color={COLORS.gold} />
-                                            </View>
-                                        ) : (
-                                            <FlatList
-                                                data={products}
-                                                keyExtractor={(item) => item.id}
-                                                nestedScrollEnabled
-                                                showsVerticalScrollIndicator={false}
-                                                style={styles.comboBoxList}
-                                                renderItem={({ item }) => (
-                                                    <TouchableOpacity
-                                                        style={styles.comboBoxItem}
-                                                        activeOpacity={0.7}
-                                                        onPress={() => handleSelectProduct(item)}
-                                                    >
-                                                        <Text style={styles.comboBoxItemText}>
-                                                            {item.name}
-                                                        </Text>
-                                                        <Text style={styles.comboBoxItemPrice}>
-                                                            R$ {item.price.toFixed(2).replace(".", ",")}
-                                                        </Text>
-                                                    </TouchableOpacity>
-                                                )}
-                                                ListEmptyComponent={
-                                                    <Text style={styles.comboBoxEmptyText}>
-                                                        Nenhum produto encontrado
-                                                    </Text>
-                                                }
+                {showAddProduct ? (
+                    <FlatList
+                        data={[]}
+                        keyExtractor={() => "dummy"}
+                        showsVerticalScrollIndicator={false}
+                        ListHeaderComponent={
+                            <View>
+                                {/* BILL INFO CARD */}
+                                <View style={styles.billInfoCard}>
+                                    <View style={styles.billHeader}>
+                                        <View style={styles.billIconContainer}>
+                                            <ReceiptText
+                                                size={wp("8%")}
+                                                color={COLORS.gold}
+                                                strokeWidth={1.8}
                                             />
+                                        </View>
+                                        <Text style={styles.billName}>{billName}</Text>
+                                    </View>
+
+                                    <View style={styles.billStats}>
+                                        <View style={styles.statItem}>
+                                            <Text style={styles.statValue}>{billTotalCount}</Text>
+                                            <Text style={styles.statLabel}>Produtos</Text>
+                                        </View>
+
+                                        <View style={styles.statDivider} />
+
+                                        <View style={styles.statItem}>
+                                            <View style={[styles.statusBadge, isClosed && styles.statusClosed]}>
+                                                <Text style={[styles.statusText, isClosed && styles.statusTextClosed]}>
+                                                    {isClosed ? "Fechada" : "Aberta"}
+                                                </Text>
+                                            </View>
+                                            <Text style={styles.statLabel}>Status</Text>
+                                        </View>
+                                    </View>
+                                </View>
+
+                                {/* ADD PRODUCT SECTION */}
+                                <View style={styles.addProductSection}>
+                                    <Text style={styles.sectionTitle}>Selecionar produto</Text>
+
+                                    <Text style={styles.label}>Produto</Text>
+
+                                    {/* COMBO BOX */}
+                                    <View style={styles.comboBoxContainer}>
+                                        <TouchableOpacity
+                                            style={styles.comboBox}
+                                            activeOpacity={0.7}
+                                            onPress={() => setIsComboBoxOpen(!isComboBoxOpen)}
+                                        >
+                                            <Search
+                                                size={wp("4.5%")}
+                                                color={COLORS.textMuted}
+                                                strokeWidth={1.8}
+                                            />
+                                            <TextInput
+                                                style={styles.comboBoxInput}
+                                                placeholder="Buscar ou selecionar produto"
+                                                placeholderTextColor={COLORS.textMuted}
+                                                value={searchText}
+                                                onChangeText={(text) => {
+                                                    setSearchText(text)
+                                                    setIsComboBoxOpen(true)
+                                                }}
+                                                onFocus={() => setIsComboBoxOpen(true)}
+                                            />
+                                            <ChevronDown
+                                                size={wp("4.5%")}
+                                                color={COLORS.textMuted}
+                                                strokeWidth={1.8}
+                                                style={[styles.comboBoxIcon, isComboBoxOpen && styles.comboBoxIconOpen]}
+                                            />
+                                        </TouchableOpacity>
+
+                                        {isComboBoxOpen && (
+                                            <View style={styles.comboBoxDropdown}>
+                                                {productsLoading ? (
+                                                    <View style={styles.comboBoxLoading}>
+                                                        <ActivityIndicator size="small" color={COLORS.gold} />
+                                                    </View>
+                                                ) : (
+                                                    <FlatList
+                                                        data={products}
+                                                        keyExtractor={(item) => item.id}
+                                                        nestedScrollEnabled
+                                                        showsVerticalScrollIndicator={false}
+                                                        style={styles.comboBoxList}
+                                                        renderItem={({ item }) => (
+                                                            <TouchableOpacity
+                                                                style={styles.comboBoxItem}
+                                                                activeOpacity={0.7}
+                                                                onPress={() => handleSelectProduct(item)}
+                                                            >
+                                                                <Text style={styles.comboBoxItemText}>
+                                                                    {item.name}
+                                                                </Text>
+                                                                <Text style={styles.comboBoxItemPrice}>
+                                                                    R$ {item.price.toFixed(2).replace(".", ",")}
+                                                                </Text>
+                                                            </TouchableOpacity>
+                                                        )}
+                                                        ListEmptyComponent={
+                                                            <Text style={styles.comboBoxEmptyText}>
+                                                                Nenhum produto encontrado
+                                                            </Text>
+                                                        }
+                                                    />
+                                                )}
+                                            </View>
                                         )}
                                     </View>
-                                )}
+
+                                    {/* QUANTITY */}
+                                    <Text style={styles.label}>Quantidade</Text>
+                                    <View style={styles.quantityContainer}>
+                                        <TouchableOpacity
+                                            style={styles.quantityButton}
+                                            activeOpacity={0.7}
+                                            onPress={handleDecrementQuantity}
+                                        >
+                                            <Minus
+                                                size={wp("4.5%")}
+                                                color={COLORS.gold}
+                                                strokeWidth={1.8}
+                                            />
+                                        </TouchableOpacity>
+
+                                        <Text style={styles.quantityValue}>{quantity}</Text>
+
+                                        <TouchableOpacity
+                                            style={styles.quantityButton}
+                                            activeOpacity={0.7}
+                                            onPress={handleIncrementQuantity}
+                                        >
+                                            <Plus
+                                                size={wp("4.5%")}
+                                                color={COLORS.gold}
+                                                strokeWidth={1.8}
+                                            />
+                                        </TouchableOpacity>
+                                    </View>
+
+                                    {addProductError && (
+                                        <Text style={styles.errorText}>{addProductError}</Text>
+                                    )}
+
+                                    {/* ADD BUTTON */}
+                                    <TouchableOpacity
+                                        style={[styles.addButton, addProductLoading && styles.addButtonDisabled]}
+                                        activeOpacity={0.7}
+                                        onPress={handleAddProduct}
+                                        disabled={addProductLoading}
+                                    >
+                                        {addProductLoading ? (
+                                            <ActivityIndicator size="small" color={COLORS.background} />
+                                        ) : (
+                                            <Plus
+                                                size={wp("5%")}
+                                                color={COLORS.background}
+                                                strokeWidth={2}
+                                            />
+                                        )}
+                                        <Text style={styles.addButtonText}>
+                                            {addProductLoading ? "Adicionando..." : "Adicionar à conta"}
+                                        </Text>
+                                    </TouchableOpacity>
+
+                                    {/* CANCEL BUTTON */}
+                                    <TouchableOpacity
+                                        style={styles.cancelButton}
+                                        activeOpacity={0.7}
+                                        onPress={handleCancelAddProduct}
+                                    >
+                                        <X
+                                            size={wp("4.5%")}
+                                            color={COLORS.textSecondary}
+                                            strokeWidth={1.8}
+                                        />
+                                        <Text style={styles.cancelButtonText}>Cancelar</Text>
+                                    </TouchableOpacity>
+                                </View>
                             </View>
+                        }
+                    />
+                ) : (
+                    <FlatList
+                        data={billProducts ?? []}
+                        keyExtractor={(item) => item.id}
+                        onEndReached={loadNextPage}
+                        onEndReachedThreshold={0.1}
+                        showsVerticalScrollIndicator={false}
+                        ListHeaderComponent={
+                            <View>
+                                {/* BILL INFO CARD */}
+                                <View style={styles.billInfoCard}>
+                                    <View style={styles.billHeader}>
+                                        <View style={styles.billIconContainer}>
+                                            <ReceiptText
+                                                size={wp("8%")}
+                                                color={COLORS.gold}
+                                                strokeWidth={1.8}
+                                            />
+                                        </View>
+                                        <Text style={styles.billName}>{billName}</Text>
+                                    </View>
 
-                            {/* QUANTITY */}
-                            <Text style={styles.label}>Quantidade</Text>
-                            <View style={styles.quantityContainer}>
-                                <TouchableOpacity
-                                    style={styles.quantityButton}
-                                    activeOpacity={0.7}
-                                    onPress={handleDecrementQuantity}
-                                >
-                                    <Minus
-                                        size={wp("4.5%")}
-                                        color={COLORS.gold}
-                                        strokeWidth={1.8}
-                                    />
-                                </TouchableOpacity>
+                                    <View style={styles.billStats}>
+                                        <View style={styles.statItem}>
+                                            <Text style={styles.statValue}>{billTotalCount}</Text>
+                                            <Text style={styles.statLabel}>Produtos</Text>
+                                        </View>
 
-                                <Text style={styles.quantityValue}>{quantity}</Text>
+                                        <View style={styles.statDivider} />
 
-                                <TouchableOpacity
-                                    style={styles.quantityButton}
-                                    activeOpacity={0.7}
-                                    onPress={handleIncrementQuantity}
-                                >
-                                    <Plus
-                                        size={wp("4.5%")}
-                                        color={COLORS.gold}
-                                        strokeWidth={1.8}
-                                    />
-                                </TouchableOpacity>
-                            </View>
+                                        <View style={styles.statItem}>
+                                            <View style={[styles.statusBadge, isClosed && styles.statusClosed]}>
+                                                <Text style={[styles.statusText, isClosed && styles.statusTextClosed]}>
+                                                    {isClosed ? "Fechada" : "Aberta"}
+                                                </Text>
+                                            </View>
+                                            <Text style={styles.statLabel}>Status</Text>
+                                        </View>
+                                    </View>
+                                </View>
 
-                            {addProductError && (
-                                <Text style={styles.errorText}>{addProductError}</Text>
-                            )}
+                                {/* ACTION BUTTONS */}
+                                <View style={styles.actionsContainer}>
+                                    {!isClosed && (
+                                        <TouchableOpacity
+                                            style={styles.actionButton}
+                                            activeOpacity={0.7}
+                                            onPress={handleCloseBill}
+                                        >
+                                            <LockKeyhole
+                                                size={wp("6%")}
+                                                color={COLORS.textPrimary}
+                                                strokeWidth={1.8}
+                                            />
+                                            <Text style={styles.actionText}>Fechar Conta</Text>
+                                        </TouchableOpacity>
+                                    )}
 
-                            {/* ADD BUTTON */}
-                            <TouchableOpacity
-                                style={[styles.addButton, addProductLoading && styles.addButtonDisabled]}
-                                activeOpacity={0.7}
-                                onPress={handleAddProduct}
-                                disabled={addProductLoading}
-                            >
-                                {addProductLoading ? (
-                                    <ActivityIndicator size="small" color={COLORS.background} />
-                                ) : (
-                                    <Plus
-                                        size={wp("5%")}
-                                        color={COLORS.background}
-                                        strokeWidth={2}
-                                    />
-                                )}
-                                <Text style={styles.addButtonText}>
-                                    {addProductLoading ? "Adicionando..." : "Adicionar à conta"}
-                                </Text>
-                            </TouchableOpacity>
-
-                            {/* CANCEL BUTTON */}
-                            <TouchableOpacity
-                                style={styles.cancelButton}
-                                activeOpacity={0.7}
-                                onPress={handleCancelAddProduct}
-                            >
-                                <X
-                                    size={wp("4.5%")}
-                                    color={COLORS.textSecondary}
-                                    strokeWidth={1.8}
-                                />
-                                <Text style={styles.cancelButtonText}>Cancelar</Text>
-                            </TouchableOpacity>
-                        </View>
-                    ) : (
-                        <>
-                            {/* ACTION BUTTONS */}
-                            <View style={styles.actionsContainer}>
-                                {!isClosed && (
                                     <TouchableOpacity
                                         style={styles.actionButton}
                                         activeOpacity={0.7}
-                                        onPress={handleCloseBill}
+                                        onPress={handleOpenAddProduct}
                                     >
-                                        <LockKeyhole
+                                        <PackagePlus
                                             size={wp("6%")}
-                                            color={COLORS.textPrimary}
+                                            color={COLORS.gold}
                                             strokeWidth={1.8}
                                         />
-                                        <Text style={styles.actionText}>Fechar Conta</Text>
+                                        <Text style={styles.actionText}>Adicionar Produto</Text>
                                     </TouchableOpacity>
-                                )}
 
-                                <TouchableOpacity
-                                    style={styles.actionButton}
-                                    activeOpacity={0.7}
-                                    onPress={handleOpenAddProduct}
-                                >
-                                    <PackagePlus
-                                        size={wp("6%")}
-                                        color={COLORS.gold}
-                                        strokeWidth={1.8}
-                                    />
-                                    <Text style={styles.actionText}>Adicionar Produto</Text>
-                                </TouchableOpacity>
+                                    <TouchableOpacity
+                                        style={styles.actionButton}
+                                        activeOpacity={0.7}
+                                        onPress={handleDeleteBill}
+                                    >
+                                        <Trash2
+                                            size={wp("6%")}
+                                            color={COLORS.danger}
+                                            strokeWidth={1.8}
+                                        />
+                                        <Text style={[styles.actionText, styles.deleteText]}>Excluir Conta</Text>
+                                    </TouchableOpacity>
+                                </View>
 
-                                <TouchableOpacity
-                                    style={styles.actionButton}
-                                    activeOpacity={0.7}
-                                    onPress={handleDeleteBill}
-                                >
-                                    <Trash2
-                                        size={wp("6%")}
-                                        color={COLORS.danger}
-                                        strokeWidth={1.8}
-                                    />
-                                    <Text style={[styles.actionText, styles.deleteText]}>Excluir Conta</Text>
-                                </TouchableOpacity>
+                                {/* PRODUCTS SECTION */}
+                                <Text style={styles.sectionTitle}>Produtos da conta</Text>
                             </View>
-
-                            {/* PRODUCTS SECTION */}
-                            <Text style={styles.sectionTitle}>Produtos da conta</Text>
-
-                            {billProductsLoading && !billProducts?.length ? (
-                                <View style={styles.centerContainer}>
-                                    <ActivityIndicator size="large" color={COLORS.gold} />
-                                </View>
-                            ) : billProductsError ? (
-                                <View style={styles.centerContainer}>
-                                    <Text style={styles.errorText}>{billProductsError.message}</Text>
-                                </View>
-                            ) : (
-                                <View style={styles.listContainer}>
-                                    <FlatList
-                                        data={billProducts}
-                                        keyExtractor={(item) => item.id}
-                                        onEndReached={loadNextPage}
-                                        onEndReachedThreshold={0.1}
-                                        showsVerticalScrollIndicator={false}
-                                        contentContainerStyle={styles.listContent}
-                                        renderItem={({ item }) => (
-                                            <BillProductCard billProduct={item} />
-                                        )}
-                                        ListFooterComponent={
-                                            billProductsLoading ? (
-                                                <View style={styles.footerLoading}>
-                                                    <ActivityIndicator
-                                                        size="small"
-                                                        color={COLORS.gold}
-                                                    />
-                                                </View>
-                                            ) : null
-                                        }
-                                        ListEmptyComponent={
-                                            <View style={styles.emptyContainer}>
-                                                <Text style={styles.emptyText}>
-                                                    Nenhum produto nesta conta
-                                                </Text>
-                                            </View>
-                                        }
+                        }
+                        renderItem={({ item }) => (
+                            <BillProductCard billProduct={item} />
+                        )}
+                        ListFooterComponent={
+                            billProductsLoading ? (
+                                <View style={styles.footerLoading}>
+                                    <ActivityIndicator
+                                        size="small"
+                                        color={COLORS.gold}
                                     />
                                 </View>
-                            )}
-                        </>
-                    )}
-
-                </ScrollView>
+                            ) : null
+                        }
+                        ListEmptyComponent={
+                            !billProductsLoading ? (
+                                <View style={styles.emptyContainer}>
+                                    <Text style={styles.emptyText}>
+                                        Nenhum produto nesta conta
+                                    </Text>
+                                </View>
+                            ) : null
+                        }
+                    />
+                )}
             </View>
 
             {/* TOTAL FOOTER - ALWAYS VISIBLE */}
@@ -444,10 +468,6 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingHorizontal: wp("5%"),
         position: "relative",
-    },
-
-    scrollContent: {
-        paddingBottom: hp("4%"),
     },
 
     // BILL INFO CARD
@@ -752,22 +772,8 @@ const styles = StyleSheet.create({
 
     // LIST
 
-    listContainer: {
-        height: hp("32%"),
-    },
-
-    listContent: {
-        gap: hp("1%"),
-    },
-
     footerLoading: {
         paddingVertical: hp("2%"),
-        alignItems: "center",
-        justifyContent: "center",
-    },
-
-    centerContainer: {
-        paddingVertical: hp("5%"),
         alignItems: "center",
         justifyContent: "center",
     },
