@@ -22,7 +22,7 @@ export default function RootLayout() {
         }}
       />
 
-      {pathname !== "/" && pathname !== "/login" && !pathname.startsWith("/profiles/edit") && !pathname.startsWith("/profiles/create") && !pathname.startsWith("/products/create") && !pathname.startsWith("/products/edit") && (
+      {pathname !== "/" && pathname !== "/login" && !pathname.startsWith("/profiles/edit") && !pathname.startsWith("/profiles/create") && !pathname.startsWith("/products/create") && !pathname.startsWith("/products/edit") && !pathname.startsWith("/bills") && (
         <FloatingMenu
           onLogout={HandleLogout}
         />

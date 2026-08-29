@@ -16,11 +16,21 @@ export default function ProfilesScreen() {
 
   const goToCreate = () => router.push("/profiles/create")
 
+  const goToBills = (profileId: string) => {
+    router.push({
+      pathname: "/bills",
+      params: {
+        profileId
+      },
+    })
+  }
+
   return (
     <ProfileView 
     {...model}
     goToEdit={goToEdit}
     goToCreate={goToCreate}
+    goToBills={goToBills}
     />
   )
 }

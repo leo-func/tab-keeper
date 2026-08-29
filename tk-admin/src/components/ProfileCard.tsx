@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import { User, Pencil, FileText } from "lucide-react-native";
+import { User, Pencil, FileText, Receipt, ReceiptText } from "lucide-react-native";
 import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
@@ -63,7 +63,7 @@ export function ProfileCard({
                     activeOpacity={0.7}
                     onPress={() => onBills?.(profile.id)}
                 >
-                    <FileText
+                    <ReceiptText
                         size={wp("4.5%")}
                         color={COLORS.gold}
                         strokeWidth={1.8}

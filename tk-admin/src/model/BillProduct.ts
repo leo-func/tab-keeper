@@ -1,6 +1,6 @@
 export interface BillProduct {
     id: string,
-    product_name: string | null,
+    name: string | null,
     amount: number,
-    total_price: number
+    total_price: number,
 }

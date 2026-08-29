@@ -31,8 +31,9 @@ export default function ProfileView({
     error,
     loadNextPage,
     goToEdit,
-    goToCreate
-}: ReturnType<typeof useProfileViewModel> & {goToEdit: (profileId: string) => void, goToCreate: () => void}) {
+    goToCreate,
+    goToBills
+}: ReturnType<typeof useProfileViewModel> & {goToEdit: (profileId: string) => void, goToCreate: () => void, goToBills: (profileId: string) => void}) {
 
     return (
         <SafeAreaView style={styles.safeArea}>
@@ -88,7 +89,7 @@ export default function ProfileView({
                             <ProfileCard
                                 profile={item}
                                 onEdit={() => goToEdit(item.id)}
-                                onBills={() => {}}
+                                onBills={() => goToBills(item.id)}
                             />
                         )}
                         ListFooterComponent={

@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
-import { Bill } from "../model/Bill";
-import { GetBills } from "../services/bill.service";
+import { Product } from "../model/Product";
+import { GetProducts } from "../services/product.service";
 
-export function useBillViewModel(profileId: string) {
-    const [bills, setBills] = useState<Bill[] | null>(null)
+export function useProduct() {
+    const [products, setProducts] = useState<Product[] | null>(null)
     const [error, setError] = useState<Error | null>(null)
     const [loading, setLoading] = useState(false)
 
@@ -12,19 +12,19 @@ export function useBillViewModel(profileId: string) {
     const loadingRef = useRef(false)
 
     useEffect(() => {
-        HandleBills(pageRef.current)
+        HandleProducts(pageRef.current)
     }, [])
 
-    async function HandleBills(pageToLoad: number) {
+    async function HandleProducts(pageToLoad: number) {
         loadingRef.current = true
 
         try {
             setError(null)
             setLoading(true)
 
-            const data = await GetBills(profileId, pageToLoad)
+            const data = await GetProducts(pageToLoad)
 
-            setBills(prev => [
+            setProducts(prev => [
                 ...(prev ?? []),
                 ...data
             ])
@@ -47,14 +47,13 @@ export function useBillViewModel(profileId: string) {
     function loadNextPage() {
         if (!hasMore || loadingRef.current) return
 
-        HandleBills(pageRef.current)
+        HandleProducts(pageRef.current)
     }
 
     return {
-        bills,
+        products,
         error,
         loading,
-        HandleBills,
         loadNextPage,
     }
 }
