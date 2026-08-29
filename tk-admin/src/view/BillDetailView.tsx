@@ -471,7 +471,7 @@ const styles = StyleSheet.create({
     },
 
     contentContainer: {
-        flex: 1,
+        gap: hp("1.5%"),
     },
 
     productsList: {
