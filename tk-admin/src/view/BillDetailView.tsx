@@ -321,6 +321,7 @@ export default function BillDetailView({
                         onEndReached={loadNextPage}
                         onEndReachedThreshold={0.1}
                         showsVerticalScrollIndicator={false}
+                        contentContainerStyle={styles.listPadding}
                         ListHeaderComponent={
                             <View>
                                 {/* BILL INFO CARD */}
@@ -771,6 +772,10 @@ const styles = StyleSheet.create({
     },
 
     // LIST
+
+    listPadding: {
+        paddingBottom: hp("12%"),
+    },
 
     footerLoading: {
         paddingVertical: hp("2%"),
