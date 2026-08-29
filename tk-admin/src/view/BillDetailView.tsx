@@ -70,14 +70,14 @@ export default function BillDetailView({
         isComboBoxOpen,
         addProductLoading,
         addProductError,
-        createdBillProduct,
+        showSuccessModal,
         handleOpenAddProduct,
         handleCancelAddProduct,
         handleSelectProduct,
         handleIncrementQuantity,
         handleDecrementQuantity,
         handleAddProduct,
-        onDismissCreatedBillProduct,
+        onDismissSuccessModal,
         setSearchText,
         setIsComboBoxOpen,
     } = useBillDetailViewModel(billId)
@@ -425,14 +425,10 @@ export default function BillDetailView({
 
             {/* MODAL CONFIRMAÇÃO ADIÇÃO PRODUTO */}
             <ConfirmModal
-                visible={!!createdBillProduct}
-                title="Produto adicionado!"
-                info={[
-                    { label: "Produto", value: createdBillProduct?.name ?? "" },
-                    { label: "Quantidade", value: `${createdBillProduct?.amount ?? 0} unidades` },
-                    { label: "Preço total", value: `R$ ${(createdBillProduct?.total_price ?? 0).toFixed(2).replace(".", ",")}` },
-                ]}
-                onClose={onDismissCreatedBillProduct}
+                visible={showSuccessModal}
+                title="Adicionado com sucesso!"
+                info={[]}
+                onClose={onDismissSuccessModal}
             />
         </SafeAreaView>
     );
@@ -588,7 +584,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: COLORS.border,
         borderRadius: wp("2%"),
-        padding: wp("4%"),
+        padding: wp("5%"),
         marginBottom: hp("2%"),
     },
 
@@ -654,7 +650,7 @@ const styles = StyleSheet.create({
     },
 
     comboBoxList: {
-        maxHeight: hp("5%"),
+        maxHeight: hp("30%"),
     },
 
     comboBoxItem: {
@@ -757,7 +753,7 @@ const styles = StyleSheet.create({
     // LIST
 
     listContainer: {
-        height: hp("35%"),
+        height: hp("32%"),
     },
 
     listContent: {
@@ -796,7 +792,7 @@ const styles = StyleSheet.create({
 
     totalFooter: {
         position: "absolute",
-        bottom: hp("5%"),
+        bottom: hp("8%"),
         left: wp("5%"),
         right: wp("5%"),
         flexDirection: "row",

@@ -3,7 +3,6 @@ import { useBillProduct } from "../hooks/useBillProduct";
 import { useProduct } from "../hooks/useProduct";
 import { InsertNewBillProduct } from "../services/bill_product.service";
 import { Product } from "../model/Product";
-import { BillProduct } from "../model/BillProduct";
 
 export function useBillDetailViewModel(billId: string) {
     const {
@@ -26,7 +25,7 @@ export function useBillDetailViewModel(billId: string) {
     const [isComboBoxOpen, setIsComboBoxOpen] = useState(false)
     const [addProductLoading, setAddProductLoading] = useState(false)
     const [addProductError, setAddProductError] = useState<string | null>(null)
-    const [createdBillProduct, setCreatedBillProduct] = useState<BillProduct | null>(null)
+    const [showSuccessModal, setShowSuccessModal] = useState(false)
 
     const filteredProducts = products?.filter(product =>
         product.name.toLowerCase().includes(searchText.toLowerCase())
@@ -61,8 +60,8 @@ export function useBillDetailViewModel(billId: string) {
         }
     }
 
-    function onDismissCreatedBillProduct() {
-        setCreatedBillProduct(null)
+    function onDismissSuccessModal() {
+        setShowSuccessModal(false)
     }
 
     async function handleAddProduct() {
@@ -72,9 +71,9 @@ export function useBillDetailViewModel(billId: string) {
             setAddProductLoading(true)
             setAddProductError(null)
 
-            const data = await InsertNewBillProduct(billId, selectedProduct.id, quantity)
+            await InsertNewBillProduct(billId, selectedProduct.id, quantity)
 
-            setCreatedBillProduct(data)
+            setShowSuccessModal(true)
             handleCancelAddProduct()
         } catch (exception: any) {
             setAddProductError(exception?.message ?? "Erro ao adicionar produto")
@@ -98,14 +97,14 @@ export function useBillDetailViewModel(billId: string) {
         isComboBoxOpen,
         addProductLoading,
         addProductError,
-        createdBillProduct,
+        showSuccessModal,
         handleOpenAddProduct,
         handleCancelAddProduct,
         handleSelectProduct,
         handleIncrementQuantity,
         handleDecrementQuantity,
         handleAddProduct,
-        onDismissCreatedBillProduct,
+        onDismissSuccessModal,
         setSearchText,
         setIsComboBoxOpen,
     }
