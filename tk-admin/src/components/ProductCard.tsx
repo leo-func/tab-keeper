@@ -99,16 +99,18 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: COLORS.border,
         borderRadius: wp("2%"),
-        paddingVertical: hp("2.1%"),
+        paddingVertical: hp("1.8%"),
         paddingHorizontal: wp("3.5%"),
         flexDirection: "row",
         alignItems: "center",
+        marginBottom: hp("1%"),
     },
 
     iconContainer: {
-        width: wp("11%"),
-        height: wp("11%"),
-        borderRadius: wp("5.5%"),
+        width: wp("10%"),
+        height: wp("10%"),
+        borderRadius: wp("5%"),
+        backgroundColor: COLORS.surfaceLight,
         borderWidth: 1.5,
         borderColor: COLORS.gold,
         alignItems: "center",
@@ -122,20 +124,20 @@ const styles = StyleSheet.create({
 
     productName: {
         color: COLORS.textPrimary,
-        fontSize: wp("4%"),
+        fontSize: wp("3.8%"),
         fontWeight: "600",
     },
 
     productSubtitle: {
         color: COLORS.textSecondary,
-        fontSize: wp("3.2%"),
-        marginTop: hp("0.4%"),
+        fontSize: wp("3%"),
+        marginTop: hp("0.3%"),
     },
 
     productPrice: {
         color: COLORS.textSecondary,
-        fontSize: wp("3.2%"),
-        marginTop: hp("0.4%"),
+        fontSize: wp("3%"),
+        marginTop: hp("0.3%"),
     },
 
     priceValue: {

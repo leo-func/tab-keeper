@@ -393,20 +393,7 @@ export default function BillDetailView({
                         </View>
 
                         {/* PRODUCTS SECTION */}
-                        <View style={styles.sectionHeader}>
-                            <Text style={styles.sectionTitle}>Produtos da conta</Text>
-                            <TouchableOpacity
-                                style={styles.clearAllButton}
-                                activeOpacity={0.7}
-                            >
-                                <Trash2
-                                    size={wp("3.5%")}
-                                    color={COLORS.danger}
-                                    strokeWidth={1.8}
-                                />
-                                <Text style={styles.clearAllText}>Limpar todos</Text>
-                            </TouchableOpacity>
-                        </View>
+                        <Text style={styles.sectionTitle}>Produtos da conta</Text>
 
                         <FlatList
                             data={billProducts ?? []}
@@ -617,29 +604,11 @@ const styles = StyleSheet.create({
 
     // SECTION
 
-    sectionHeader: {
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center",
-        marginBottom: hp("1.5%"),
-    },
-
     sectionTitle: {
         color: COLORS.textPrimary,
         fontSize: wp("4.5%"),
         fontWeight: "600",
-    },
-
-    clearAllButton: {
-        flexDirection: "row",
-        alignItems: "center",
-        gap: wp("1.5%"),
-    },
-
-    clearAllText: {
-        color: COLORS.danger,
-        fontSize: wp("3.2%"),
-        fontWeight: "500",
+        marginBottom: hp("1.5%"),
     },
 
     // ADD PRODUCT SECTION
