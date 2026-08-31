@@ -14,7 +14,7 @@ export default function BillsScreen() {
                 billId: bill.id,
                 name: bill.name,
                 total: bill.total.toString(),
-                total_count: bill.total_count.toString(),
+                products_amount: bill.products_amount.toString(),
                 closed_at: bill.closed_at,
             },
         })

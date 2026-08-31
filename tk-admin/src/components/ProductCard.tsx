@@ -75,7 +75,7 @@ export function ProductCard({
                     onPress={() => onDelete(product.id)}
                 >
                     <Trash2
-                        size={wp("4.5%")}
+                        size={wp("4%")}
                         color={COLORS.danger}
                         strokeWidth={1.8}
                     />
@@ -99,23 +99,23 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: COLORS.border,
         borderRadius: wp("2%"),
-        paddingVertical: hp("1.8%"),
-        paddingHorizontal: wp("3.5%"),
+        paddingVertical: hp("1.5%"),
+        paddingHorizontal: wp("3%"),
         flexDirection: "row",
         alignItems: "center",
-        marginBottom: hp("1%"),
+        marginBottom: hp("0.8%"),
     },
 
     iconContainer: {
-        width: wp("10%"),
-        height: wp("10%"),
-        borderRadius: wp("5%"),
+        width: wp("9%"),
+        height: wp("9%"),
+        borderRadius: wp("4.5%"),
         backgroundColor: COLORS.surfaceLight,
         borderWidth: 1.5,
         borderColor: COLORS.gold,
         alignItems: "center",
         justifyContent: "center",
-        marginRight: wp("3%"),
+        marginRight: wp("2.5%"),
     },
 
     infoContainer: {
@@ -124,20 +124,20 @@ const styles = StyleSheet.create({
 
     productName: {
         color: COLORS.textPrimary,
-        fontSize: wp("3.8%"),
+        fontSize: wp("3.5%"),
         fontWeight: "600",
     },
 
     productSubtitle: {
         color: COLORS.textSecondary,
-        fontSize: wp("3%"),
-        marginTop: hp("0.3%"),
+        fontSize: wp("2.8%"),
+        marginTop: hp("0.2%"),
     },
 
     productPrice: {
         color: COLORS.textSecondary,
-        fontSize: wp("3%"),
-        marginTop: hp("0.3%"),
+        fontSize: wp("2.8%"),
+        marginTop: hp("0.2%"),
     },
 
     priceValue: {
@@ -147,12 +147,20 @@ const styles = StyleSheet.create({
 
     rightLabel: {
         color: COLORS.gold,
-        fontSize: wp("3.5%"),
+        fontSize: wp("3.2%"),
         fontWeight: "600",
         marginRight: wp("2%"),
     },
 
     deleteButton: {
-        padding: wp("1.5%"),
+        width: wp("8%"),
+        height: wp("8%"),
+        borderRadius: wp("1.5%"),
+        backgroundColor: COLORS.surfaceLight,
+        borderWidth: 1,
+        borderColor: COLORS.border,
+        alignItems: "center",
+        justifyContent: "center",
+        marginRight: wp("2%"),
     },
 });

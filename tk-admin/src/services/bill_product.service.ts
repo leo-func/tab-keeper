@@ -28,7 +28,7 @@ export async function InsertNewBillProduct(billId: string, productId: string, am
 }
 
 export async function DeleteBillProduct(billProductId: string) {
-    const { error } = await supabase.rpc("delete_bill_product", {
+    const { error } = await supabase.rpc("delete_bill_products", {
         bp_id: billProductId
     })
 

@@ -608,6 +608,10 @@ const styles = StyleSheet.create({
         fontSize: wp("4.5%"),
         fontWeight: "600",
         marginBottom: hp("1.5%"),
+        paddingBottom: hp("0.5%"),
+        borderBottomWidth: 2,
+        borderBottomColor: COLORS.gold,
+        alignSelf: "flex-start",
     },
 
     // ADD PRODUCT SECTION
