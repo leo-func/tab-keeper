@@ -30,7 +30,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 import { COLORS } from "../constants/Color";
 import { Header } from "../components/Header";
-import { BillProductCard } from "../components/BillProductCard";
+import { ProductCard } from "../components/ProductCard";
 import { ConfirmModal } from "../components/ConfirmModal";
 import { useBillDetailViewModel } from "../viewmodels/billDetail.viewmodel";
 
@@ -403,7 +403,12 @@ export default function BillDetailView({
                             showsVerticalScrollIndicator={false}
                             style={styles.productsList}
                             renderItem={({ item }) => (
-                                <BillProductCard billProduct={item} />
+                                <ProductCard
+                                    product={{ id: item.id, name: item.name ?? "Produto", price: item.total_price / item.amount }}
+                                    subtitle={`${item.amount} unidades`}
+                                    rightLabel={`R$ ${item.total_price.toFixed(2).replace(".", ",")}`}
+                                    showChevron={false}
+                                />
                             )}
                             ListFooterComponent={
                                 billProductsLoading ? (
@@ -475,7 +480,7 @@ const styles = StyleSheet.create({
     },
 
     productsList: {
-        height: hp("35%"),
+        height: hp("25%"),
     },
 
     // BILL INFO CARD

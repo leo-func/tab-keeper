@@ -10,15 +10,21 @@ import { Product } from "../model/Product";
 interface ProductCardProps {
     product: Product;
     onPress?: (id: string) => void;
+    subtitle?: string;
+    rightLabel?: string;
+    showChevron?: boolean;
 }
 
 export function ProductCard({
     product,
     onPress,
+    subtitle,
+    rightLabel,
+    showChevron = true,
 }: ProductCardProps) {
     return (
         <TouchableOpacity
-            activeOpacity={0.7}
+            activeOpacity={onPress ? 0.7 : 1}
             style={styles.card}
             onPress={() => onPress?.(product.id)}
         >
@@ -38,19 +44,35 @@ export function ProductCard({
                     {product.name}
                 </Text>
 
-                <Text style={styles.productPrice}>
-                    Preço:{" "}
-                    <Text style={styles.priceValue}>
-                        R$ {product.price.toFixed(2)}
+                {subtitle && (
+                    <Text style={styles.productSubtitle}>
+                        {subtitle}
                     </Text>
-                </Text>
+                )}
+
+                {!subtitle && (
+                    <Text style={styles.productPrice}>
+                        Preço:{" "}
+                        <Text style={styles.priceValue}>
+                            R$ {product.price.toFixed(2)}
+                        </Text>
+                    </Text>
+                )}
             </View>
 
-            <ChevronRight
-                size={wp("5.5%")}
-                color={COLORS.textSecondary}
-                strokeWidth={2}
-            />
+            {rightLabel && (
+                <Text style={styles.rightLabel}>
+                    {rightLabel}
+                </Text>
+            )}
+
+            {showChevron && (
+                <ChevronRight
+                    size={wp("5.5%")}
+                    color={COLORS.textSecondary}
+                    strokeWidth={2}
+                />
+            )}
         </TouchableOpacity>
     );
 }
@@ -88,6 +110,12 @@ const styles = StyleSheet.create({
         fontWeight: "600",
     },
 
+    productSubtitle: {
+        color: COLORS.textSecondary,
+        fontSize: wp("3.2%"),
+        marginTop: hp("0.4%"),
+    },
+
     productPrice: {
         color: COLORS.textSecondary,
         fontSize: wp("3.2%"),
@@ -97,5 +125,12 @@ const styles = StyleSheet.create({
     priceValue: {
         color: COLORS.gold,
         fontWeight: "500",
+    },
+
+    rightLabel: {
+        color: COLORS.gold,
+        fontSize: wp("3.5%"),
+        fontWeight: "600",
+        marginRight: wp("2%"),
     },
 });
