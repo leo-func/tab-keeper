@@ -26,3 +26,11 @@ export async function InsertNewBillProduct(billId: string, productId: string, am
 
     if (error) throw error
 }
+
+export async function DeleteBillProduct(billProductId: string) {
+    const { error } = await supabase.rpc("delete_bill_product", {
+        bp_id: billProductId
+    })
+
+    if (error) throw error
+}

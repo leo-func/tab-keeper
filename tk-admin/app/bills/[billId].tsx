@@ -12,10 +12,6 @@ export default function BillDetailScreen() {
 
     const onBack = () => router.back()
 
-    const onCloseBill = () => {}
-
-    const onDeleteBill = () => router.back()
-
     return (
         <BillDetailView
             billId={billId}
@@ -24,8 +20,6 @@ export default function BillDetailScreen() {
             billTotalCount={parseInt(total_count)}
             billClosedAt={closed_at}
             onBack={onBack}
-            onCloseBill={onCloseBill}
-            onDeleteBill={onDeleteBill}
         />
     )
 }

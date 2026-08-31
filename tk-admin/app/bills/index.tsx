@@ -24,6 +24,8 @@ export default function BillsScreen() {
         <BillView
             {...model}
             goToDetail={goToDetail}
+            onBack={router.back}
+            
         />
     )
 }

@@ -19,3 +19,19 @@ export async function GetBills(profileId: string, page: number) : Promise<Bill[]
         closed_at: item.closed_at
     }))
 }
+
+export async function CloseBill(billId: string) {
+    const { error } = await supabase.rpc("close_bill", {
+        b_id: billId
+    })
+
+    if (error) throw error
+}
+
+export async function DeleteBill(billId: string) {
+    const { error} = await supabase.rpc("delete_bill", {
+        b_id: billId 
+    })
+
+    if (error) throw error
+}

@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useBillProduct } from "../hooks/useBillProduct";
 import { useProduct } from "../hooks/useProduct";
-import { InsertNewBillProduct } from "../services/bill_product.service";
+import { InsertNewBillProduct, DeleteBillProduct } from "../services/bill_product.service";
+import { CloseBill, DeleteBill } from "../services/bill.service";
 import { Product } from "../model/Product";
 
 export function useBillDetailViewModel(billId: string) {
@@ -26,6 +27,7 @@ export function useBillDetailViewModel(billId: string) {
     const [addProductLoading, setAddProductLoading] = useState(false)
     const [addProductError, setAddProductError] = useState<string | null>(null)
     const [showSuccessModal, setShowSuccessModal] = useState(false)
+    const [actionLoading, setActionLoading] = useState(false)
 
     const filteredProducts = products?.filter(product =>
         product.name.toLowerCase().includes(searchText.toLowerCase())
@@ -82,6 +84,39 @@ export function useBillDetailViewModel(billId: string) {
         }
     }
 
+    async function handleDeleteBillProduct(billProductId: string) {
+        try {
+            setActionLoading(true)
+            await DeleteBillProduct(billProductId)
+        } catch (exception: any) {
+            console.log("Erro ao remover produto:", exception?.message)
+        } finally {
+            setActionLoading(false)
+        }
+    }
+
+    async function handleCloseBill() {
+        try {
+            setActionLoading(true)
+            await CloseBill(billId)
+        } catch (exception: any) {
+            console.log("Erro ao fechar conta:", exception?.message)
+        } finally {
+            setActionLoading(false)
+        }
+    }
+
+    async function handleDeleteBill() {
+        try {
+            setActionLoading(true)
+            await DeleteBill(billId)
+        } catch (exception: any) {
+            console.log("Erro ao excluir conta:", exception?.message)
+        } finally {
+            setActionLoading(false)
+        }
+    }
+
     return {
         billProducts,
         billProductsError,
@@ -98,12 +133,16 @@ export function useBillDetailViewModel(billId: string) {
         addProductLoading,
         addProductError,
         showSuccessModal,
+        actionLoading,
         handleOpenAddProduct,
         handleCancelAddProduct,
         handleSelectProduct,
         handleIncrementQuantity,
         handleDecrementQuantity,
         handleAddProduct,
+        handleDeleteBillProduct,
+        handleCloseBill,
+        handleDeleteBill,
         onDismissSuccessModal,
         setSearchText,
         setIsComboBoxOpen,

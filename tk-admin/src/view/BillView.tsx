@@ -27,14 +27,16 @@ export default function BillView({
     loading,
     error,
     loadNextPage,
-    goToDetail
-}: ReturnType<typeof useBillViewModel> & {goToDetail: (bill: Bill) => void}) {
+    goToDetail,
+    onBack
+}: ReturnType<typeof useBillViewModel> & {goToDetail: (bill: Bill) => void, onBack: () => void}) {
     return (
         <SafeAreaView style={styles.safeArea}>
             <View style={styles.container}>
                 <Header
                     title="CONTAS"
                     showBackButton
+                    onBackPress={onBack}
                 />
 
                 <View style={styles.searchContainer}>

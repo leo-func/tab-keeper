@@ -41,8 +41,6 @@ interface BillDetailViewProps {
     billTotalCount: number;
     billClosedAt: string;
     onBack: () => void;
-    onCloseBill: () => void;
-    onDeleteBill: () => void;
 }
 
 export default function BillDetailView({
@@ -52,8 +50,6 @@ export default function BillDetailView({
     billTotalCount,
     billClosedAt,
     onBack,
-    onCloseBill,
-    onDeleteBill,
 }: BillDetailViewProps) {
     const {
         billProducts,
@@ -76,6 +72,9 @@ export default function BillDetailView({
         handleIncrementQuantity,
         handleDecrementQuantity,
         handleAddProduct,
+        handleDeleteBillProduct,
+        handleCloseBill,
+        handleDeleteBill,
         onDismissSuccessModal,
         setSearchText,
         setIsComboBoxOpen,
@@ -83,7 +82,7 @@ export default function BillDetailView({
 
     const isClosed = !!billClosedAt
 
-    function handleCloseBill() {
+    function onCloseBillConfirm() {
         Alert.alert(
             "Fechar conta",
             "Tem certeza que deseja fechar esta conta?",
@@ -95,13 +94,13 @@ export default function BillDetailView({
                 {
                     text: "Fechar",
                     style: "destructive",
-                    onPress: onCloseBill,
+                    onPress: handleCloseBill,
                 },
             ]
         );
     }
 
-    function handleDeleteBill() {
+    function onDeleteBillConfirm() {
         Alert.alert(
             "Excluir conta",
             "Tem certeza que deseja excluir esta conta?",
@@ -113,7 +112,7 @@ export default function BillDetailView({
                 {
                     text: "Excluir",
                     style: "destructive",
-                    onPress: onDeleteBill,
+                    onPress: handleDeleteBill,
                 },
             ]
         );
@@ -354,7 +353,7 @@ export default function BillDetailView({
                                 <TouchableOpacity
                                     style={styles.actionButton}
                                     activeOpacity={0.7}
-                                    onPress={handleCloseBill}
+                                    onPress={onCloseBillConfirm}
                                 >
                                     <LockKeyhole
                                         size={wp("6%")}
@@ -381,7 +380,7 @@ export default function BillDetailView({
                             <TouchableOpacity
                                 style={styles.actionButton}
                                 activeOpacity={0.7}
-                                onPress={handleDeleteBill}
+                                onPress={onDeleteBillConfirm}
                             >
                                 <Trash2
                                     size={wp("6%")}
@@ -408,7 +407,7 @@ export default function BillDetailView({
                                     subtitle={`${item.amount} unidades`}
                                     rightLabel={`R$ ${item.total_price.toFixed(2).replace(".", ",")}`}
                                     showChevron={false}
-                                    onDelete={() => {}}
+                                    onDelete={() => handleDeleteBillProduct(item.id)}
                                 />
                             )}
                             ListFooterComponent={
