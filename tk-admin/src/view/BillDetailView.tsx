@@ -66,6 +66,7 @@ export default function BillDetailView({
         addProductLoading,
         addProductError,
         showSuccessModal,
+        isClosed,
         handleOpenAddProduct,
         handleCancelAddProduct,
         handleSelectProduct,
@@ -78,9 +79,8 @@ export default function BillDetailView({
         onDismissSuccessModal,
         setSearchText,
         setIsComboBoxOpen,
-    } = useBillDetailViewModel(billId)
+    } = useBillDetailViewModel(billId, billClosedAt)
 
-    const isClosed = !!billClosedAt
 
     function onCloseBillConfirm() {
         Alert.alert(

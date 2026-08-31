@@ -5,7 +5,7 @@ import { InsertNewBillProduct, DeleteBillProduct } from "../services/bill_produc
 import { CloseBill, DeleteBill } from "../services/bill.service";
 import { Product } from "../model/Product";
 
-export function useBillDetailViewModel(billId: string) {
+export function useBillDetailViewModel(billId: string, initialClosedAt: string) {
     const {
         billProducts,
         error: billProductsError,
@@ -28,6 +28,7 @@ export function useBillDetailViewModel(billId: string) {
     const [addProductError, setAddProductError] = useState<string | null>(null)
     const [showSuccessModal, setShowSuccessModal] = useState(false)
     const [actionLoading, setActionLoading] = useState(false)
+    const [isClosed, setIsClosed] = useState(!!initialClosedAt)
 
     const filteredProducts = products?.filter(product =>
         product.name.toLowerCase().includes(searchText.toLowerCase())
@@ -99,6 +100,7 @@ export function useBillDetailViewModel(billId: string) {
         try {
             setActionLoading(true)
             await CloseBill(billId)
+            setIsClosed(true)
         } catch (exception: any) {
             console.log("Erro ao fechar conta:", exception?.message)
         } finally {
@@ -134,6 +136,7 @@ export function useBillDetailViewModel(billId: string) {
         addProductError,
         showSuccessModal,
         actionLoading,
+        isClosed,
         handleOpenAddProduct,
         handleCancelAddProduct,
         handleSelectProduct,
