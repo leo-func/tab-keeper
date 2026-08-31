@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import { Package, ChevronRight } from "lucide-react-native";
+import { Package, ChevronRight, Trash2 } from "lucide-react-native";
 import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
@@ -13,6 +13,7 @@ interface ProductCardProps {
     subtitle?: string;
     rightLabel?: string;
     showChevron?: boolean;
+    onDelete?: (id: string) => void;
 }
 
 export function ProductCard({
@@ -21,6 +22,7 @@ export function ProductCard({
     subtitle,
     rightLabel,
     showChevron = true,
+    onDelete,
 }: ProductCardProps) {
     return (
         <TouchableOpacity
@@ -64,6 +66,20 @@ export function ProductCard({
                 <Text style={styles.rightLabel}>
                     {rightLabel}
                 </Text>
+            )}
+
+            {onDelete && (
+                <TouchableOpacity
+                    activeOpacity={0.7}
+                    style={styles.deleteButton}
+                    onPress={() => onDelete(product.id)}
+                >
+                    <Trash2
+                        size={wp("4.5%")}
+                        color={COLORS.danger}
+                        strokeWidth={1.8}
+                    />
+                </TouchableOpacity>
             )}
 
             {showChevron && (
@@ -132,5 +148,9 @@ const styles = StyleSheet.create({
         fontSize: wp("3.5%"),
         fontWeight: "600",
         marginRight: wp("2%"),
+    },
+
+    deleteButton: {
+        padding: wp("1.5%"),
     },
 });
