@@ -14,6 +14,7 @@ import {
     PackagePlus,
     Trash2,
     LockKeyhole,
+    LockOpen,
     Search,
     ChevronDown,
     Plus,
@@ -33,53 +34,48 @@ import { Header } from "../components/Header";
 import { ProductCard } from "../components/ProductCard";
 import { ConfirmModal } from "../components/ConfirmModal";
 import { useBillDetailViewModel } from "../viewmodels/billDetail.viewmodel";
-
-interface BillDetailViewProps {
-    billId: string;
-    billName: string;
-    billTotal: number;
-    billTotalCount: number;
-    billClosedAt: string;
-    onBack: () => void;
-}
+import { Float } from "react-native/Libraries/Types/CodegenTypes";
 
 export default function BillDetailView({
-    billId,
-    billName,
-    billTotal,
-    billTotalCount,
-    billClosedAt,
-    onBack,
-}: BillDetailViewProps) {
-    const {
-        billProducts,
-        billProductsError,
-        billProductsLoading,
-        loadNextPage,
-        products,
-        productsLoading,
-        showAddProduct,
-        selectedProduct,
-        quantity,
-        searchText,
-        isComboBoxOpen,
-        addProductLoading,
-        addProductError,
-        showSuccessModal,
-        isClosed,
-        handleOpenAddProduct,
-        handleCancelAddProduct,
-        handleSelectProduct,
-        handleIncrementQuantity,
-        handleDecrementQuantity,
-        handleAddProduct,
+    
+    // Props from ViewModel
+    billProducts,
+    billProductsError,
+    billProductsLoading,
+    loadNextPage,
+    products,
+    productsLoading,
+    showAddProduct,
+    selectedProduct,
+    quantity,
+    searchText,
+    isComboBoxOpen,
+    addProductLoading,
+    addProductError,
+    showSuccessModal,
+    isClosed,
+    handleOpenAddProduct,
+    handleCancelAddProduct,
+    handleSelectProduct,
+    handleIncrementQuantity,
+    handleDecrementQuantity,
+    handleAddProduct,
         handleDeleteBillProduct,
         handleCloseBill,
+        handleOpenBill,
         handleDeleteBill,
-        onDismissSuccessModal,
-        setSearchText,
-        setIsComboBoxOpen,
-    } = useBillDetailViewModel(billId, billClosedAt)
+    onDismissSuccessModal,
+    setSearchText,
+    setIsComboBoxOpen,
+    
+    // Props from router
+    billName,
+    billTotalCount,
+    billTotal,
+    billClosedAt,
+    onBack
+
+} : ReturnType<typeof useBillDetailViewModel> & {billName: string, billTotal: number, billTotalCount: number, billClosedAt: string, onBack: () => void}) {
 
 
     function onCloseBillConfirm() {
@@ -113,6 +109,24 @@ export default function BillDetailView({
                     text: "Excluir",
                     style: "destructive",
                     onPress: handleDeleteBill,
+                },
+            ]
+        );
+    }
+
+    function onOpenBillConfirm() {
+        Alert.alert(
+            "Abrir conta",
+            "Tem certeza que deseja abrir esta conta?",
+            [
+                {
+                    text: "Cancelar",
+                    style: "cancel",
+                },
+                {
+                    text: "Abrir",
+                    style: "destructive",
+                    onPress: handleOpenBill,
                 },
             ]
         );
@@ -349,7 +363,20 @@ export default function BillDetailView({
 
                         {/* ACTION BUTTONS */}
                         <View style={styles.actionsContainer}>
-                            {!isClosed && (
+                            {isClosed ? (
+                                <TouchableOpacity
+                                    style={styles.actionButton}
+                                    activeOpacity={0.7}
+                                    onPress={onOpenBillConfirm}
+                                >
+                                    <LockOpen
+                                        size={wp("6%")}
+                                        color={COLORS.textPrimary}
+                                        strokeWidth={1.8}
+                                    />
+                                    <Text style={styles.actionText}>Abrir Conta</Text>
+                                </TouchableOpacity>
+                            ) : (
                                 <TouchableOpacity
                                     style={styles.actionButton}
                                     activeOpacity={0.7}

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useBillProduct } from "../hooks/useBillProduct";
 import { useProduct } from "../hooks/useProduct";
 import { InsertNewBillProduct, DeleteBillProduct } from "../services/bill_product.service";
-import { CloseBill, DeleteBill } from "../services/bill.service";
+import { CloseBill, DeleteBill, OpenBill } from "../services/bill.service";
 import { Product } from "../model/Product";
 
 export function useBillDetailViewModel(billId: string, initialClosedAt: string) {
@@ -108,6 +108,18 @@ export function useBillDetailViewModel(billId: string, initialClosedAt: string) 
         }
     }
 
+    async function handleOpenBill() {
+        try {
+            setActionLoading(true)
+            await OpenBill(billId)
+            setIsClosed(false)
+        } catch (exception: any) {
+            console.log("Erro ao abrir conta:", exception?.message)
+        } finally {
+            setActionLoading(false)
+        }
+    }
+
     async function handleDeleteBill() {
         try {
             setActionLoading(true)
@@ -145,6 +157,7 @@ export function useBillDetailViewModel(billId: string, initialClosedAt: string) 
         handleAddProduct,
         handleDeleteBillProduct,
         handleCloseBill,
+        handleOpenBill,
         handleDeleteBill,
         onDismissSuccessModal,
         setSearchText,

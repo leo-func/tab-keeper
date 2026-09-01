@@ -7,6 +7,8 @@ export async function GetBills(profileId: string, page: number) : Promise<Bill[]
         page: page
     })
 
+    console.log(data)
+
     if (error) throw error
 
     return data.map((item: Bill) => ({
@@ -18,6 +20,14 @@ export async function GetBills(profileId: string, page: number) : Promise<Bill[]
         updated_at: item.updated_at,
         closed_at: item.closed_at
     }))
+}
+
+export async function OpenBill(billId: string) {
+    const { error } = await supabase.rpc("close_bill", {
+        bill_id: billId
+    })
+
+    if (error) throw error    
 }
 
 export async function CloseBill(billId: string) {
