@@ -11,6 +11,8 @@ export function useBillDetailViewModel(billId: string, initialClosedAt: string) 
         error: billProductsError,
         loading: billProductsLoading,
         loadNextPage,
+        HandleRefresh,
+        refreshing
     } = useBillProduct(billId)
 
     const {
@@ -136,6 +138,8 @@ export function useBillDetailViewModel(billId: string, initialClosedAt: string) 
         billProductsError,
         billProductsLoading,
         loadNextPage,
+        HandleRefresh,
+        refreshing,
         products: filteredProducts,
         productsError,
         productsLoading,

@@ -42,6 +42,8 @@ export default function BillDetailView({
     billProductsError,
     billProductsLoading,
     loadNextPage,
+    HandleRefresh,
+    refreshing,
     products,
     productsLoading,
     showAddProduct,
@@ -427,6 +429,8 @@ export default function BillDetailView({
                             onEndReachedThreshold={0.1}
                             showsVerticalScrollIndicator={false}
                             style={styles.productsList}
+                            refreshing={refreshing}
+                            onRefresh={HandleRefresh}
                             renderItem={({ item }) => (
                                 <ProductCard
                                     product={{ id: item.id, name: item.name ?? "Produto", price: item.total_price / item.amount }}

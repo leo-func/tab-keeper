@@ -1,11 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 import { BillProduct } from "../model/BillProduct";
 import { GetBillProducts } from "../services/bill_product.service";
+import { usePullToRefresh } from "./usePullToRefresh";
 
 export function useBillProduct(billId: string) {
     const [billProducts, setBillProducts] = useState<BillProduct[] | null>(null)
     const [error, setError] = useState<Error | null>(null)
     const [loading, setLoading] = useState(false)
+
+    const { refreshing, handleRefresh } = usePullToRefresh()
 
     const [hasMore, setHasMore] = useState(true)
     const pageRef = useRef(1)
@@ -45,6 +48,17 @@ export function useBillProduct(billId: string) {
         }
     }
 
+    async function HandleRefresh() {
+        await handleRefresh(async () => {
+            const data = await GetBillProducts(billId, 1)
+            
+
+            setBillProducts(data)
+            setHasMore(data.length >= 10)
+            pageRef.current = 2
+        })
+    }
+
     function loadNextPage() {
         if (!hasMore || loadingRef.current) return
 
@@ -56,5 +70,7 @@ export function useBillProduct(billId: string) {
         error,
         loading,
         loadNextPage,
+        HandleRefresh,
+        refreshing
     }
 }

@@ -5,9 +5,10 @@ import {
     FlatList,
     StyleSheet,
     ActivityIndicator,
+    TouchableOpacity,
 } from "react-native";
 
-import { Search, ReceiptText } from "lucide-react-native";
+import { Search, ReceiptText, Plus } from "lucide-react-native";
 
 import {
     widthPercentageToDP as wp,
@@ -19,6 +20,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { COLORS } from "../constants/Color";
 import { BillCard } from "../components/BillCard";
 import { Header } from "../components/Header";
+import { ConfirmModal } from "../components/ConfirmModal";
 import { useBillViewModel } from "../viewmodels/bill.viewmodel";
 import { Bill } from "../model/Bill";
 
@@ -27,6 +29,10 @@ export default function BillView({
     loading,
     error,
     loadNextPage,
+    addBillLoading,
+    createdBill,
+    handleAddBill,
+    onDismissCreatedBill,
     goToDetail,
     onBack
 }: ReturnType<typeof useBillViewModel> & {goToDetail: (bill: Bill) => void, onBack: () => void}) {
@@ -104,6 +110,35 @@ export default function BillView({
                     />
                 )}
             </View>
+
+            {/* ADD BILL BUTTON */}
+            <TouchableOpacity
+                style={styles.addButton}
+                activeOpacity={0.7}
+                onPress={handleAddBill}
+                disabled={addBillLoading}
+            >
+                {addBillLoading ? (
+                    <ActivityIndicator size="small" color={COLORS.background} />
+                ) : (
+                    <Plus
+                        size={wp("5%")}
+                        color={COLORS.background}
+                        strokeWidth={2}
+                    />
+                )}
+            </TouchableOpacity>
+
+            {/* MODAL CONFIRMAÇÃO CRIAÇÃO CONTA */}
+            <ConfirmModal
+                visible={!!createdBill}
+                title="Conta criada!"
+                info={[
+                    { label: "Nome", value: createdBill?.name ?? "" },
+                    { label: "Criada em", value: createdBill?.created_at ?? "" },
+                ]}
+                onClose={onDismissCreatedBill}
+            />
         </SafeAreaView>
     );
 }
@@ -187,5 +222,22 @@ const styles = StyleSheet.create({
         color: COLORS.gold,
         fontSize: wp("3.8%"),
         textAlign: "center",
+    },
+
+    addButton: {
+        position: "absolute",
+        bottom: hp("3%"),
+        right: wp("5%"),
+        width: wp("14%"),
+        height: wp("14%"),
+        borderRadius: wp("7%"),
+        backgroundColor: COLORS.gold,
+        alignItems: "center",
+        justifyContent: "center",
+        elevation: 4,
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
     },
 });

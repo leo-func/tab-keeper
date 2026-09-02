@@ -1,6 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { Bill } from "../model/Bill";
-import { GetBills } from "../services/bill.service";
+import { GetBills, InsertNewBill } from "../services/bill.service";
+import { useFocusEffect } from "expo-router";
 
 export function useBillViewModel(profileId: string) {
     const [bills, setBills] = useState<Bill[] | null>(null)
@@ -11,9 +12,19 @@ export function useBillViewModel(profileId: string) {
     const pageRef = useRef(1)
     const loadingRef = useRef(false)
 
-    useEffect(() => {
-        HandleBills(pageRef.current)
-    }, [])
+    const [addBillLoading, setAddBillLoading] = useState(false)
+    const [createdBill, setCreatedBill] = useState<{ name: string; created_at: string } | null>(null)
+
+    useFocusEffect(
+        useCallback(() => {
+            pageRef.current = 1
+            setHasMore(true)
+            setBills([])
+
+            HandleBills(1)
+
+        }, [])
+    )
 
     async function HandleBills(pageToLoad: number) {
         loadingRef.current = true
@@ -50,11 +61,31 @@ export function useBillViewModel(profileId: string) {
         HandleBills(pageRef.current)
     }
 
+    async function handleAddBill() {
+        try {
+            setAddBillLoading(true)
+            const data = await InsertNewBill(profileId)
+            setCreatedBill(data)
+        } catch (exception: any) {
+            console.log("Erro ao criar conta:", exception?.message)
+        } finally {
+            setAddBillLoading(false)
+        }
+    }
+
+    function onDismissCreatedBill() {
+        setCreatedBill(null)
+    }
+
     return {
         bills,
         error,
         loading,
         HandleBills,
         loadNextPage,
+        addBillLoading,
+        createdBill,
+        handleAddBill,
+        onDismissCreatedBill,
     }
 }

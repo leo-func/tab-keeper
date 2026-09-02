@@ -22,6 +22,19 @@ export async function GetBills(profileId: string, page: number) : Promise<Bill[]
     }))
 }
 
+export async function InsertNewBill(profileId: string) {
+    const { data, error } = await supabase.rpc("insert_new_bills", {
+        p_id: profileId
+    })
+
+    if (error) throw error
+
+    return {
+        name: data[0].name,
+        created_at: data[0].created_at
+    }
+}
+
 export async function OpenBill(billId: string) {
     const { error } = await supabase.rpc("open_bill", {
         bill_id: billId
