@@ -28,6 +28,8 @@ export default function ProductView({
     loading,
     error,
     loadNextPage,
+    HandleRefresh,
+    refreshing,
     goToEdit,
     goToCreate
 }: ReturnType<typeof useProductViewModel> & {goToEdit: (productId: string, name: string) => void, goToCreate: () => void}) {
@@ -83,6 +85,8 @@ export default function ProductView({
                         onEndReachedThreshold={0.1}
                         showsVerticalScrollIndicator={false}
                         contentContainerStyle={styles.listContent}
+                        refreshing={refreshing}
+                        onRefresh={HandleRefresh}
                         renderItem={({ item }) => (
                             <ProductCard
                                 product={item}

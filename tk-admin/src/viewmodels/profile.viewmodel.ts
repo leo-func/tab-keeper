@@ -2,8 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Profile } from "../model/Profile";
 import { GetProfiles } from "../services/profile.service";
 import { useNewProfile } from "../hooks/useNewProfile";
-import { useEditProfile } from "../hooks/useEditProfile";
-import { router } from "expo-router";
+import { usePullToRefresh } from "../hooks/usePullToRefresh";
 
 export function useProfileViewModel() {
     const [profiles, setProfiles] = useState<Profile[] | null>(null)
@@ -19,6 +18,8 @@ export function useProfileViewModel() {
         createdProfile,
         onDismissCreated,
     } = useNewProfile()
+
+    const { refreshing, handleRefresh } = usePullToRefresh()
 
     const [hasMore, setHasMore] = useState(true);
     const loadingRef = useRef(false);
@@ -58,6 +59,16 @@ export function useProfileViewModel() {
         }
     }
 
+    async function HandleRefresh() {
+            await handleRefresh(async () => {
+                const data = await GetProfiles(1)
+
+                setProfiles(data)
+                setHasMore(data.length >= 10)
+                pageRef.current = 2
+        })
+    }
+
     function loadNextPage() {
         HandleProfiles(pageRef.current)
     }
@@ -73,6 +84,8 @@ export function useProfileViewModel() {
         loadNextPage,
         search,
         HandleSearch,
+        refreshing,
+        HandleRefresh,
 
         name,
         setName,

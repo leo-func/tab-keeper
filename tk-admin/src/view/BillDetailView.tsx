@@ -34,7 +34,6 @@ import { Header } from "../components/Header";
 import { ProductCard } from "../components/ProductCard";
 import { ConfirmModal } from "../components/ConfirmModal";
 import { useBillDetailViewModel } from "../viewmodels/billDetail.viewmodel";
-import { Float } from "react-native/Libraries/Types/CodegenTypes";
 
 export default function BillDetailView({
     
@@ -60,10 +59,10 @@ export default function BillDetailView({
     handleIncrementQuantity,
     handleDecrementQuantity,
     handleAddProduct,
-        handleDeleteBillProduct,
-        handleCloseBill,
-        handleOpenBill,
-        handleDeleteBill,
+    handleDeleteBillProduct,
+    handleCloseBill,
+    handleOpenBill,
+    handleDeleteBill,
     onDismissSuccessModal,
     setSearchText,
     setIsComboBoxOpen,

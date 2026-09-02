@@ -32,7 +32,9 @@ export default function ProfileView({
     loadNextPage,
     goToEdit,
     goToCreate,
-    goToBills
+    goToBills,
+    refreshing,
+    HandleRefresh,
 }: ReturnType<typeof useProfileViewModel> & {goToEdit: (profileId: string) => void, goToCreate: () => void, goToBills: (profileId: string) => void}) {
 
     return (
@@ -85,6 +87,8 @@ export default function ProfileView({
                         onEndReachedThreshold={0.1}
                         showsVerticalScrollIndicator={false}
                         contentContainerStyle={styles.listContent}
+                        refreshing={loading}
+                        onRefresh={HandleRefresh}
                         renderItem={({ item }) => (
                             <ProfileCard
                                 profile={item}

@@ -23,7 +23,7 @@ export async function GetBills(profileId: string, page: number) : Promise<Bill[]
 }
 
 export async function OpenBill(billId: string) {
-    const { error } = await supabase.rpc("close_bill", {
+    const { error } = await supabase.rpc("open_bill", {
         bill_id: billId
     })
 

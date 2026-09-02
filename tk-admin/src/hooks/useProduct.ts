@@ -1,11 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 import { Product } from "../model/Product";
 import { GetProducts } from "../services/product.service";
+import { usePullToRefresh } from "./usePullToRefresh";
 
 export function useProduct() {
     const [products, setProducts] = useState<Product[] | null>(null)
     const [error, setError] = useState<Error | null>(null)
     const [loading, setLoading] = useState(false)
+
+    const { refreshing, handleRefresh} = usePullToRefresh()
 
     const [hasMore, setHasMore] = useState(true)
     const pageRef = useRef(1)
@@ -44,6 +47,17 @@ export function useProduct() {
         }
     }
 
+    async function HandleRefresh() {
+        await handleRefresh(async () => {
+            const data = await GetProducts(1)
+            
+
+            setProducts(data)
+            setHasMore(data.length >= 10)
+            pageRef.current = 2
+        })
+    }
+
     function loadNextPage() {
         if (!hasMore || loadingRef.current) return
 
@@ -55,5 +69,7 @@ export function useProduct() {
         error,
         loading,
         loadNextPage,
+        HandleRefresh,
+        refreshing
     }
 }
