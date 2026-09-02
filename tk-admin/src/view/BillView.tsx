@@ -59,6 +59,26 @@ export default function BillView({
                     />
                 </View>
 
+                <TouchableOpacity
+                    style={styles.addButton}
+                    activeOpacity={0.7}
+                    onPress={handleAddBill}
+                    disabled={addBillLoading}
+                >
+                    {addBillLoading ? (
+                        <ActivityIndicator size="small" color={COLORS.background} />
+                    ) : (
+                        <ReceiptText
+                            size={wp("5%")}
+                            color={COLORS.background}
+                            strokeWidth={2}
+                        />
+                    )}
+                    <Text style={styles.addButtonText}>
+                        {addBillLoading ? "Criando..." : "Adicionar Conta"}
+                    </Text>
+                </TouchableOpacity>
+
                 {loading && !bills?.length ? (
                     <View style={styles.centerContainer}>
                         <ActivityIndicator size="large" color={COLORS.gold} />
@@ -110,24 +130,6 @@ export default function BillView({
                     />
                 )}
             </View>
-
-            {/* ADD BILL BUTTON */}
-            <TouchableOpacity
-                style={styles.addButton}
-                activeOpacity={0.7}
-                onPress={handleAddBill}
-                disabled={addBillLoading}
-            >
-                {addBillLoading ? (
-                    <ActivityIndicator size="small" color={COLORS.background} />
-                ) : (
-                    <Plus
-                        size={wp("5%")}
-                        color={COLORS.background}
-                        strokeWidth={2}
-                    />
-                )}
-            </TouchableOpacity>
 
             {/* MODAL CONFIRMAÇÃO CRIAÇÃO CONTA */}
             <ConfirmModal
@@ -225,19 +227,19 @@ const styles = StyleSheet.create({
     },
 
     addButton: {
-        position: "absolute",
-        bottom: hp("3%"),
-        right: wp("5%"),
-        width: wp("14%"),
-        height: wp("14%"),
-        borderRadius: wp("7%"),
         backgroundColor: COLORS.gold,
+        borderRadius: wp("1.5%"),
+        paddingVertical: hp("1.5%"),
+        flexDirection: "row",
         alignItems: "center",
         justifyContent: "center",
-        elevation: 4,
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
+        marginBottom: hp("1.5%"),
+        gap: wp("2%"),
+    },
+
+    addButtonText: {
+        color: COLORS.background,
+        fontSize: wp("3.8%"),
+        fontWeight: "600",
     },
 });
