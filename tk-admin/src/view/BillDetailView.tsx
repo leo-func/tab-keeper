@@ -422,6 +422,11 @@ export default function BillDetailView({
                         {/* PRODUCTS SECTION */}
                         <Text style={styles.sectionTitle}>Produtos da conta</Text>
 
+                        {billProductsError ? (
+                            <View style={styles.errorContainer}>
+                                <Text style={styles.errorText}>{billProductsError.message}</Text>
+                            </View>
+                        ) : (
                         <FlatList
                             data={billProducts ?? []}
                             keyExtractor={(item) => item.id}
@@ -460,6 +465,7 @@ export default function BillDetailView({
                                 ) : null
                             }
                         />
+                        )}
                     </View>
                 )}
             </View>
@@ -839,6 +845,11 @@ const styles = StyleSheet.create({
         color: COLORS.danger,
         fontSize: wp("3.2%"),
         marginTop: hp("1%"),
+    },
+
+    errorContainer: {
+        paddingVertical: hp("3%"),
+        alignItems: "center",
     },
 
     // TOTAL FOOTER
