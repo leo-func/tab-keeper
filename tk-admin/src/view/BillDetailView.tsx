@@ -46,7 +46,6 @@ export default function BillDetailView({
     refreshing,
     products,
     productsLoading,
-    loadMoreProducts,
     showAddProduct,
     selectedProduct,
     quantity,
@@ -202,6 +201,7 @@ export default function BillDetailView({
                                         valueField="id"
                                         placeholder="Buscar ou selecionar produto"
                                         searchPlaceholder="Buscar..."
+
                                         value={selectedProduct?.id}
                                         onChange={(item) => {
                                             handleSelectProduct(item)
@@ -215,7 +215,7 @@ export default function BillDetailView({
                                             </View>
                                         )}
                                         flatListProps={{
-                                            onEndReached: loadMoreProducts,
+                                            onEndReached: loadNextPage,
                                             onEndReachedThreshold: 0.1,
                                             ListEmptyComponent: (
                                                 <Text style={styles.dropdownEmptyText}>
