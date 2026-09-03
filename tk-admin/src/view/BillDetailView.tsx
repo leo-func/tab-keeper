@@ -215,7 +215,7 @@ export default function BillDetailView({
                                             </View>
                                         )}
                                         flatListProps={{
-                                            onEndReached: loadNextPage,
+                                            onEndReached: loadMoreProducts,
                                             onEndReachedThreshold: 0.1,
                                             ListEmptyComponent: (
                                                 <Text style={styles.dropdownEmptyText}>
