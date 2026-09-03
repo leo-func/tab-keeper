@@ -188,10 +188,12 @@ export default function BillDetailView({
                                     {/* DROPDOWN */}
                                     <Dropdown
                                         style={styles.dropdown}
+                                        containerStyle={styles.dropdownContainer}
                                         placeholderStyle={styles.dropdownPlaceholder}
                                         selectedTextStyle={styles.dropdownSelectedText}
                                         inputSearchStyle={styles.dropdownInputSearch}
                                         iconStyle={styles.dropdownIcon}
+                                        activeColor={COLORS.surface}
                                         data={products}
                                         search
                                         maxHeight={hp("25%")}
@@ -643,6 +645,13 @@ const styles = StyleSheet.create({
         borderColor: COLORS.border,
         borderRadius: wp("2%"),
         paddingHorizontal: wp("3%"),
+    },
+
+    dropdownContainer: {
+        backgroundColor: COLORS.surfaceLight,
+        borderWidth: 1,
+        borderColor: COLORS.border,
+        borderRadius: wp("2%"),
     },
 
     dropdownPlaceholder: {
