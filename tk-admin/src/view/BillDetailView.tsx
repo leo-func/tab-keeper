@@ -42,6 +42,7 @@ export default function BillDetailView({
     billProductsError,
     billProductsLoading,
     loadNextPage,
+    loadMoreProducts,
     HandleRefresh,
     refreshing,
     products,
@@ -144,6 +145,7 @@ export default function BillDetailView({
                     <FlatList
                         data={[]}
                         keyExtractor={() => "dummy"}
+                        renderItem={() => null}
                         showsVerticalScrollIndicator={false}
                         ListHeaderComponent={
                             <View>
