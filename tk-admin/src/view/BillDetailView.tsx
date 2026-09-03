@@ -9,14 +9,14 @@ import {
     TextInput,
 } from "react-native";
 
+import { Dropdown } from "react-native-element-dropdown";
+
 import {
     ReceiptText,
     PackagePlus,
     Trash2,
     LockKeyhole,
     LockOpen,
-    Search,
-    ChevronDown,
     Plus,
     Minus,
     X,
@@ -66,8 +66,6 @@ export default function BillDetailView({
     handleOpenBill,
     handleDeleteBill,
     onDismissSuccessModal,
-    setSearchText,
-    setIsComboBoxOpen,
     
     // Props from router
     billName,
@@ -187,74 +185,40 @@ export default function BillDetailView({
 
                                     <Text style={styles.label}>Produto</Text>
 
-                                    {/* COMBO BOX */}
-                                    <View style={styles.comboBoxContainer}>
-                                        <TouchableOpacity
-                                            style={styles.comboBox}
-                                            activeOpacity={0.7}
-                                            onPress={() => setIsComboBoxOpen(!isComboBoxOpen)}
-                                        >
-                                            <Search
-                                                size={wp("4.5%")}
-                                                color={COLORS.textMuted}
-                                                strokeWidth={1.8}
-                                            />
-                                            <TextInput
-                                                style={styles.comboBoxInput}
-                                                placeholder="Buscar ou selecionar produto"
-                                                placeholderTextColor={COLORS.textMuted}
-                                                value={searchText}
-                                                onChangeText={(text) => {
-                                                    setSearchText(text)
-                                                    setIsComboBoxOpen(true)
-                                                }}
-                                                onFocus={() => setIsComboBoxOpen(true)}
-                                            />
-                                            <ChevronDown
-                                                size={wp("4.5%")}
-                                                color={COLORS.textMuted}
-                                                strokeWidth={1.8}
-                                                style={[styles.comboBoxIcon, isComboBoxOpen && styles.comboBoxIconOpen]}
-                                            />
-                                        </TouchableOpacity>
-
-                                        {isComboBoxOpen && (
-                                            <View style={styles.comboBoxDropdown}>
-                                                {productsLoading ? (
-                                                    <View style={styles.comboBoxLoading}>
-                                                        <ActivityIndicator size="small" color={COLORS.gold} />
-                                                    </View>
-                                                ) : (
-                                                    <FlatList
-                                                        data={products}
-                                                        keyExtractor={(item) => item.id}
-                                                        nestedScrollEnabled
-                                                        showsVerticalScrollIndicator={false}
-                                                        style={styles.comboBoxList}
-                                                        renderItem={({ item }) => (
-                                                            <TouchableOpacity
-                                                                style={styles.comboBoxItem}
-                                                                activeOpacity={0.7}
-                                                                onPress={() => handleSelectProduct(item)}
-                                                            >
-                                                                <Text style={styles.comboBoxItemText}>
-                                                                    {item.name}
-                                                                </Text>
-                                                                <Text style={styles.comboBoxItemPrice}>
-                                                                    R$ {item.price.toFixed(2).replace(".", ",")}
-                                                                </Text>
-                                                            </TouchableOpacity>
-                                                        )}
-                                                        ListEmptyComponent={
-                                                            <Text style={styles.comboBoxEmptyText}>
-                                                                Nenhum produto encontrado
-                                                            </Text>
-                                                        }
-                                                    />
-                                                )}
+                                    {/* DROPDOWN */}
+                                    <Dropdown
+                                        style={styles.dropdown}
+                                        placeholderStyle={styles.dropdownPlaceholder}
+                                        selectedTextStyle={styles.dropdownSelectedText}
+                                        inputSearchStyle={styles.dropdownInputSearch}
+                                        iconStyle={styles.dropdownIcon}
+                                        data={products}
+                                        search
+                                        maxHeight={hp("25%")}
+                                        labelField="name"
+                                        valueField="id"
+                                        placeholder="Buscar ou selecionar produto"
+                                        searchPlaceholder="Buscar..."
+                                        value={selectedProduct?.id}
+                                        onChange={(item) => {
+                                            handleSelectProduct(item)
+                                        }}
+                                        renderItem={(item) => (
+                                            <View style={styles.dropdownItem}>
+                                                <Text style={styles.dropdownItemText}>{item.name}</Text>
+                                                <Text style={styles.dropdownItemPrice}>
+                                                    R$ {item.price.toFixed(2).replace(".", ",")}
+                                                </Text>
                                             </View>
                                         )}
-                                    </View>
+                                        flatListProps={{
+                                            ListEmptyComponent: (
+                                                <Text style={styles.dropdownEmptyText}>
+                                                    Nenhum produto encontrado
+                                                </Text>
+                                            )
+                                        }}
+                                    />
 
                                     {/* QUANTITY */}
                                     <Text style={styles.label}>Quantidade</Text>
@@ -670,63 +634,41 @@ const styles = StyleSheet.create({
         marginTop: hp("1.5%"),
     },
 
-    // COMBO BOX
+    // DROPDOWN
 
-    comboBoxContainer: {
-        position: "relative",
-        zIndex: 1,
-    },
-
-    comboBox: {
-        flexDirection: "row",
-        alignItems: "center",
+    dropdown: {
+        height: hp("6%"),
         backgroundColor: COLORS.surfaceLight,
         borderWidth: 1,
         borderColor: COLORS.border,
         borderRadius: wp("2%"),
         paddingHorizontal: wp("3%"),
-        height: hp("6%"),
-        gap: wp("2%"),
     },
 
-    comboBoxInput: {
-        flex: 1,
+    dropdownPlaceholder: {
+        color: COLORS.textMuted,
+        fontSize: wp("3.5%"),
+    },
+
+    dropdownSelectedText: {
         color: COLORS.textPrimary,
         fontSize: wp("3.5%"),
     },
 
-    comboBoxIcon: {
-        transform: [{ rotate: "0deg" }],
-    },
-
-    comboBoxIconOpen: {
-        transform: [{ rotate: "180deg" }],
-    },
-
-    comboBoxDropdown: {
-        position: "absolute",
-        top: hp("6.5%"),
-        left: 0,
-        right: 0,
+    dropdownInputSearch: {
         backgroundColor: COLORS.surfaceLight,
         borderWidth: 1,
         borderColor: COLORS.border,
         borderRadius: wp("2%"),
-        maxHeight: hp("25%"),
-        overflow: "hidden",
-        zIndex: 2,
+        color: COLORS.textPrimary,
     },
 
-    comboBoxLoading: {
-        padding: hp("3%"),
-        alignItems: "center",
+    dropdownIcon: {
+        width: wp("5%"),
+        height: wp("5%"),
     },
 
-    comboBoxList: {
-        maxHeight: hp("30%"),
-    },
-
-    comboBoxItem: {
+    dropdownItem: {
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
@@ -736,18 +678,18 @@ const styles = StyleSheet.create({
         borderBottomColor: COLORS.border,
     },
 
-    comboBoxItemText: {
+    dropdownItemText: {
         color: COLORS.textPrimary,
         fontSize: wp("3.5%"),
     },
 
-    comboBoxItemPrice: {
+    dropdownItemPrice: {
         color: COLORS.gold,
         fontSize: wp("3.2%"),
         fontWeight: "500",
     },
 
-    comboBoxEmptyText: {
+    dropdownEmptyText: {
         color: COLORS.textMuted,
         fontSize: wp("3.2%"),
         textAlign: "center",
