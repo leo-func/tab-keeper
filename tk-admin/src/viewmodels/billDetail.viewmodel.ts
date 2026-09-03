@@ -19,6 +19,7 @@ export function useBillDetailViewModel(billId: string, initialClosedAt: string) 
         products,
         error: productsError,
         loading: productsLoading,
+        loadNextPage: loadMoreProducts,
     } = useProduct()
 
     const [showAddProduct, setShowAddProduct] = useState(false)
@@ -143,6 +144,7 @@ export function useBillDetailViewModel(billId: string, initialClosedAt: string) 
         products,
         productsError,
         productsLoading,
+        loadMoreProducts,
         showAddProduct,
         selectedProduct,
         quantity,

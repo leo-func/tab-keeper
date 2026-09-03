@@ -46,6 +46,7 @@ export default function BillDetailView({
     refreshing,
     products,
     productsLoading,
+    loadMoreProducts,
     showAddProduct,
     selectedProduct,
     quantity,
@@ -194,7 +195,7 @@ export default function BillDetailView({
                                         inputSearchStyle={styles.dropdownInputSearch}
                                         iconStyle={styles.dropdownIcon}
                                         activeColor={COLORS.surface}
-                                        data={products}
+                                        data={products ?? []}
                                         search
                                         maxHeight={hp("25%")}
                                         labelField="name"
@@ -214,6 +215,8 @@ export default function BillDetailView({
                                             </View>
                                         )}
                                         flatListProps={{
+                                            onEndReached: loadMoreProducts,
+                                            onEndReachedThreshold: 0.1,
                                             ListEmptyComponent: (
                                                 <Text style={styles.dropdownEmptyText}>
                                                     Nenhum produto encontrado
@@ -666,9 +669,6 @@ const styles = StyleSheet.create({
 
     dropdownInputSearch: {
         backgroundColor: COLORS.surfaceLight,
-        borderWidth: 1,
-        borderColor: COLORS.border,
-        borderRadius: wp("2%"),
         color: COLORS.textPrimary,
         fontSize: wp("3.5%"),
     },
