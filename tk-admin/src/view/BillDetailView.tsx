@@ -343,10 +343,10 @@ export default function BillDetailView({
                                 >
                                     <LockOpen
                                         size={wp("6%")}
-                                        color={COLORS.textPrimary}
+                                        color={COLORS.success}
                                         strokeWidth={1.8}
                                     />
-                                    <Text style={styles.actionText}>Abrir Conta</Text>
+                                    <Text style={[styles.actionText, styles.openText]}>Abrir Conta</Text>
                                 </TouchableOpacity>
                             ) : (
                                 <TouchableOpacity
@@ -373,7 +373,7 @@ export default function BillDetailView({
                                     color={COLORS.gold}
                                     strokeWidth={1.8}
                                 />
-                                <Text style={styles.actionText}>Adicionar Produto</Text>
+                                <Text style={[styles.actionText, styles.addText]}>Adicionar Produto</Text>
                             </TouchableOpacity>
 
                             <TouchableOpacity
@@ -606,6 +606,14 @@ const styles = StyleSheet.create({
 
     deleteText: {
         color: COLORS.danger,
+    },
+
+    openText: {
+        color: COLORS.success,
+    },
+
+    addText: {
+        color: COLORS.gold,
     },
 
     // SECTION
