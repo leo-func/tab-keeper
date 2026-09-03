@@ -661,6 +661,7 @@ const styles = StyleSheet.create({
         borderColor: COLORS.border,
         borderRadius: wp("2%"),
         color: COLORS.textPrimary,
+        fontSize: wp("3.5%"),
     },
 
     dropdownIcon: {
@@ -674,6 +675,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         paddingHorizontal: wp("3%"),
         paddingVertical: hp("1.5%"),
+        backgroundColor: COLORS.surfaceLight,
         borderBottomWidth: 1,
         borderBottomColor: COLORS.border,
     },

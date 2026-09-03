@@ -140,7 +140,7 @@ export function useBillDetailViewModel(billId: string, initialClosedAt: string) 
         loadNextPage,
         HandleRefresh,
         refreshing,
-        products: filteredProducts,
+        products,
         productsError,
         productsLoading,
         showAddProduct,
