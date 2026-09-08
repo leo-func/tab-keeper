@@ -59,20 +59,9 @@ export async function DeleteBill(billId: string) {
 }
 
 export async function InsertPrepaidAmount(billId: string, amount: number) {
-    const { error } = await supabase.rpc("insert_prepaid_amount", {
+    const { data, error } = await supabase.rpc("insert_prepaid_amount", {
         b_id: billId,
         amount: amount
-    })
-
-    console.log(error)
-
-    if (error) throw error
-}
-
-
-export async function RemovePrepaidAmount(billId: string) {
-    const { error } = await supabase.rpc("remove_prepaid_amount", {
-        b_id: billId 
     })
 
     if (error) throw error

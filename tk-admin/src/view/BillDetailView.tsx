@@ -75,7 +75,6 @@ export default function BillDetailView({
     handleOpenPrepaidSection,
     handleCancelPrepaid,
     handleInsertPrepaid,
-    handleRemovePrepaid,
     onDismissSuccessModal,
     setPrepaidAmount,
     

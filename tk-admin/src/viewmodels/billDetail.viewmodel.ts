@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useBillProduct } from "../hooks/useBillProduct";
 import { useProduct } from "../hooks/useProduct";
 import { InsertNewBillProduct, DeleteBillProduct } from "../services/bill_product.service";
-import { CloseBill, DeleteBill, OpenBill, InsertPrepaidAmount, RemovePrepaidAmount } from "../services/bill.service";
+import { CloseBill, DeleteBill, OpenBill, InsertPrepaidAmount } from "../services/bill.service";
 import { Product } from "../model/Product";
 
 export function useBillDetailViewModel(billId: string, initialClosedAt: string) {
@@ -151,7 +151,6 @@ export function useBillDetailViewModel(billId: string, initialClosedAt: string) 
 
     async function handleInsertPrepaid() {
         const amount = parseFloat(prepaidAmount)
-        if (isNaN(amount) || amount <= 0) return
 
         try {
             setPrepaidLoading(true)
@@ -159,20 +158,7 @@ export function useBillDetailViewModel(billId: string, initialClosedAt: string) 
             setShowPrepaidSection(false)
             setPrepaidAmount("")
         } catch (exception: any) {
-            console.log("Erro ao adicionar valor pré-pago:", exception?.message)
-        } finally {
-            setPrepaidLoading(false)
-        }
-    }
-
-    async function handleRemovePrepaid() {
-        try {
-            setPrepaidLoading(true)
-            await RemovePrepaidAmount(billId)
-            setShowPrepaidSection(false)
-            setPrepaidAmount("")
-        } catch (exception: any) {
-            console.log("Erro ao remover valor pré-pago:", exception?.message)
+            console.log("Erro ao adicionar valor antecipado:", exception?.message)
         } finally {
             setPrepaidLoading(false)
         }
@@ -215,7 +201,6 @@ export function useBillDetailViewModel(billId: string, initialClosedAt: string) 
         handleOpenPrepaidSection,
         handleCancelPrepaid,
         handleInsertPrepaid,
-        handleRemovePrepaid,
         onDismissSuccessModal,
         setSearchText,
         setIsComboBoxOpen,
