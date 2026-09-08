@@ -410,14 +410,14 @@ export default function BillDetailView({
                                     color={COLORS.textPrimary}
                                     strokeWidth={1.8}
                                 />
-                                <Text style={styles.actionText}>Pré-pago</Text>
+                                <Text style={styles.actionText}>Pagar antecipado</Text>
                             </TouchableOpacity>
                         </View>
 
                         {/* PREPAID SECTION */}
                         {showPrepaidSection && (
                             <View style={styles.prepaidSection}>
-                                <Text style={styles.sectionTitle}>Valor pré-pago</Text>
+                                <Text style={styles.sectionTitle}>Valor a antecipar</Text>
 
                                 <Text style={styles.label}>Valor (R$)</Text>
                                 <TextInput
@@ -446,20 +446,6 @@ export default function BillDetailView({
                                             />
                                         )}
                                         <Text style={styles.prepaidConfirmText}>Confirmar</Text>
-                                    </TouchableOpacity>
-
-                                    <TouchableOpacity
-                                        style={[styles.prepaidRemoveButton, prepaidLoading && styles.prepaidButtonDisabled]}
-                                        activeOpacity={0.7}
-                                        onPress={handleRemovePrepaid}
-                                        disabled={prepaidLoading}
-                                    >
-                                        <Trash2
-                                            size={wp("4%")}
-                                            color={COLORS.danger}
-                                            strokeWidth={1.8}
-                                        />
-                                        <Text style={styles.prepaidRemoveText}>Remover</Text>
                                     </TouchableOpacity>
                                 </View>
 
@@ -839,13 +825,10 @@ const styles = StyleSheet.create({
     },
 
     prepaidButtons: {
-        flexDirection: "row",
-        gap: wp("2%"),
         marginTop: hp("2%"),
     },
 
     prepaidConfirmButton: {
-        flex: 1,
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "center",
@@ -857,25 +840,6 @@ const styles = StyleSheet.create({
 
     prepaidConfirmText: {
         color: COLORS.background,
-        fontSize: wp("3.5%"),
-        fontWeight: "600",
-    },
-
-    prepaidRemoveButton: {
-        flex: 1,
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "center",
-        backgroundColor: COLORS.surfaceLight,
-        borderWidth: 1,
-        borderColor: COLORS.danger,
-        height: hp("6%"),
-        borderRadius: wp("2%"),
-        gap: wp("2%"),
-    },
-
-    prepaidRemoveText: {
-        color: COLORS.danger,
         fontSize: wp("3.5%"),
         fontWeight: "600",
     },
