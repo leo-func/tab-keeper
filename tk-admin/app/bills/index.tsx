@@ -15,6 +15,7 @@ export default function BillsScreen() {
                 name: bill.name,
                 total: bill.total.toString(),
                 products_amount: bill.products_amount.toString(),
+                prepaid_amount: bill.prepaid_amount,
                 closed_at: bill.closed_at,
             },
         })

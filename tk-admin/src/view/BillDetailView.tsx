@@ -78,7 +78,6 @@ export default function BillDetailView({
 
 } : ReturnType<typeof useBillDetailViewModel> & {billName: string, billTotal: number, billTotalCount: number, billPrepaidAmount: number | null, billClosedAt: string, onBack: () => void}) {
 
-
     function onCloseBillConfirm() {
         Alert.alert(
             "Fechar conta",

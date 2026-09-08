@@ -22,7 +22,7 @@ export default function BillDetailScreen() {
             billName={name}
             billTotal={parseFloat(total)}
             billTotalCount={parseInt(products_amount)}
-            billPrepaidAmount={prepaid_amount ? parseFloat(prepaid_amount) : null}
+            billPrepaidAmount={Number(prepaid_amount) ?? null}
             billClosedAt={closed_at}
             onBack={onBack}
         />
