@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useBillProduct } from "../hooks/useBillProduct";
 import { useProduct } from "../hooks/useProduct";
 import { InsertNewBillProduct, DeleteBillProduct } from "../services/bill_product.service";
-import { CloseBill, DeleteBill, OpenBill } from "../services/bill.service";
+import { CloseBill, DeleteBill, OpenBill, InsertPrepaidAmount, RemovePrepaidAmount } from "../services/bill.service";
 import { Product } from "../model/Product";
 
 export function useBillDetailViewModel(billId: string, initialClosedAt: string) {
@@ -32,6 +32,10 @@ export function useBillDetailViewModel(billId: string, initialClosedAt: string) 
     const [showSuccessModal, setShowSuccessModal] = useState(false)
     const [actionLoading, setActionLoading] = useState(false)
     const [isClosed, setIsClosed] = useState(!!initialClosedAt)
+
+    const [showPrepaidSection, setShowPrepaidSection] = useState(false)
+    const [prepaidAmount, setPrepaidAmount] = useState("")
+    const [prepaidLoading, setPrepaidLoading] = useState(false)
 
     const filteredProducts = products?.filter(product =>
         product.name.toLowerCase().includes(searchText.toLowerCase())
@@ -134,6 +138,44 @@ export function useBillDetailViewModel(billId: string, initialClosedAt: string) 
         }
     }
 
+    function handleOpenPrepaidSection() {
+        setShowPrepaidSection(true)
+    }
+
+    function handleCancelPrepaid() {
+        setShowPrepaidSection(false)
+        setPrepaidAmount("")
+    }
+
+    async function handleInsertPrepaid() {
+        const amount = parseFloat(prepaidAmount)
+        if (isNaN(amount) || amount <= 0) return
+
+        try {
+            setPrepaidLoading(true)
+            await InsertPrepaidAmount(billId, amount)
+            setShowPrepaidSection(false)
+            setPrepaidAmount("")
+        } catch (exception: any) {
+            console.log("Erro ao adicionar valor pré-pago:", exception?.message)
+        } finally {
+            setPrepaidLoading(false)
+        }
+    }
+
+    async function handleRemovePrepaid() {
+        try {
+            setPrepaidLoading(true)
+            await RemovePrepaidAmount(billId)
+            setShowPrepaidSection(false)
+            setPrepaidAmount("")
+        } catch (exception: any) {
+            console.log("Erro ao remover valor pré-pago:", exception?.message)
+        } finally {
+            setPrepaidLoading(false)
+        }
+    }
+
     return {
         billProducts,
         billProductsError,
@@ -155,6 +197,9 @@ export function useBillDetailViewModel(billId: string, initialClosedAt: string) 
         showSuccessModal,
         actionLoading,
         isClosed,
+        showPrepaidSection,
+        prepaidAmount,
+        prepaidLoading,
         handleOpenAddProduct,
         handleCancelAddProduct,
         handleSelectProduct,
@@ -165,8 +210,13 @@ export function useBillDetailViewModel(billId: string, initialClosedAt: string) 
         handleCloseBill,
         handleOpenBill,
         handleDeleteBill,
+        handleOpenPrepaidSection,
+        handleCancelPrepaid,
+        handleInsertPrepaid,
+        handleRemovePrepaid,
         onDismissSuccessModal,
         setSearchText,
         setIsComboBoxOpen,
+        setPrepaidAmount,
     }
 }

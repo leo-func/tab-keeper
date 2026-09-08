@@ -20,6 +20,8 @@ import {
     Plus,
     Minus,
     X,
+    Wallet,
+    Check,
 } from "lucide-react-native";
 
 import {
@@ -66,7 +68,15 @@ export default function BillDetailView({
     handleCloseBill,
     handleOpenBill,
     handleDeleteBill,
+    showPrepaidSection,
+    prepaidAmount,
+    prepaidLoading,
+    handleOpenPrepaidSection,
+    handleCancelPrepaid,
+    handleInsertPrepaid,
+    handleRemovePrepaid,
     onDismissSuccessModal,
+    setPrepaidAmount,
     
     // Props from router
     billName,
@@ -388,7 +398,84 @@ export default function BillDetailView({
                                 />
                                 <Text style={[styles.actionText, styles.deleteText]}>Excluir Conta</Text>
                             </TouchableOpacity>
+
+                            <TouchableOpacity
+                                style={styles.actionButton}
+                                activeOpacity={0.7}
+                                onPress={handleOpenPrepaidSection}
+                            >
+                                <Wallet
+                                    size={wp("6%")}
+                                    color={COLORS.textPrimary}
+                                    strokeWidth={1.8}
+                                />
+                                <Text style={styles.actionText}>Pré-pago</Text>
+                            </TouchableOpacity>
                         </View>
+
+                        {/* PREPAID SECTION */}
+                        {showPrepaidSection && (
+                            <View style={styles.prepaidSection}>
+                                <Text style={styles.sectionTitle}>Valor pré-pago</Text>
+
+                                <Text style={styles.label}>Valor (R$)</Text>
+                                <TextInput
+                                    style={styles.prepaidInput}
+                                    placeholder="0,00"
+                                    placeholderTextColor={COLORS.textMuted}
+                                    keyboardType="numeric"
+                                    value={prepaidAmount}
+                                    onChangeText={setPrepaidAmount}
+                                />
+
+                                <View style={styles.prepaidButtons}>
+                                    <TouchableOpacity
+                                        style={[styles.prepaidConfirmButton, prepaidLoading && styles.prepaidButtonDisabled]}
+                                        activeOpacity={0.7}
+                                        onPress={handleInsertPrepaid}
+                                        disabled={prepaidLoading}
+                                    >
+                                        {prepaidLoading ? (
+                                            <ActivityIndicator size="small" color={COLORS.background} />
+                                        ) : (
+                                            <Check
+                                                size={wp("4%")}
+                                                color={COLORS.background}
+                                                strokeWidth={2}
+                                            />
+                                        )}
+                                        <Text style={styles.prepaidConfirmText}>Confirmar</Text>
+                                    </TouchableOpacity>
+
+                                    <TouchableOpacity
+                                        style={[styles.prepaidRemoveButton, prepaidLoading && styles.prepaidButtonDisabled]}
+                                        activeOpacity={0.7}
+                                        onPress={handleRemovePrepaid}
+                                        disabled={prepaidLoading}
+                                    >
+                                        <Trash2
+                                            size={wp("4%")}
+                                            color={COLORS.danger}
+                                            strokeWidth={1.8}
+                                        />
+                                        <Text style={styles.prepaidRemoveText}>Remover</Text>
+                                    </TouchableOpacity>
+                                </View>
+
+                                <TouchableOpacity
+                                    style={styles.cancelButton}
+                                    activeOpacity={0.7}
+                                    onPress={handleCancelPrepaid}
+                                >
+                                    <X
+                                        size={wp("4.5%")}
+                                        color={COLORS.textSecondary}
+                                        strokeWidth={1.8}
+                                    />
+                                    <Text style={styles.cancelButtonText}>Cancelar</Text>
+                                </TouchableOpacity>
+                            </View>
+                        )}
 
                         {/* PRODUCTS SECTION */}
                         <Text style={styles.sectionTitle}>Produtos da conta</Text>
@@ -722,6 +809,74 @@ const styles = StyleSheet.create({
         fontSize: wp("3.2%"),
         textAlign: "center",
         padding: hp("3%"),
+    },
+
+    // PREPAID SECTION
+
+    prepaidSection: {
+        backgroundColor: COLORS.surface,
+        borderWidth: 1,
+        borderColor: COLORS.border,
+        borderRadius: wp("2%"),
+        padding: wp("4%"),
+        marginBottom: hp("2%"),
+    },
+
+    prepaidInput: {
+        backgroundColor: COLORS.surfaceLight,
+        borderWidth: 1,
+        borderColor: COLORS.border,
+        borderRadius: wp("2%"),
+        paddingHorizontal: wp("3%"),
+        height: hp("6%"),
+        color: COLORS.textPrimary,
+        fontSize: wp("3.5%"),
+    },
+
+    prepaidButtons: {
+        flexDirection: "row",
+        gap: wp("2%"),
+        marginTop: hp("2%"),
+    },
+
+    prepaidConfirmButton: {
+        flex: 1,
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: COLORS.gold,
+        height: hp("6%"),
+        borderRadius: wp("2%"),
+        gap: wp("2%"),
+    },
+
+    prepaidConfirmText: {
+        color: COLORS.background,
+        fontSize: wp("3.5%"),
+        fontWeight: "600",
+    },
+
+    prepaidRemoveButton: {
+        flex: 1,
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: COLORS.surfaceLight,
+        borderWidth: 1,
+        borderColor: COLORS.danger,
+        height: hp("6%"),
+        borderRadius: wp("2%"),
+        gap: wp("2%"),
+    },
+
+    prepaidRemoveText: {
+        color: COLORS.danger,
+        fontSize: wp("3.5%"),
+        fontWeight: "600",
+    },
+
+    prepaidButtonDisabled: {
+        opacity: 0.6,
     },
 
     // QUANTITY
