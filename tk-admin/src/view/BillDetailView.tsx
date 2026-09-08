@@ -36,6 +36,7 @@ import { Header } from "../components/Header";
 import { ProductCard } from "../components/ProductCard";
 import { ConfirmModal } from "../components/ConfirmModal";
 import { useBillDetailViewModel } from "../viewmodels/billDetail.viewmodel";
+import { formatCurrency } from "../utils/currency";
 
 export default function BillDetailView({
     
@@ -425,7 +426,7 @@ export default function BillDetailView({
                                     placeholderTextColor={COLORS.textMuted}
                                     keyboardType="numeric"
                                     value={prepaidAmount}
-                                    onChangeText={setPrepaidAmount}
+                                    onChangeText={(text) => setPrepaidAmount(formatCurrency(text))}
                                 />
 
                                 <View style={styles.prepaidButtons}>
@@ -478,6 +479,8 @@ export default function BillDetailView({
                         )}
 
                         {/* PRODUCTS SECTION */}
+                        {!showAddProduct && !showPrepaidSection && (
+                            <>
                         <Text style={styles.sectionTitle}>Produtos da conta</Text>
 
                         {billProductsError ? (
@@ -523,6 +526,8 @@ export default function BillDetailView({
                                 ) : null
                             }
                         />
+                        )}
+                            </>
                         )}
                     </View>
                 )}

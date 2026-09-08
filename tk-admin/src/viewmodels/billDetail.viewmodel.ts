@@ -42,6 +42,7 @@ export function useBillDetailViewModel(billId: string, initialClosedAt: string) 
     ) ?? []
 
     function handleOpenAddProduct() {
+        setShowPrepaidSection(false)
         setShowAddProduct(true)
     }
 
@@ -139,6 +140,7 @@ export function useBillDetailViewModel(billId: string, initialClosedAt: string) 
     }
 
     function handleOpenPrepaidSection() {
+        setShowAddProduct(false)
         setShowPrepaidSection(true)
     }
 
