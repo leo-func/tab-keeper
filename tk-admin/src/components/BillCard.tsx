@@ -21,8 +21,6 @@ export function BillCard({
         return date.toLocaleDateString("pt-BR")
     }
 
-    console.log(bill)
-
     return (
         <TouchableOpacity
             style={styles.card}

@@ -3,7 +3,9 @@ export interface Bill {
     name: string,
     total: number,
     products_amount:number,
+    prepaid_amount: number,
     created_at: string,
     closed_at: string,
-    updated_at: string
+    updated_at: string,
+
 }

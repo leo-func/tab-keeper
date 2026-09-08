@@ -3,12 +3,13 @@ import BillDetailView from "@/src/view/BillDetailView";
 import { useBillDetailViewModel } from "@/src/viewmodels/billDetail.viewmodel";
 
 export default function BillDetailScreen() {
-    const { billId, name, total, products_amount, closed_at } = useLocalSearchParams<{
+    const { billId, name, total, products_amount, closed_at, prepaid_amount } = useLocalSearchParams<{
         billId: string;
         name: string;
         total: string;
         products_amount: string;
         closed_at: string;
+        prepaid_amount: string;
     }>();
 
     const model = useBillDetailViewModel(billId, closed_at)
@@ -21,6 +22,7 @@ export default function BillDetailScreen() {
             billName={name}
             billTotal={parseFloat(total)}
             billTotalCount={parseInt(products_amount)}
+            billPrepaidAmount={prepaid_amount ? parseFloat(prepaid_amount) : null}
             billClosedAt={closed_at}
             onBack={onBack}
         />

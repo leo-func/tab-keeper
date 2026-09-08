@@ -7,8 +7,6 @@ export async function GetBills(profileId: string, page: number) : Promise<Bill[]
         page: page
     })
 
-    console.log(data)
-
     if (error) throw error
 
     return data.map((item: Bill) => ({
@@ -16,6 +14,7 @@ export async function GetBills(profileId: string, page: number) : Promise<Bill[]
         name: item.name,
         total: item.total,
         products_amount: item.products_amount,
+        prepaid_amount: item.prepaid_amount,
         created_at: item.created_at,
         updated_at: item.updated_at,
         closed_at: item.closed_at

@@ -72,10 +72,11 @@ export default function BillDetailView({
     billName,
     billTotalCount,
     billTotal,
+    billPrepaidAmount,
     billClosedAt,
     onBack
 
-} : ReturnType<typeof useBillDetailViewModel> & {billName: string, billTotal: number, billTotalCount: number, billClosedAt: string, onBack: () => void}) {
+} : ReturnType<typeof useBillDetailViewModel> & {billName: string, billTotal: number, billTotalCount: number, billPrepaidAmount: number | null, billClosedAt: string, onBack: () => void}) {
 
 
     function onCloseBillConfirm() {
@@ -454,9 +455,16 @@ export default function BillDetailView({
                     <Text style={styles.totalLabel}>Total da conta</Text>
                     <Text style={styles.totalSubLabel}>{billTotalCount} produtos</Text>
                 </View>
-                <Text style={styles.totalValue}>
-                    R$ {billTotal.toFixed(2).replace(".", ",")}
-                </Text>
+                <View style={styles.totalValueContainer}>
+                    <Text style={styles.totalValue}>
+                        R$ {billTotal.toFixed(2).replace(".", ",")}
+                    </Text>
+                    {billPrepaidAmount != null && billPrepaidAmount > 0 && (
+                        <Text style={styles.prepaidValue}>
+                            - R$ {billPrepaidAmount.toFixed(2).replace(".", ",")}
+                        </Text>
+                    )}
+                </View>
             </View>
 
             {/* MODAL CONFIRMAÇÃO ADIÇÃO PRODUTO */}
@@ -855,6 +863,17 @@ const styles = StyleSheet.create({
         color: COLORS.gold,
         fontSize: wp("5%"),
         fontWeight: "700",
+    },
+
+    totalValueContainer: {
+        alignItems: "flex-end",
+    },
+
+    prepaidValue: {
+        color: COLORS.danger,
+        fontSize: wp("3%"),
+        fontWeight: "500",
+        marginTop: hp("0.2%"),
     },
 
     // ACCESS FOOTER
