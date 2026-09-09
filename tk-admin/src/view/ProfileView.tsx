@@ -75,7 +75,7 @@ export default function ProfileView({
                     <Text style={styles.addButtonText}>Adicionar Perfil</Text>
                 </TouchableOpacity>
 
-                {loading && !profiles?.length ? (
+                {loading && profiles === null ? (
                     <View style={styles.centerContainer}>
                         <ActivityIndicator size="large" color={COLORS.gold} />
                     </View>

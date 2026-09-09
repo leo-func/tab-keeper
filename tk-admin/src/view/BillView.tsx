@@ -79,7 +79,7 @@ export default function BillView({
                     </Text>
                 </TouchableOpacity>
 
-                {loading && !bills?.length ? (
+                {loading && bills === null ? (
                     <View style={styles.centerContainer}>
                         <ActivityIndicator size="large" color={COLORS.gold} />
                     </View>

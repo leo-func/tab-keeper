@@ -73,7 +73,7 @@ export default function ProductView({
                     <Text style={styles.addButtonText}>Adicionar Produto</Text>
                 </TouchableOpacity>
 
-                {loading && !products?.length ? (
+                {loading && products === null ? (
                     <View style={styles.centerContainer}>
                         <ActivityIndicator size="large" color={COLORS.gold} />
                     </View>
