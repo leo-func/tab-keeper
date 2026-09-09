@@ -111,6 +111,7 @@ export default function ProfileView({
                             ) : null
                         }
                         ListEmptyComponent={
+                            loading ? null : (
                             <View style={styles.emptyContainer}>
                                 <View style={styles.emptyIconContainer}>
                                     <User
@@ -129,6 +130,7 @@ export default function ProfileView({
                                     o botão acima.
                                 </Text>
                             </View>
+                            )
                         }
                     />
                 )}

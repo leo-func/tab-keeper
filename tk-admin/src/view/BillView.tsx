@@ -109,6 +109,7 @@ export default function BillView({
                             ) : null
                         }
                         ListEmptyComponent={
+                            loading ? null : (
                             <View style={styles.emptyContainer}>
                                 <View style={styles.emptyIconContainer}>
                                     <ReceiptText
@@ -126,6 +127,7 @@ export default function BillView({
                                     Este perfil ainda não possui contas.
                                 </Text>
                             </View>
+                            )
                         }
                     />
                 )}

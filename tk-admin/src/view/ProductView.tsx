@@ -108,6 +108,7 @@ export default function ProductView({
                             ) : null
                         }
                         ListEmptyComponent={
+                            loading ? null : (
                             <View style={styles.emptyContainer}>
                                 <View style={styles.emptyIconContainer}>
                                     <Package
@@ -126,6 +127,7 @@ export default function ProductView({
                                     o botão acima.
                                 </Text>
                             </View>
+                            )
                         }
                     />
                 )}
