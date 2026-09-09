@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Bill } from "../model/Bill";
-import { GetBills, SearchBills } from "../services/bill.service";
+import { GetBills, SearchBills, InsertNewBill } from "../services/bill.service";
 import { useFocusEffect } from "expo-router";
 import { useDebounce } from "../hooks/useDebounce";
 
