@@ -30,6 +30,8 @@ export default function ProductView({
     loadNextPage,
     HandleRefresh,
     refreshing,
+    search,
+    HandleSearch,
     goToEdit,
     goToCreate
 }: ReturnType<typeof useProductViewModel> & {goToEdit: (productId: string, name: string) => void, goToCreate: () => void}) {
@@ -53,6 +55,8 @@ export default function ProductView({
                         style={styles.searchInput}
                         placeholder="Buscar produto"
                         placeholderTextColor={COLORS.textSecondary}
+                        value={search}
+                        onChangeText={HandleSearch}
                     />
                 </View>
 

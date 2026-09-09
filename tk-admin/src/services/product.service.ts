@@ -46,3 +46,18 @@ export async function DeleteProduct(productId: string) {
 
     if (error) throw error
 }
+
+export async function SearchProducts(query: string, page: number) : Promise<Product> {
+    const { data, error } = await supabase.rpc("search_products", {
+        query: query,
+        page: page
+    })
+
+    if (error) throw error
+
+    return data.map((item: Product) => ({
+        id: item.id,
+        name: item.name,
+        price: item.price
+    }))
+}

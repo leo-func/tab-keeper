@@ -1,12 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 import { Product } from "../model/Product";
-import { GetProducts } from "../services/product.service";
+import { GetProducts, SearchProducts } from "../services/product.service";
 import { usePullToRefresh } from "./usePullToRefresh";
+import { useDebounce } from "./useDebounce";
 
 export function useProduct() {
     const [products, setProducts] = useState<Product[] | null>(null)
     const [error, setError] = useState<Error | null>(null)
     const [loading, setLoading] = useState(false)
+    const [search, setSearch] = useState("")
+    const debouncedSearch = useDebounce(search)
 
     const { refreshing, handleRefresh} = usePullToRefresh()
 
@@ -18,14 +21,25 @@ export function useProduct() {
         HandleProducts(pageRef.current)
     }, [])
 
+    useEffect(() => {
+        setProducts([])
+        setHasMore(true)
+        pageRef.current = 1
+        HandleProducts(1)
+    }, [debouncedSearch])
+
     async function HandleProducts(pageToLoad: number) {
+        if (!hasMore || loadingRef.current) return
+
         loadingRef.current = true
 
         try {
             setError(null)
             setLoading(true)
 
-            const data = await GetProducts(pageToLoad)
+            const data = debouncedSearch
+                ? await SearchProducts(debouncedSearch, pageToLoad)
+                : await GetProducts(pageToLoad)
 
             setProducts(prev => [
                 ...(prev ?? []),
@@ -49,8 +63,9 @@ export function useProduct() {
 
     async function HandleRefresh() {
         await handleRefresh(async () => {
-            const data = await GetProducts(1)
-            
+            const data = debouncedSearch
+                ? await SearchProducts(debouncedSearch, 1)
+                : await GetProducts(1)
 
             setProducts(data)
             setHasMore(data.length >= 10)
@@ -59,9 +74,11 @@ export function useProduct() {
     }
 
     function loadNextPage() {
-        if (!hasMore || loadingRef.current) return
-
         HandleProducts(pageRef.current)
+    }
+
+    function HandleSearch(value: string) {
+        setSearch(value)
     }
 
     return {
@@ -70,6 +87,8 @@ export function useProduct() {
         loading,
         loadNextPage,
         HandleRefresh,
-        refreshing
+        refreshing,
+        search,
+        HandleSearch
     }
 }
