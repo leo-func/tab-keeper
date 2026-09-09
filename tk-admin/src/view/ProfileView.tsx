@@ -91,7 +91,7 @@ export default function ProfileView({
                         onEndReachedThreshold={0.1}
                         showsVerticalScrollIndicator={false}
                         contentContainerStyle={styles.listContent}
-                        refreshing={loading}
+                        refreshing={refreshing}
                         onRefresh={HandleRefresh}
                         renderItem={({ item }) => (
                             <ProfileCard
