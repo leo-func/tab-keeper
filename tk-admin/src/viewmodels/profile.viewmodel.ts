@@ -1,14 +1,16 @@
 import { useEffect, useRef, useState } from "react";
 import { Profile } from "../model/Profile";
-import { GetProfiles } from "../services/profile.service";
+import { GetProfiles, SearchProfiles } from "../services/profile.service";
 import { useNewProfile } from "../hooks/useNewProfile";
 import { usePullToRefresh } from "../hooks/usePullToRefresh";
+import { useDebounce } from "../hooks/useDebounce";
 
 export function useProfileViewModel() {
     const [profiles, setProfiles] = useState<Profile[] | null>(null)
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<Error | null>(null)
     const [search, setSearch] = useState("")
+    const debouncedSearch = useDebounce(search)
     const {
         name,
         setName,
@@ -24,10 +26,23 @@ export function useProfileViewModel() {
     const [hasMore, setHasMore] = useState(true);
     const loadingRef = useRef(false);
     const pageRef = useRef(1);
+    const searchPageRef = useRef(1);
+    const isSearching = useRef(false);
 
     useEffect(() => {
         HandleProfiles(pageRef.current)
     }, [])
+
+    useEffect(() => {
+        if (debouncedSearch) {
+            handleSearchProfiles(debouncedSearch)
+        } else {
+            setProfiles([])
+            setHasMore(true)
+            pageRef.current = 1
+            HandleProfiles(1)
+        }
+    }, [debouncedSearch])
 
     async function HandleProfiles(pageToLoad: number) {
         if (!hasMore || loadingRef.current) return
@@ -59,6 +74,60 @@ export function useProfileViewModel() {
         }
     }
 
+    async function handleSearchProfiles(query: string) {
+        if (loadingRef.current) return
+
+        loadingRef.current = true
+        isSearching.current = true
+        searchPageRef.current = 1
+
+        try {
+            setError(null)
+            setLoading(true)
+
+            const data = await SearchProfiles(query, 1)
+
+            setProfiles(data)
+            setHasMore(data.length >= 10)
+            searchPageRef.current = 2
+
+        } catch (exception) {
+            setError(exception as Error)
+        } finally {
+            loadingRef.current = false
+            setLoading(false)
+        }
+    }
+
+    async function loadMoreSearchResults() {
+        if (!hasMore || loadingRef.current || !isSearching.current) return
+
+        loadingRef.current = true
+        try {
+            setLoading(true)
+
+            const data = await SearchProfiles(debouncedSearch, searchPageRef.current)
+
+            setProfiles((prev) => [
+                ...(prev ?? []),
+                ...data
+            ])
+
+            if (data.length < 10) {
+                setHasMore(false)
+                return
+            }
+
+            searchPageRef.current += 1
+
+        } catch (exception) {
+            setError(exception as Error)
+        } finally {
+            loadingRef.current = false
+            setLoading(false)
+        }
+    }
+
     async function HandleRefresh() {
             await handleRefresh(async () => {
                 const data = await GetProfiles(1)
@@ -70,7 +139,11 @@ export function useProfileViewModel() {
     }
 
     function loadNextPage() {
-        HandleProfiles(pageRef.current)
+        if (isSearching.current) {
+            loadMoreSearchResults()
+        } else {
+            HandleProfiles(pageRef.current)
+        }
     }
 
     function HandleSearch(value: string) {

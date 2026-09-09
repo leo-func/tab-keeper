@@ -49,3 +49,19 @@ export async function DeleteProfile(profileId: string) {
 
     if (error) throw error
 }
+
+export async function SearchProfiles(query: string, page: number): Promise<Profile[]> {
+    const { data, error } = await supabase.rpc("search_profiles", {
+        query: query,
+        page: page
+    })
+
+    if (error) throw error
+
+    return data.map((item: Profile) => ({
+        id: item.id,
+        name: item.name,
+        access_token: item.access_token,
+        created_at: item.created_at
+    }))
+}

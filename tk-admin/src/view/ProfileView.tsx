@@ -30,6 +30,8 @@ export default function ProfileView({
     loading,
     error,
     loadNextPage,
+    search,
+    HandleSearch,
     goToEdit,
     goToCreate,
     goToBills,
@@ -55,6 +57,8 @@ export default function ProfileView({
                         style={styles.searchInput}
                         placeholder="Buscar perfil"
                         placeholderTextColor={COLORS.textSecondary}
+                        value={search}
+                        onChangeText={HandleSearch}
                     />
                 </View>
 
