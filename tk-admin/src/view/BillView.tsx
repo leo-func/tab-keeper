@@ -33,6 +33,8 @@ export default function BillView({
     createdBill,
     handleAddBill,
     onDismissCreatedBill,
+    search,
+    HandleSearch,
     goToDetail,
     onBack
 }: ReturnType<typeof useBillViewModel> & {goToDetail: (bill: Bill) => void, onBack: () => void}) {
@@ -56,6 +58,8 @@ export default function BillView({
                         style={styles.searchInput}
                         placeholder="Buscar conta"
                         placeholderTextColor={COLORS.textSecondary}
+                        value={search}
+                        onChangeText={HandleSearch}
                     />
                 </View>
 

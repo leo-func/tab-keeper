@@ -59,10 +59,31 @@ export async function DeleteBill(billId: string) {
 }
 
 export async function InsertPrepaidAmount(billId: string, amount: number) {
-    const { data, error } = await supabase.rpc("insert_prepaid_amount", {
+    const { error } = await supabase.rpc("insert_prepaid_amount", {
         b_id: billId,
         amount: amount
     })
 
     if (error) throw error
+}
+
+export async function SearchBills(profileId: string, query: string, page: number) {
+    const { data, error } = await supabase.rpc("search_bills", {
+        pf_id: profileId,
+        query: query,
+        page: page
+    })
+
+    if (error) throw error
+
+    return data.map((item: Bill) => ({
+        id: item.id,
+        name: item.name,
+        total: item.total,
+        products_amount: item.products_amount,
+        prepaid_amount: item.prepaid_amount,
+        created_at: item.created_at,
+        updated_at: item.updated_at,
+        closed_at: item.closed_at
+    }))
 }

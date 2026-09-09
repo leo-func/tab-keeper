@@ -1,12 +1,15 @@
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Bill } from "../model/Bill";
-import { GetBills, InsertNewBill } from "../services/bill.service";
+import { GetBills, SearchBills } from "../services/bill.service";
 import { useFocusEffect } from "expo-router";
+import { useDebounce } from "../hooks/useDebounce";
 
 export function useBillViewModel(profileId: string) {
     const [bills, setBills] = useState<Bill[] | null>(null)
     const [error, setError] = useState<Error | null>(null)
     const [loading, setLoading] = useState(false)
+    const [search, setSearch] = useState("")
+    const debouncedSearch = useDebounce(search)
 
     const [hasMore, setHasMore] = useState(true)
     const pageRef = useRef(1)
@@ -26,14 +29,25 @@ export function useBillViewModel(profileId: string) {
         }, [])
     )
 
+    useEffect(() => {
+        setBills([])
+        setHasMore(true)
+        pageRef.current = 1
+        HandleBills(1)
+    }, [debouncedSearch])
+
     async function HandleBills(pageToLoad: number) {
+        if (!hasMore || loadingRef.current) return
+
         loadingRef.current = true
 
         try {
             setError(null)
             setLoading(true)
 
-            const data = await GetBills(profileId, pageToLoad)
+            const data = debouncedSearch
+                ? await SearchBills(profileId, debouncedSearch, pageToLoad)
+                : await GetBills(profileId, pageToLoad)
 
             setBills(prev => [
                 ...(prev ?? []),
@@ -56,9 +70,11 @@ export function useBillViewModel(profileId: string) {
     }
 
     function loadNextPage() {
-        if (!hasMore || loadingRef.current) return
-
         HandleBills(pageRef.current)
+    }
+
+    function HandleSearch(value: string) {
+        setSearch(value)
     }
 
     async function handleAddBill() {
@@ -87,5 +103,7 @@ export function useBillViewModel(profileId: string) {
         createdBill,
         handleAddBill,
         onDismissCreatedBill,
+        search,
+        HandleSearch,
     }
 }
