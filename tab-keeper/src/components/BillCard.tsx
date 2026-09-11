@@ -84,6 +84,12 @@ export function BillCard({
             R$ {formatPrice(bill.total)}
           </Text>
 
+          {(bill as any).prepaid_amount > 0 && (
+            <Text style={styles.prepaidValue}>
+              - R$ {formatPrice((bill as any).prepaid_amount)}
+            </Text>
+          )}
+
           <ChevronRight
             size={wp("5.5%")}
             color={COLORS.textSecondary}
@@ -204,6 +210,13 @@ const styles = StyleSheet.create({
     color: COLORS.gold,
     fontSize: wp("3.7%"),
     fontWeight: "700",
+  },
+
+  prepaidValue: {
+    color: COLORS.danger,
+    fontSize: wp("3.2%"),
+    fontWeight: "500",
+    marginLeft: wp("2%"),
   },
 
   detailsContainer: {
