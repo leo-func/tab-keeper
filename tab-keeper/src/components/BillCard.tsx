@@ -83,14 +83,18 @@ export function BillCard({
           <Text style={styles.total}>
             R$ {formatPrice(bill.total)}
           </Text>
+        </View>
 
-          {(bill as any).prepaid_amount > 0 && (
+        {(bill as any).prepaid_amount > 0 && (
+          <View style={styles.prepaidContainer}>
+            <Text style={styles.prepaidLabel}>Pré-pago</Text>
             <Text style={styles.prepaidValue}>
               - R$ {formatPrice((bill as any).prepaid_amount)}
             </Text>
-          )}
+          </View>
+        )}
 
-          <ChevronRight
+        <ChevronRight
             size={wp("5.5%")}
             color={COLORS.textSecondary}
             strokeWidth={2}
@@ -143,6 +147,25 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+  },
+
+  prepaidContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginTop: hp("0.5%"),
+    marginLeft: wp("14.5%"),
+  },
+
+  prepaidLabel: {
+    color: COLORS.textSecondary,
+    fontSize: wp("3%"),
+  },
+
+  prepaidValue: {
+    color: COLORS.danger,
+    fontSize: wp("3.2%"),
+    fontWeight: "500",
   },
 
   accountInfo: {
@@ -210,13 +233,6 @@ const styles = StyleSheet.create({
     color: COLORS.gold,
     fontSize: wp("3.7%"),
     fontWeight: "700",
-  },
-
-  prepaidValue: {
-    color: COLORS.danger,
-    fontSize: wp("3.2%"),
-    fontWeight: "500",
-    marginLeft: wp("2%"),
   },
 
   detailsContainer: {
