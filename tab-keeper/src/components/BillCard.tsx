@@ -85,11 +85,11 @@ export function BillCard({
           </Text>
         </View>
 
-        {(bill as any).prepaid_amount > 0 && (
+        {(bill).prepaid_amount > 0 && (
           <View style={styles.prepaidContainer}>
             <Text style={styles.prepaidLabel}>Pré-pago</Text>
             <Text style={styles.prepaidValue}>
-              - R$ {formatPrice((bill as any).prepaid_amount)}
+              - R$ {formatPrice((bill).prepaid_amount)}
             </Text>
           </View>
         )}
@@ -100,7 +100,6 @@ export function BillCard({
             strokeWidth={2}
           />
         </View>
-      </View>
 
       {/* INFORMAÇÕES */}
       <View style={styles.detailsContainer}>

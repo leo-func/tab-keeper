@@ -4,5 +4,6 @@ export interface Bill {
     created_at: string,
     closed_at: string,
     updated_at: string,
-    total: number
+    total: number,
+    prepaid_amount: number
 }

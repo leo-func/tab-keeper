@@ -42,7 +42,8 @@ export async function searchBills(query: string, page: number) {
         created_at: item.created_at,
         closed_at: item.closed_at,
         updated_at: item.updated_at,
-        total: item.total
+        total: item.total,
+        prepaid_amount: item.prepaid_amount
     }))
 }
 
