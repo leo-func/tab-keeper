@@ -65,6 +65,7 @@ export function useBillViewModel(billId?: string) {
             setError(null);
 
             const data = await getBills(pageToLoad);
+            
 
             if (pageToLoad === 1) {
                 setBills(data);

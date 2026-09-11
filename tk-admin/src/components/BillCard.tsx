@@ -56,6 +56,11 @@ export function BillCard({
                 <Text style={styles.totalValue}>
                     R$ {bill.total.toFixed(2).replace(".", ",")}
                 </Text>
+                {bill.prepaid_amount > 0 && (
+                    <Text style={styles.prepaidValue}>
+                        - R$ {bill.prepaid_amount.toFixed(2).replace(".", ",")}
+                    </Text>
+                )}
             </View>
         </TouchableOpacity>
     );
@@ -118,6 +123,13 @@ const styles = StyleSheet.create({
         color: COLORS.gold,
         fontSize: wp("3.5%"),
         fontWeight: "600",
+        marginTop: hp("0.2%"),
+    },
+
+    prepaidValue: {
+        color: COLORS.danger,
+        fontSize: wp("3%"),
+        fontWeight: "500",
         marginTop: hp("0.2%"),
     },
 });
