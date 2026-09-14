@@ -198,29 +198,32 @@ export default function BillDetailView({
 
                                     <Text style={styles.label}>Produto</Text>
 
+                                    <TextInput
+                                        style={styles.dropdownSearchInput}
+                                        placeholder="Buscar produto..."
+                                        placeholderTextColor={COLORS.textMuted}
+                                        value={productSearch}
+                                        onChangeText={(text) => handleProductSearch(text)}
+                                    />
+
                                     {/* DROPDOWN */}
                                     <Dropdown
                                         style={styles.dropdown}
                                         containerStyle={styles.dropdownContainer}
                                         placeholderStyle={styles.dropdownPlaceholder}
                                         selectedTextStyle={styles.dropdownSelectedText}
-                                        inputSearchStyle={styles.dropdownInputSearch}
                                         iconStyle={styles.dropdownIcon}
                                         activeColor={COLORS.surface}
                                         data={products ?? []}
-                                        search
-                                        searchQuery={productSearch}
                                         maxHeight={hp("25%")}
                                         labelField="name"
                                         valueField="id"
-                                        placeholder="Buscar ou selecionar produto"
-                                        searchPlaceholder="Buscar..."
+                                        placeholder="Selecionar produto"
 
                                         value={selectedProduct?.id}
                                         onChange={(item) => {
                                             handleSelectProduct(item)
                                         }}
-                                        onChangeSearch={(text) => handleProductSearch(text)}
                                         renderItem={(item) => (
                                             <View style={styles.dropdownItem}>
                                                 <Text style={styles.dropdownItemText}>{item.name}</Text>
@@ -773,10 +776,16 @@ const styles = StyleSheet.create({
         fontSize: wp("3.5%"),
     },
 
-    dropdownInputSearch: {
+    dropdownSearchInput: {
         backgroundColor: COLORS.surfaceLight,
+        borderWidth: 1,
+        borderColor: COLORS.border,
+        borderRadius: wp("2%"),
+        paddingHorizontal: wp("3%"),
+        paddingVertical: hp("1.5%"),
         color: COLORS.textPrimary,
         fontSize: wp("3.5%"),
+        marginBottom: hp("1%"),
     },
 
     dropdownIcon: {
