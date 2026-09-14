@@ -203,7 +203,11 @@ export default function BillDetailView({
                                         placeholder="Buscar produto..."
                                         placeholderTextColor={COLORS.textMuted}
                                         value={productSearch}
-                                        onChangeText={(text) => handleProductSearch(text)}
+                                        onChangeText={(text) => {
+                                            handleProductSearch(text)
+                                            if (!isComboBoxOpen) setIsComboBoxOpen(true)
+                                        }}
+                                        onFocus={() => setIsComboBoxOpen(true)}
                                     />
 
                                     {/* DROPDOWN */}
@@ -215,6 +219,7 @@ export default function BillDetailView({
                                         iconStyle={styles.dropdownIcon}
                                         activeColor={COLORS.surface}
                                         data={products ?? []}
+                                        open={isComboBoxOpen}
                                         maxHeight={hp("25%")}
                                         labelField="name"
                                         valueField="id"
@@ -223,7 +228,9 @@ export default function BillDetailView({
                                         value={selectedProduct?.id}
                                         onChange={(item) => {
                                             handleSelectProduct(item)
+                                            setIsComboBoxOpen(false)
                                         }}
+                                        onClose={() => setIsComboBoxOpen(false)}
                                         renderItem={(item) => (
                                             <View style={styles.dropdownItem}>
                                                 <Text style={styles.dropdownItemText}>{item.name}</Text>
