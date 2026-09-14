@@ -15,6 +15,7 @@ export function useProduct() {
     const { refreshing, handleRefresh} = usePullToRefresh()
 
     const [hasMore, setHasMore] = useState(true)
+    const hasMoreRef = useRef(true)
     const pageRef = useRef(1)
     const loadingRef = useRef(false)
 
@@ -26,12 +27,13 @@ export function useProduct() {
         searchRef.current = debouncedSearch
         setProducts([])
         setHasMore(true)
+        hasMoreRef.current = true
         pageRef.current = 1
         HandleProducts(1)
     }, [debouncedSearch])
 
     async function HandleProducts(pageToLoad: number) {
-        if (!hasMore || loadingRef.current) return
+        if (!hasMoreRef.current || loadingRef.current) return
 
         loadingRef.current = true
 
@@ -51,6 +53,7 @@ export function useProduct() {
 
             if (data.length < 10) {
                 setHasMore(false)
+                hasMoreRef.current = false
                 return
             }
 
@@ -73,6 +76,7 @@ export function useProduct() {
 
             setProducts(data)
             setHasMore(data.length >= 10)
+            hasMoreRef.current = data.length >= 10
             pageRef.current = 2
         })
     }
