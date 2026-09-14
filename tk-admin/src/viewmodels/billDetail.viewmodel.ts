@@ -54,7 +54,7 @@ export function useBillDetailViewModel(billId: string, initialClosedAt: string) 
 
     function handleSelectProduct(product: Product) {
         setSelectedProduct(product)
-        setSearchText(product.name)
+        handleProductSearch(product.name)
         setIsComboBoxOpen(false)
     }
 
