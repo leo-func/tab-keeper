@@ -50,11 +50,11 @@ export default function BillDetailView({
     refreshing,
     products,
     productsLoading,
-    productSearch,
-    handleProductSearch,
+    filteredProducts,
     showAddProduct,
     selectedProduct,
     quantity,
+    searchText,
     isComboBoxOpen,
     addProductLoading,
     addProductError,
@@ -208,10 +208,8 @@ export default function BillDetailView({
                                         inputSearchStyle={styles.dropdownInputSearch}
                                         iconStyle={styles.dropdownIcon}
                                         activeColor={COLORS.surface}
-                                        data={products ?? []}
+                                        data={filteredProducts}
                                         search
-                                        searchQuery={productSearch}
-                                        onSearchChange={(text) => handleProductSearch(text)}
                                         maxHeight={hp("25%")}
                                         labelField="name"
                                         valueField="id"

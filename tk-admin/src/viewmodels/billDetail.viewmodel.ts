@@ -20,13 +20,12 @@ export function useBillDetailViewModel(billId: string, initialClosedAt: string) 
         error: productsError,
         loading: productsLoading,
         loadNextPage: loadMoreProducts,
-        HandleSearch: handleProductSearch,
-        search: productSearch,
     } = useProduct()
 
     const [showAddProduct, setShowAddProduct] = useState(false)
     const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
     const [quantity, setQuantity] = useState(1)
+    const [searchText, setSearchText] = useState("")
     const [isComboBoxOpen, setIsComboBoxOpen] = useState(false)
     const [addProductLoading, setAddProductLoading] = useState(false)
     const [addProductError, setAddProductError] = useState<string | null>(null)
@@ -38,6 +37,10 @@ export function useBillDetailViewModel(billId: string, initialClosedAt: string) 
     const [prepaidAmount, setPrepaidAmount] = useState("")
     const [prepaidLoading, setPrepaidLoading] = useState(false)
 
+    const filteredProducts = products?.filter(product =>
+        product.name.toLowerCase().includes(searchText.toLowerCase())
+    ) ?? []
+
     function handleOpenAddProduct() {
         setShowPrepaidSection(false)
         setShowAddProduct(true)
@@ -47,14 +50,14 @@ export function useBillDetailViewModel(billId: string, initialClosedAt: string) 
         setShowAddProduct(false)
         setSelectedProduct(null)
         setQuantity(1)
-        handleProductSearch("")
+        setSearchText("")
         setIsComboBoxOpen(false)
         setAddProductError(null)
     }
 
     function handleSelectProduct(product: Product) {
         setSelectedProduct(product)
-        handleProductSearch(product.name)
+        setSearchText(product.name)
         setIsComboBoxOpen(false)
     }
 
@@ -172,11 +175,11 @@ export function useBillDetailViewModel(billId: string, initialClosedAt: string) 
         productsError,
         productsLoading,
         loadMoreProducts,
-        productSearch,
-        handleProductSearch,
+        filteredProducts,
         showAddProduct,
         selectedProduct,
         quantity,
+        searchText,
         isComboBoxOpen,
         addProductLoading,
         addProductError,
