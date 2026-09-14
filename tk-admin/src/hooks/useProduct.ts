@@ -10,6 +10,7 @@ export function useProduct() {
     const [loading, setLoading] = useState(false)
     const [search, setSearch] = useState("")
     const debouncedSearch = useDebounce(search)
+    const searchRef = useRef("")
 
     const { refreshing, handleRefresh} = usePullToRefresh()
 
@@ -22,6 +23,7 @@ export function useProduct() {
     }, [])
 
     useEffect(() => {
+        searchRef.current = debouncedSearch
         setProducts([])
         setHasMore(true)
         pageRef.current = 1
@@ -37,8 +39,9 @@ export function useProduct() {
             setError(null)
             setLoading(true)
 
-            const data = debouncedSearch
-                ? await SearchProducts(debouncedSearch, pageToLoad)
+            const currentSearch = searchRef.current
+            const data = currentSearch
+                ? await SearchProducts(currentSearch, pageToLoad)
                 : await GetProducts(pageToLoad)
 
             setProducts(prev => [
@@ -63,8 +66,9 @@ export function useProduct() {
 
     async function HandleRefresh() {
         await handleRefresh(async () => {
-            const data = debouncedSearch
-                ? await SearchProducts(debouncedSearch, 1)
+            const currentSearch = searchRef.current
+            const data = currentSearch
+                ? await SearchProducts(currentSearch, 1)
                 : await GetProducts(1)
 
             setProducts(data)
