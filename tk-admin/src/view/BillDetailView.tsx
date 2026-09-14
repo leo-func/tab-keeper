@@ -78,6 +78,7 @@ export default function BillDetailView({
     handleInsertPrepaid,
     onDismissSuccessModal,
     setPrepaidAmount,
+    setIsComboBoxOpen,
     
     // Props from router
     billName,
