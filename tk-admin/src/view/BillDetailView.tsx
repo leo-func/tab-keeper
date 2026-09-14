@@ -488,7 +488,16 @@ export default function BillDetailView({
                                     subtitle={`${item.amount} unidades`}
                                     rightLabel={`R$ ${item.total_price.toFixed(2).replace(".", ",")}`}
                                     showChevron={false}
-                                    onDelete={() => handleDeleteBillProduct(item.id)}
+                                    onDelete={() => {
+                                        Alert.alert(
+                                            "Excluir produto",
+                                            "Tem certeza que deseja excluir este produto da conta?",
+                                            [
+                                                { text: "Cancelar", style: "cancel" },
+                                                { text: "Excluir", style: "destructive", onPress: () => handleDeleteBillProduct(item.id) }
+                                            ]
+                                        )
+                                    }}
                                 />
                             )}
                             ListFooterComponent={
