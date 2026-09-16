@@ -4,6 +4,7 @@ import {
   FlatList,
   StyleSheet,
   ActivityIndicator,
+  TouchableOpacity,
 } from "react-native";
 
 import {
@@ -12,6 +13,8 @@ import {
 } from "react-native-responsive-screen";
 
 import { SafeAreaView } from "react-native-safe-area-context";
+
+import { Clock, ChevronRight } from "lucide-react-native";
 
 import { COLORS } from "../constants/Color";
 import { Header } from "../components/Header";
@@ -26,10 +29,14 @@ export function BillDetailsView({
   onBack,
   name,
   total,
+  billId,
+  goToHistory,
 }: ReturnType<typeof useProductViewModel> & {
   name: string;
   onBack: () => void;
   total: number;
+  billId: string;
+  goToHistory: (billId: string, name: string) => void;
 }) {
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -96,6 +103,24 @@ export function BillDetailsView({
                 R$ {formatPrice(total)}
               </Text>
             </View>
+
+            <TouchableOpacity
+              style={styles.historyButton}
+              activeOpacity={0.7}
+              onPress={() => goToHistory(billId, name)}
+            >
+              <Clock
+                size={wp("5%")}
+                color={COLORS.gold}
+                strokeWidth={1.8}
+              />
+              <Text style={styles.historyButtonText}>Ver histórico da conta</Text>
+              <ChevronRight
+                size={wp("5%")}
+                color={COLORS.gold}
+                strokeWidth={1.8}
+              />
+            </TouchableOpacity>
           </>
         )}
       </View>
@@ -166,6 +191,27 @@ const styles = StyleSheet.create({
     color: COLORS.gold,
     fontSize: wp("4.3%"),
     fontWeight: "700",
+  },
+
+  historyButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: COLORS.surface,
+    borderRadius: wp("1%"),
+    borderWidth: 1,
+    borderColor: COLORS.border,
+    paddingVertical: hp("1.5%"),
+    paddingHorizontal: wp("4%"),
+    marginTop: hp("1%"),
+    marginBottom: hp("2%"),
+  },
+
+  historyButtonText: {
+    flex: 1,
+    color: COLORS.gold,
+    fontSize: wp("3.5%"),
+    fontWeight: "600",
+    marginLeft: wp("3%"),
   },
 
   loadingContainer: {

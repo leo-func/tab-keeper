@@ -11,13 +11,24 @@ export default function BillDetailsScreen() {
 
   const viewModel = useProductViewModel(billId)
 
+  const goToHistory = (billId: string, name: string) => {
+    router.push({
+      pathname: "/bills/history",
+      params: {
+        billId: billId,
+        name: name
+      }
+    })
+  }
+
   return (
     <BillDetailsView 
       {...viewModel}
       onBack={router.back}
       name={name}
       total={billTotal}
-
+      billId={billId}
+      goToHistory={goToHistory}
     />
   );
 }
