@@ -22,6 +22,7 @@ import {
     X,
     Wallet,
     Check,
+    History as HistoryIcon,
 } from "lucide-react-native";
 
 import {
@@ -37,6 +38,7 @@ import { ProductCard } from "../components/ProductCard";
 import { ConfirmModal } from "../components/ConfirmModal";
 import { useBillDetailViewModel } from "../viewmodels/billDetail.viewmodel";
 import { formatCurrency } from "../utils/currency";
+import { Bill } from "../model/Bill";
 
 export default function BillDetailView({
     
@@ -81,14 +83,16 @@ export default function BillDetailView({
     setIsComboBoxOpen,
     
     // Props from router
+    billId,
     billName,
     billTotalCount,
     billTotal,
     billPrepaidAmount,
     billClosedAt,
-    onBack
+    onBack,
+    goToHistory
 
-} : ReturnType<typeof useBillDetailViewModel> & {billName: string, billTotal: number, billTotalCount: number, billPrepaidAmount: number | null, billClosedAt: string, onBack: () => void}) {
+} : ReturnType<typeof useBillDetailViewModel> & {billId: string, billName: string, billTotal: number, billTotalCount: number, billPrepaidAmount: number | null, billClosedAt: string, onBack: () => void, goToHistory: (billId: string) => void}) {
 
     function onCloseBillConfirm() {
         Alert.alert(
@@ -324,6 +328,14 @@ export default function BillDetailView({
                                     />
                                 </View>
                                 <Text style={styles.billName}>{billName}</Text>
+                                <TouchableOpacity style={styles.historyButton} activeOpacity={0.7} onPress={() => goToHistory(billId)}>
+                                    <HistoryIcon
+                                        size={wp("4.5%")}
+                                        color={COLORS.gold}
+                                        strokeWidth={1.8}
+                                    />
+                                    <Text style={styles.historyButtonText}>Histórico</Text>
+                                </TouchableOpacity>
                             </View>
 
                             <View style={styles.billStats}>
@@ -617,6 +629,25 @@ const styles = StyleSheet.create({
         color: COLORS.textPrimary,
         fontSize: wp("5%"),
         fontWeight: "600",
+        flex: 1,
+    },
+
+    historyButton: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: COLORS.surfaceLight,
+        borderWidth: 1,
+        borderColor: COLORS.border,
+        borderRadius: wp("1.5%"),
+        paddingHorizontal: wp("2.5%"),
+        paddingVertical: hp("1%"),
+        gap: wp("1%"),
+    },
+
+    historyButtonText: {
+        color: COLORS.textSecondary,
+        fontSize: wp("2.5%"),
     },
 
     billStats: {
