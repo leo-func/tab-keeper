@@ -214,7 +214,7 @@ export default function BillDetailView({
                                         activeColor={COLORS.surface}
                                         data={Array.isArray(products) ? products : products ? [products] : []}
                                         search
-                                        maxHeight={hp("25%")}
+                                        maxHeight={hp("37%")}
                                         labelField="name"
                                         valueField="id"
                                         placeholder="Buscar ou selecionar produto"
