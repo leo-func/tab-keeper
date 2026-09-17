@@ -20,6 +20,7 @@ export function useBillDetailViewModel(billId: string, initialClosedAt: string) 
         error: productsError,
         loading: productsLoading,
         loadNextPage: loadMoreProducts,
+        HandleSearch,
     } = useProduct()
 
     const [showAddProduct, setShowAddProduct] = useState(false)
@@ -36,10 +37,6 @@ export function useBillDetailViewModel(billId: string, initialClosedAt: string) 
     const [showPrepaidSection, setShowPrepaidSection] = useState(false)
     const [prepaidAmount, setPrepaidAmount] = useState("")
     const [prepaidLoading, setPrepaidLoading] = useState(false)
-
-    const filteredProducts = products?.filter(product =>
-        product.name.toLowerCase().includes(searchText.toLowerCase())
-    ) ?? []
 
     function handleOpenAddProduct() {
         setShowPrepaidSection(false)
@@ -175,7 +172,7 @@ export function useBillDetailViewModel(billId: string, initialClosedAt: string) 
         productsError,
         productsLoading,
         loadMoreProducts,
-        filteredProducts,
+        HandleSearch,
         showAddProduct,
         selectedProduct,
         quantity,

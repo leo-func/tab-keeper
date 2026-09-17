@@ -52,7 +52,7 @@ export default function BillDetailView({
     refreshing,
     products,
     productsLoading,
-    filteredProducts,
+    HandleSearch,
     showAddProduct,
     selectedProduct,
     quantity,
@@ -212,7 +212,7 @@ export default function BillDetailView({
                                         inputSearchStyle={styles.dropdownInputSearch}
                                         iconStyle={styles.dropdownIcon}
                                         activeColor={COLORS.surface}
-                                        data={filteredProducts}
+                                        data={Array.isArray(products) ? products : products ? [products] : []}
                                         search
                                         maxHeight={hp("25%")}
                                         labelField="name"
@@ -220,6 +220,7 @@ export default function BillDetailView({
                                         placeholder="Buscar ou selecionar produto"
                                         searchPlaceholder="Buscar..."
 
+                                        onChangeText={HandleSearch}
                                         value={selectedProduct?.id}
                                         onChange={(item) => {
                                             handleSelectProduct(item)

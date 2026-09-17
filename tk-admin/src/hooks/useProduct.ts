@@ -5,7 +5,7 @@ import { usePullToRefresh } from "./usePullToRefresh";
 import { useDebounce } from "./useDebounce";
 
 export function useProduct() {
-    const [products, setProducts] = useState<Product[] | null>(null)
+    const [products, setProducts] = useState<Product[]>([])
     const [error, setError] = useState<Error | null>(null)
     const [loading, setLoading] = useState(false)
     const [search, setSearch] = useState("")
@@ -45,9 +45,10 @@ export function useProduct() {
             const data = currentSearch
                 ? await SearchProducts(currentSearch, pageToLoad)
                 : await GetProducts(pageToLoad)
+            
 
             setProducts(prev => [
-                ...(prev ?? []),
+                ...prev,
                 ...data
             ])
 
@@ -73,6 +74,8 @@ export function useProduct() {
             const data = currentSearch
                 ? await SearchProducts(currentSearch, 1)
                 : await GetProducts(1)
+            
+
 
             setProducts(data)
             setHasMore(data.length >= 10)
